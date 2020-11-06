@@ -4,6 +4,10 @@
 # docstr
 > A document string minor mode.
 
+TODO: Planning on extracting document string module from [jcs-emacs](https://github.com/jcs090218/jcs-emacs).
+
+See https://github.com/jcs090218/jcs-emacs/blob/master/.emacs.jcs/func/jcs-docstring.el.
+
 ## Contribution
 
 If you would like to contribute to this project, you may either
