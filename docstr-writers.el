@@ -140,8 +140,8 @@ or with default value
     result-datas))
 
 (defun docstr-writers--paren-param-list-behind (search-string &optional spi-sym last-word)
-  "Like `docstr-writers--paren-param-list' but handle programming languages that use \
-colon to separate the type.
+  "Like `docstr-writers--paren-param-list' but handle programming languages \
+that use colon to separate the type.
 
 Support format like
 
@@ -151,13 +151,14 @@ or with default value
 
   `(var-name : type-name = default-val, var-name : type-name = default-val)`.
 
-See `docstr-writers--paren-param-list' function for argument description SEARCH-STRING.
+See `docstr-writers--paren-param-list' function for argument description
+SEARCH-STRING.
 
-An optional argument SPI-SYM is the split symbol for return type.  In most cases,
-this symbol often will be a 'colon'.
+Optional argument SPI-SYM is the split symbol for return type.  In most
+cases, this symbol often will be a 'colon'.
 
-If optional argument LAST-WORD is non-nil; then limit the variable name to the
-last word only."
+If optional argument LAST-WORD is non-nil; then limit the variable name to
+the last word only."
   (let ((param-string "") (param-lst '())
         (param-type-str-lst '()) (param-var-str-lst '())
         (param-type-strings nil) (param-variable-strings nil)
@@ -266,7 +267,6 @@ Argument START is the starting point ot the insertion."
 (defun docstr-writers-python (search-string)
   "Insert document string for Python using SEARCH-STRING."
   (let* ((paren-param-list (docstr-writers--paren-param-list-behind search-string))
-         (param-type-strings (nth 0 paren-param-list))
          (param-variable-strings (nth 1 paren-param-list))
          (param-var-len (length param-variable-strings))
          (param-index 0)
