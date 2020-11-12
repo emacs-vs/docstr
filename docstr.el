@@ -240,11 +240,16 @@ See function `docstr--get-search-string' description for argument TYPE."
 
 (defun docstr--trigger-lua ()
   "Trigger document string inside Lua."
+  (interactive)
   (when (and docstr-mode (looking-back "---" 3))
+    (backward-delete-char 3)
     (save-excursion
-      (insert "--\n")
-      (insert "--\n"))
-    ))
+      (insert (format "%s\n" docstr-lua-splitter))
+      (insert "-- \n")
+      (insert (format "%s" docstr-lua-splitter)))
+    (forward-line 1)
+    (end-of-line)
+    (docstr--insert-doc-string (docstr--generic-search-string 2 ")"))))
 
 (defun docstr--trigger-python ()
   "Trigger document string inside Python."
