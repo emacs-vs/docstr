@@ -103,7 +103,8 @@
 (defun docstr--get-type-name (type)
   "Return TYPE's name."
   (if (not docstr-show-type-name) ""
-    (when (string-empty-p type) (setq type docstr-default-typename))
+    (when (or (null type) (string-empty-p type))
+      (setq type docstr-default-typename))
     (format docstr-format-type type)))
 
 (defun docstr--get-var-name (var)

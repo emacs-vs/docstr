@@ -344,6 +344,10 @@ Argument START is the starting point ot the insertion."
        (docstr-writers--insert-return return-type-str nil prefix)
        (docstr-writers-after start)))))
 
+(defun docstr-writers-groovy (search-string)
+  "Insert document string for Groovy using SEARCH-STRING."
+  (docstr-writers-javascript search-string))
+
 (defun docstr-writers-java (search-string)
   "Insert document string for Java using SEARCH-STRING."
   (let* ((start (point)) (prefix "\n* ")
@@ -354,6 +358,16 @@ Argument START is the starting point ot the insertion."
          (return-type-str (docstr-writers--return-type search-string)))
     (docstr-writers--insert-param param-types param-vars prefix)
     (docstr-writers--insert-return return-type-str '("void") prefix)
+    (docstr-writers-after start)))
+
+(defun docstr-writers-javascript (search-string)
+  "Insert document string for JavaScript using SEARCH-STRING."
+  (let* ((start (point)) (prefix "\n* ")
+         (paren-param-list (docstr-writers--paren-param-list search-string))
+         (param-types (nth 0 paren-param-list))
+         (param-vars (nth 1 paren-param-list)))
+    (docstr-writers--insert-param param-types param-vars prefix)
+    (docstr-writers--insert-return nil '("void") prefix)
     (docstr-writers-after start)))
 
 (defun docstr-writers-lua (search-string)
