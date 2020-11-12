@@ -218,7 +218,34 @@ Argument START is the starting point ot the insertion."
          (return-type-str (docstr-writers--return-type-behind search-string ":"))
          (there-is-return (not (null return-type-str)))
          (start (point)))
+    ;; Process param tag.
+    (while (< param-index param-var-len)
+      (insert "\n* ")  ; start from newline.
+      (let ((type (nth param-index param-type-strings))
+            (var (nth param-index param-variable-strings)))
+        (insert (docstr-form-param type var docstr-desc-param)))
+      (indent-for-tab-command)
+      ;; add up counter.
+      (setq param-index (1+ param-index)))
 
+    ;; Lastly, process returns tag.
+    (when there-is-return
+      (unless (string= return-type-str "void")
+        (insert "\n* ")
+        (insert (docstr-form-return return-type-str "" docstr-desc-return))))
+    (docstr-writers-after start)))
+
+(defun docstr-writers-java (search-string)
+  "Insert document string for Java using SEARCH-STRING."
+  (let* ((paren-param-list (docstr-writers--paren-param-list search-string))
+         (param-type-strings (nth 0 paren-param-list))
+         (param-variable-strings (nth 1 paren-param-list))
+         (param-var-len (length param-variable-strings))
+         (param-index 0)
+         ;; Get the return data type.
+         (return-type-str (docstr-writers--return-type search-string))
+         (there-is-return (not (null return-type-str)))
+         (start (point)))
     ;; Process param tag.
     (while (< param-index param-var-len)
       (insert "\n* ")  ; start from newline.
@@ -282,7 +309,6 @@ Argument START is the starting point ot the insertion."
     (csharp-mode       . docstr-writers-csharp)
     (go-mode           . docstr-writers-go)
     (groovy-mode       . docstr-writers-groovy)
-    (groovy-mode       . docstr-writers-groovy)
     (java-mode         . docstr-writers-java)
     (javascript-mode   . docstr-writers-javascript)
     (js-mode           . docstr-writers-javascript)
@@ -293,7 +319,7 @@ Argument START is the starting point ot the insertion."
     (nasm-mode         . docstr-writers-asm)
     (php-mode          . docstr-writers-php)
     (python-mode       . docstr-writers-python)
-    (rjsx-mode         . docstr-writers-rjsx)
+    (rjsx-mode         . docstr-writers-javascript)
     (rust-mode         . docstr-writers-rust)
     (scala-mode        . docstr-writers-scala)
     (typescript-mode   . docstr-writers-typescript)
