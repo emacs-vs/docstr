@@ -26,14 +26,14 @@
 
 (require 'cl-lib)
 
-(defun docstr-util-line-relative (n &optional trim)
-  "Return string of the line relatively.
+(defun docstr-util-line-relative (&optional n trim)
+  "Return string of N line relatively.
 
 If optional argument TRIM is non-nil; then trim the return string.
 
 See function `forward-line' for argument N."
   (save-excursion
-    (forward-line n)
+    (when n (forward-line n))
     (if trim (string-trim (thing-at-point 'line)) (thing-at-point 'line))))
 
 (defun docstr-util-current-line-empty-p ()
