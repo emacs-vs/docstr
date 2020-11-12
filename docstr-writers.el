@@ -29,6 +29,16 @@
 (require 'docstr-util)
 
 ;;
+;; (@* "Others" )
+;;
+
+(defcustom docstr-lua-splitter
+  "-------------------------------------------------------------"
+  "Document string splitter for Lua programming language."
+  :type 'string
+  :group 'docstr)
+
+;;
 ;; (@* "Analyzer" )
 ;;
 
@@ -94,7 +104,7 @@ or with default value
   `(type-name var-name = default-val, type-name var-name = default-val)`."
   (let ((param-string "") (param-lst '())
         (param-type-str-lst '()) (param-var-str-lst '())
-        (param-type-strings nil) (param-variable-strings nil)
+        param-types param-vars
         (result-datas '()))
     (setq param-string (docstr-writers--analyze-param-string search-string))
 
@@ -130,11 +140,11 @@ or with default value
         (unless (string= "" param-type-str)
           (push param-type-str param-type-str-lst))))
 
-    (setq param-type-strings (reverse param-type-str-lst))
-    (setq param-variable-strings (reverse param-var-str-lst))
+    (setq param-types (reverse param-type-str-lst))
+    (setq param-vars (reverse param-var-str-lst))
 
-    (push param-type-strings result-datas)
-    (push param-variable-strings result-datas)
+    (push param-types result-datas)
+    (push param-vars result-datas)
 
     (setq result-datas (reverse result-datas))
     result-datas))
@@ -161,7 +171,7 @@ If optional argument LAST-WORD is non-nil; then limit the variable name to
 the last word only."
   (let ((param-string "") (param-lst '())
         (param-type-str-lst '()) (param-var-str-lst '())
-        (param-type-strings nil) (param-variable-strings nil)
+        param-types param-vars
         (result-datas '()))
     (setq param-string (docstr-writers--analyze-param-string search-string))
 
@@ -188,11 +198,11 @@ the last word only."
         (push param-var-str param-var-str-lst)
         (push param-type-str param-type-str-lst)))
 
-    (setq param-type-strings (reverse param-type-str-lst)
-          param-variable-strings (reverse param-var-str-lst))
+    (setq param-types (reverse param-type-str-lst)
+          param-vars (reverse param-var-str-lst))
 
-    (push param-type-strings result-datas)
-    (push param-variable-strings result-datas)
+    (push param-types result-datas)
+    (push param-vars result-datas)
 
     (setq result-datas (reverse result-datas))
     result-datas))
@@ -200,6 +210,32 @@ the last word only."
 ;;
 ;; (@* "Writers" )
 ;;
+
+(defun docstr-writers--insert-param (param-types param-vars prefix)
+  "Insert parameter section.
+
+Argument PARAM-TYPES is a list of string contain type name data.
+Argument PARAM-VARS is a list of string contain variable name data.
+Argument PREFIX is string infront of each document string."
+  (let ((param-var-len (length param-vars)) (param-index 0))
+    (while (< param-index param-var-len)
+      (let ((type (nth param-index param-types))
+            (var (nth param-index param-vars)))
+        (insert prefix)
+        (insert (docstr-form-param type var docstr-desc-param))
+        (indent-for-tab-command))
+      (setq param-index (1+ param-index)))))
+
+(defun docstr-writers--insert-return (return-type-str ignore-lst prefix)
+  "Insert return section.
+
+Argument RETURN-TYPE-STR is a string contain return type name.  Argument
+IGNORE-LST is a list of string contain return type that we want to skip.
+Argument PREFIX is string infront of each document string."
+  (when (and (not (string-empty-p return-type-str))
+             (not (docstr-util-is-contain-list-string ignore-lst return-type-str)))
+    (insert prefix)
+    (insert (docstr-form-return return-type-str "" docstr-desc-return))))
 
 (defun docstr-writers-after (start)
   "Do stuff after document string insertion.
@@ -210,88 +246,59 @@ Argument START is the starting point ot the insertion."
 
 (defun docstr-writers-actionscript (search-string)
   "Insert document string for ActionScript using SEARCH-STRING."
-  (let* ((paren-param-list (docstr-writers--paren-param-list-behind search-string ":"))
-         (param-type-strings (nth 0 paren-param-list))
-         (param-variable-strings (nth 1 paren-param-list))
-         (param-var-len (length param-variable-strings))
-         (param-index 0)
+  (let* ((start (point)) (prefix "\n* ")
+         (paren-param-list (docstr-writers--paren-param-list-behind search-string ":"))
+         (param-types (nth 0 paren-param-list))
+         (param-vars (nth 1 paren-param-list))
          ;; Get all return data types.
-         (return-type-str (docstr-writers--return-type-behind search-string ":"))
-         (there-is-return (not (null return-type-str)))
-         (start (point)))
-    ;; Process param tag.
-    (while (< param-index param-var-len)
-      (insert "\n* ")  ; start from newline.
-      (let ((type (nth param-index param-type-strings))
-            (var (nth param-index param-variable-strings)))
-        (insert (docstr-form-param type var docstr-desc-param)))
-      (indent-for-tab-command)
-      ;; add up counter.
-      (setq param-index (1+ param-index)))
-
-    ;; Lastly, process returns tag.
-    (when there-is-return
-      (unless (string= return-type-str "void")
-        (insert "\n* ")
-        (insert (docstr-form-return return-type-str "" docstr-desc-return))))
+         (return-type-str (docstr-writers--return-type-behind search-string ":")))
+    (docstr-writers--insert-param param-types param-vars prefix)
+    (docstr-writers--insert-return return-type-str '("void") prefix)
     (docstr-writers-after start)))
 
 (defun docstr-writers-java (search-string)
   "Insert document string for Java using SEARCH-STRING."
-  (let* ((paren-param-list (docstr-writers--paren-param-list search-string))
-         (param-type-strings (nth 0 paren-param-list))
-         (param-variable-strings (nth 1 paren-param-list))
-         (param-var-len (length param-variable-strings))
-         (param-index 0)
+  (let* ((start (point)) (prefix "\n* ")
+         (paren-param-list (docstr-writers--paren-param-list search-string))
+         (param-types (nth 0 paren-param-list))
+         (param-vars (nth 1 paren-param-list))
          ;; Get the return data type.
-         (return-type-str (docstr-writers--return-type search-string))
-         (there-is-return (not (null return-type-str)))
-         (start (point)))
-    ;; Process param tag.
-    (while (< param-index param-var-len)
-      (insert "\n* ")  ; start from newline.
-      (let ((type (nth param-index param-type-strings))
-            (var (nth param-index param-variable-strings)))
-        (insert (docstr-form-param type var docstr-desc-param)))
-      (indent-for-tab-command)
-      ;; add up counter.
-      (setq param-index (1+ param-index)))
+         (return-type-str (docstr-writers--return-type search-string)))
+    (docstr-writers--insert-param param-types param-vars prefix)
+    (docstr-writers--insert-return return-type-str '("void") prefix)
+    (docstr-writers-after start)))
 
-    ;; Lastly, process returns tag.
-    (when there-is-return
-      (unless (string= return-type-str "void")
-        (insert "\n* ")
-        (insert (docstr-form-return return-type-str "" docstr-desc-return))))
+(defun docstr-writers-lua (search-string)
+  "Insert document string for Lua using SEARCH-STRING."
+  (let* ((start (point)) (prefix "\n-- ")
+         (paren-param-list (docstr-writers--paren-param-list-behind search-string))
+         (param-types (nth 0 paren-param-list))
+         (param-vars (nth 1 paren-param-list))
+         (param-var-len (length param-vars))
+         (return-type-str "void"))  ; Get the return data type.
+    (unless (= param-var-len 0)
+      (insert (format "\n%s---" docstr-lua-splitter)))
+    (docstr-writers--insert-param param-types param-vars prefix)
+    (docstr-writers--insert-return return-type-str '("void") prefix)
     (docstr-writers-after start)))
 
 (defun docstr-writers-python (search-string)
   "Insert document string for Python using SEARCH-STRING."
-  (let* ((paren-param-list (docstr-writers--paren-param-list-behind search-string))
-         (param-variable-strings (nth 1 paren-param-list))
-         (param-var-len (length param-variable-strings))
-         (param-index 0)
+  (let* ((start (point)) (prefix "\n")
+         (paren-param-list (docstr-writers--paren-param-list-behind search-string))
+         (param-types (nth 0 paren-param-list))
+         (param-vars (nth 1 paren-param-list))
+         (param-var-len (length param-vars))
          ;; Get the return data type.
-         (return-type-str "void")
-         there-is-return
-         (start (point)))
+         (return-type-str "void"))
+    ;; Remove `self' from list.
+    (setq param-vars (remove "self" param-vars)
+          param-var-len (length param-vars))
     ;; Line break between description and tags.
-    (when (and (>= param-index 0) (not (= param-var-len 0)))
-      (insert "\n"))
-
-    (while (< param-index param-var-len)
-      (unless (string= "self" (nth param-index param-variable-strings))
-        (insert "\n")  ; start from newline.
-        (let ((var (nth param-index param-variable-strings)))
-          (insert (docstr-form-param "" var docstr-desc-param))))
-      (indent-for-tab-command)
-      (setq param-index (1+ param-index)))
-
-    ;; Lastly, process returns tag.
-    (when there-is-return
-      (unless (string= return-type-str "void")
-        (insert "\n* ")
-        (insert (docstr-form-return return-type-str "" docstr-desc-return))))
-    (insert "\n")
+    (unless (= param-var-len 0) (insert prefix))
+    (docstr-writers--insert-param param-types param-vars prefix)
+    (docstr-writers--insert-return return-type-str '("void") prefix)
+    (insert prefix)
     (docstr-writers-after start)))
 
 (defun docstr-writers-typescript (search-string)
