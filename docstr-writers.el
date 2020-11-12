@@ -24,6 +24,7 @@
 
 ;;; Code:
 
+(require 'cl-lib)
 (require 's)
 
 (require 'docstr-util)
@@ -224,31 +225,39 @@ the last word only."
 ;; (@* "Writers" )
 ;;
 
-(defun docstr-writers--insert-param (param-types param-vars prefix)
+(defun docstr-writers--valid-return-type-p (return-type-str ignore-lst)
+  "Return non-nil if RETURN-TYPE-STR is valid compare to IGNORE-LST."
+  (and (stringp return-type-str)
+       (not (docstr-util-is-contain-list-string ignore-lst return-type-str))))
+
+(defun docstr-writers--insert-param (param-types param-vars prefix &optional postfix)
   "Insert parameter section.
 
 Argument PARAM-TYPES is a list of string contain type name data.
 Argument PARAM-VARS is a list of string contain variable name data.
-Argument PREFIX is string infront of each document string."
+Argument PREFIX is string infront of each document string.
+Argument POSTFIX is string behind of each document string."
   (let ((param-var-len (length param-vars)) (param-index 0))
     (while (< param-index param-var-len)
       (let ((type (nth param-index param-types))
             (var (nth param-index param-vars)))
         (insert prefix)
         (insert (docstr-form-param type var docstr-desc-param))
+        (when postfix (insert postfix))
         (indent-for-tab-command))
       (setq param-index (1+ param-index)))))
 
-(defun docstr-writers--insert-return (return-type-str ignore-lst prefix)
+(defun docstr-writers--insert-return (return-type-str ignore-lst prefix &optional postfix)
   "Insert return section.
 
 Argument RETURN-TYPE-STR is a string contain return type name.  Argument
 IGNORE-LST is a list of string contain return type that we want to skip.
-Argument PREFIX is string infront of each document string."
-  (when (and (stringp return-type-str)
-             (not (docstr-util-is-contain-list-string ignore-lst return-type-str)))
+Argument PREFIX is string infront of return document string.
+Argument POSTFIX is string behind of return document string."
+  (when (docstr-writers--valid-return-type-p return-type-str ignore-lst)
     (insert prefix)
-    (insert (docstr-form-return return-type-str "" docstr-desc-return))))
+    (insert (docstr-form-return return-type-str "" docstr-desc-return))
+    (when postfix (insert postfix))))
 
 (defun docstr-writers-after (start)
   "Do stuff after document string insertion.
@@ -285,6 +294,56 @@ Argument START is the starting point ot the insertion."
     (docstr-writers--insert-return return-type-str nil prefix)
     (docstr-writers-after start)))
 
+(defun docstr-writers-csharp (search-string)
+  "Insert document string for C# using SEARCH-STRING."
+  (let* ((start (point)) (prefix "\n/// ")
+         (paren-param-list (docstr-writers--paren-param-list search-string))
+         (param-types (nth 0 paren-param-list))
+         (param-vars (nth 1 paren-param-list))
+         ;; Get the return data type.
+         (return-type-str (docstr-writers--return-type search-string))
+         docstring-type)
+    ;; Determine the docstring type.
+    (save-excursion
+      (backward-char 1)
+      (if (docstr-util-current-char-equal-p "*")
+          (setq docstring-type 'javadoc) (setq docstring-type 'vsdoc)))
+
+    (cl-case docstring-type
+      (javadoc (docstr-writers-java search-string))
+      (vsdoc
+       (forward-line 1) (end-of-line)
+       (let ((docstr-format-var "%s")
+             (docstr-format-param "<param name=\"#V\"></param>")
+             (docstr-format-return "<returns></returns>"))
+         (docstr-writers--insert-param param-types param-vars prefix)
+         (docstr-writers--insert-return return-type-str '("void") prefix))
+       (docstr-writers-after start)))))
+
+(defun docstr-writers-golang (search-string)
+  "Insert document string for Golang using SEARCH-STRING."
+  (let* ((start (point)) (prefix "\n// ")
+         (paren-param-list (docstr-writers--paren-param-list-behind search-string))
+         (param-types (nth 0 paren-param-list))
+         (param-vars (nth 1 paren-param-list))
+         ;; Get the return data type.
+         (return-type-str (docstr-writers--return-type-behind search-string))
+         docstring-type)
+
+    ;; Determine the docstring type.
+    (save-excursion
+      (backward-char 1)
+      (if (docstr-util-current-char-equal-p "*")
+          (setq docstring-type 'javadoc) (setq docstring-type 'godoc)))
+
+    (cl-case docstring-type
+      (javadoc (docstr-writers-c++ search-string))
+      (godoc
+       (end-of-line) (insert " ")
+       (docstr-writers--insert-param param-types param-vars prefix)
+       (docstr-writers--insert-return return-type-str nil prefix)
+       (docstr-writers-after start)))))
+
 (defun docstr-writers-java (search-string)
   "Insert document string for Java using SEARCH-STRING."
   (let* ((start (point)) (prefix "\n* ")
@@ -306,7 +365,7 @@ Argument START is the starting point ot the insertion."
          (param-var-len (length param-vars))
          (return-type-str "void"))  ; Get the return data type.
     (unless (= param-var-len 0)
-      (insert (format "\n%s---" docstr-lua-splitter)))
+      (insert (format "\n%s" docstr-lua-splitter)))
     (docstr-writers--insert-param param-types param-vars prefix)
     (docstr-writers--insert-return return-type-str '("void") prefix)
     (docstr-writers-after start)))
@@ -343,7 +402,7 @@ Argument START is the starting point ot the insertion."
     (c-mode            . docstr-writers-c)
     (c++-mode          . docstr-writers-c++)
     (csharp-mode       . docstr-writers-csharp)
-    (go-mode           . docstr-writers-go)
+    (go-mode           . docstr-writers-golang)
     (groovy-mode       . docstr-writers-groovy)
     (java-mode         . docstr-writers-java)
     (javascript-mode   . docstr-writers-javascript)
