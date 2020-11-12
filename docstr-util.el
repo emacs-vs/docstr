@@ -24,6 +24,8 @@
 
 ;;; Code:
 
+(require 'cl-lib)
+
 (defun docstr-util-line-relative (n &optional trim)
   "Return string of the line relatively.
 
@@ -37,6 +39,26 @@ See function `forward-line' for argument N."
 (defun docstr-util-current-line-empty-p ()
   "Current line empty, but accept spaces/tabs in there."
   (save-excursion (beginning-of-line) (looking-at "[[:space:]\t]*$")))
+
+(defun docstr-util-last-regex-in-string (reg str)
+  "Find the position in STR using REG from th end."
+  (let ((pos -1) (run-it t))
+    (while run-it
+      (setq run-it (string-match-p reg str (1+ pos)))
+      (when run-it (setq pos run-it)))
+    (if (= pos -1) nil pos)))
+
+(defun docstr-util-chop (string separator)
+  "Split a STRING without consuming a SEPARATOR."
+  (cl-loop with seplen = (length separator)
+           with len = (length string)
+           with start = 0
+           with next = seplen
+           for end = (or (cl-search separator string :start2 next) len)
+           for chunk = (substring string start end)
+           collect chunk
+           while (< end len)
+           do (setf start end next (+ seplen end))))
 
 (provide 'docstr-util)
 ;;; docstr-util.el ends here
