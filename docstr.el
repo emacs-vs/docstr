@@ -229,7 +229,7 @@ See function `docstr--get-search-string' description for argument TYPE."
   (docstr--generic-search-string type "{"))
 
 (defun docstr--doc-valid-p ()
-  ""
+  "Return non-nil if current able to insert document string."
   (and docstr-mode (docstr-util-comment-block-p)))
 
 (defun docstr--trigger-return ()
@@ -244,7 +244,6 @@ See function `docstr--get-search-string' description for argument TYPE."
 
 (defun docstr--trigger-csharp ()
   "Trigger document string inside C#."
-  (interactive)
   (when (and (docstr--doc-valid-p) (looking-back "///" 3))
     (save-excursion
       (insert " <summary>\n")
@@ -256,7 +255,6 @@ See function `docstr--get-search-string' description for argument TYPE."
 
 (defun docstr--trigger-golang ()
   "Trigger document string inside Golang."
-  (interactive)
   (when (and (docstr--doc-valid-p) (looking-back "//" 2))
     (docstr--insert-doc-string (docstr--c-style-search-string 1))))
 
