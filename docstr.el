@@ -144,6 +144,7 @@ variable.  Argument DESC is the description of VAR."
     (advice-add (key-binding (kbd "RET")) :after #'docstr--trigger-return)
     (cl-case major-mode
       (csharp-mode (advice-add (key-binding (kbd "/")) :after #'docstr--trigger-csharp))
+      (go-mode (advice-add (key-binding (kbd "/")) :after #'docstr--trigger-golang))
       (lua-mode (advice-add (key-binding (kbd "-")) :after #'docstr--trigger-lua))
       (python-mode (advice-add (key-binding (kbd "\"")) :after #'docstr--trigger-python)))))
 
@@ -153,6 +154,7 @@ variable.  Argument DESC is the description of VAR."
     (advice-remove (key-binding (kbd "RET")) #'docstr--trigger-return)
     (cl-case major-mode
       (csharp-mode (advice-remove (key-binding (kbd "/")) #'docstr--trigger-csharp))
+      (go-mode (advice-remove (key-binding (kbd "/")) #'docstr--trigger-golang))
       (lua-mode (advice-remove (key-binding (kbd "-")) #'docstr--trigger-lua))
       (python-mode (advice-remove (key-binding (kbd "\"")) #'docstr--trigger-python)))))
 
@@ -187,7 +189,8 @@ variable.  Argument DESC is the description of VAR."
     (if writer
         (progn
           (run-hook-with-args 'docstr-before-insert-hook search-string)
-          (funcall (cdr writer) search-string))
+          (save-excursion (funcall (cdr writer) search-string))
+          (end-of-line))
       (user-error "[WARNING] No document string support for %s" major-mode))))
 
 (defun docstr--get-search-string (type sr)
@@ -224,9 +227,13 @@ and SR."
 See function `docstr--get-search-string' description for argument TYPE."
   (docstr--generic-search-string type "{"))
 
+(defun docstr--doc-valid-p ()
+  ""
+  (and docstr-mode (docstr-util-comment-block-p)))
+
 (defun docstr--trigger-return ()
   "Trigger document string by pressing key return."
-  (when docstr-mode
+  (when (docstr--doc-valid-p)
     (let ((ln-prev (docstr-util-line-relative -1 t))
           (ln-current (docstr-util-line-relative 0 t))
           (ln-next (docstr-util-line-relative 1 t)))
@@ -236,7 +243,8 @@ See function `docstr--get-search-string' description for argument TYPE."
 
 (defun docstr--trigger-csharp ()
   "Trigger document string inside C#."
-  (when (and docstr-mode (looking-back "///" 3))
+  (interactive)
+  (when (and (docstr--doc-valid-p) (looking-back "///" 3))
     (save-excursion
       (insert " <summary>\n")
       (insert "/// \n")
@@ -245,10 +253,15 @@ See function `docstr--get-search-string' description for argument TYPE."
     (end-of-line)
     (docstr--insert-doc-string (docstr--c-style-search-string 2))))
 
+(defun docstr--trigger-golang ()
+  "Trigger document string inside Golang."
+  (interactive)
+  (when (and (docstr--doc-valid-p) (looking-back "//" 2))
+    (docstr--insert-doc-string (docstr--c-style-search-string 1))))
+
 (defun docstr--trigger-lua ()
   "Trigger document string inside Lua."
-  (interactive)
-  (when (and docstr-mode (looking-back "---" 3))
+  (when (and (docstr--doc-valid-p) (looking-back "---" 3))
     (backward-delete-char 3)
     (save-excursion
       (insert (format "%s\n" docstr-lua-splitter))
@@ -260,8 +273,7 @@ See function `docstr--get-search-string' description for argument TYPE."
 
 (defun docstr--trigger-python ()
   "Trigger document string inside Python."
-  (interactive)
-  (when (and docstr-mode (looking-back "\"\"\"" 3))
+  (when (and (docstr--doc-valid-p) (looking-back "\"\"\"" 3))
     (save-excursion (insert "\"\"\""))
     (docstr--insert-doc-string (docstr--generic-search-string -1 ":"))))
 
