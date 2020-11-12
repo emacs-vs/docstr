@@ -93,13 +93,17 @@
   :type 'boolean
   :group 'docstr)
 
-(defun docstr--able-type-p (type)
-  "Return non-nil if TYPE is valid string that able to show type name."
-  (and (not (string-empty-p type)) docstr-show-type-name))
+(defcustom docstr-before-insert-hook nil
+  "Hooks run before inserting document string."
+  :type 'hook
+  :group 'docstr)
+
 
 (defun docstr--get-type-name (type)
   "Return TYPE's name."
-  (if (docstr--able-type-p type) (format docstr-format-type type) ""))
+  (if (not docstr-show-type-name) ""
+    (when (string-empty-p type) (setq type docstr-default-typename))
+    (format docstr-format-type type)))
 
 (defun docstr--get-var-name (var)
   "Return VAR's name."
@@ -173,7 +177,10 @@ variable.  Argument DESC is the description of VAR."
 (defun docstr--insert-doc-string (search-string)
   "Insert document string base on SEARCH-STRING."
   (let ((writer (docstr-get-writer)))
-    (if writer (funcall (cdr writer) search-string)
+    (if writer
+        (progn
+          (run-hooks 'docstr-before-insert-hook)
+          (funcall (cdr writer) search-string))
       (user-error "[WARNING] No document string support for %s" major-mode))))
 
 (defun docstr--get-search-string (type sr)
@@ -194,46 +201,57 @@ Argument SR is the target symbol for us to stop looking for the end of declarati
         (backward-char (length (match-string 0)))
         (buffer-substring beg (point))))))
 
+(defun docstr--generic-search-string (type sr)
+  "Return c-style search string.
+
+See function `docstr--get-search-string' description for arguments TYPE
+and SR."
+  (let (search-string)
+    (setq search-string (docstr--get-search-string type sr)
+          search-string (string-trim search-string)
+          search-string (s-replace "\n" " " search-string))))
+
+(defun docstr--c-style-search-string (type)
+  "Return c-style search string.
+
+See function `docstr--get-search-string' description for argument TYPE."
+  (docstr--generic-search-string type "{"))
+
 (defun docstr--trigger-return ()
   "Trigger document string by pressing key return."
-  (interactive)
-  (unless docstr-mode
+  (when docstr-mode
     (let ((ln-prev (docstr-util-line-relative -1 t))
           (ln-current (docstr-util-line-relative 0 t))
-          (ln-next (docstr-util-line-relative 1 t))
-          search-string)
-      (when (and (string-prefix-p "/*" ln-prev) (string= "*" ln-current)
-                 (string-suffix-p "*/" ln-next))
-        (setq search-string (docstr--get-search-string 2 "{")
-              search-string (string-trim search-string)
-              search-string (s-replace "\n" " " search-string))
-        (docstr--insert-doc-string search-string)))))
+          (ln-next (docstr-util-line-relative 1 t)))
+      (when (and (string-prefix-p "/*" ln-prev) (string-suffix-p "*/" ln-next))
+        (when (string-empty-p ln-current) (insert "* "))
+        (docstr--insert-doc-string (docstr--c-style-search-string 2))))))
 
 (defun docstr--trigger-csharp ()
   "Trigger document string inside C#."
-  (interactive)
-  (when (and ;;docstr-mode
-         (looking-back "///" 3))
+  (when (and docstr-mode (looking-back "///" 3))
     (save-excursion
       (insert " <summary>\n")
       (insert "/// \n")
       (insert "/// </summary>"))
     (forward-line 1)
     (end-of-line)
-    ))
+    (docstr--insert-doc-string (docstr--c-style-search-string 2))))
 
 (defun docstr--trigger-lua ()
   "Trigger document string inside Lua."
-  (interactive)
   (when (and docstr-mode (looking-back "---" 3))
-    (save-excursion (insert "--\n"))
+    (save-excursion
+      (insert "--\n")
+      (insert "--\n"))
     ))
 
 (defun docstr--trigger-python ()
   "Trigger document string inside Python."
+  (interactive)
   (when (and docstr-mode (looking-back "\"\"\"" 3))
     (save-excursion (insert "\"\"\""))
-    ))
+    (docstr--insert-doc-string (docstr--generic-search-string -1 ":"))))
 
 (provide 'docstr)
 ;;; docstr.el ends here
