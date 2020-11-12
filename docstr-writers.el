@@ -210,7 +210,7 @@ last word only."
 ;; (@* "Configurations" )
 ;;
 
-(defcustom docstr-writer-alist
+(defcustom docstr-writers-alist
   `((actionscript-mode . docstr-writers-actionscript)
     (c-mode            . docstr-writers-c)
     (c++-mode          . docstr-writers-c++)

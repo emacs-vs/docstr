@@ -163,12 +163,12 @@ variable.  Argument DESC is the description of VAR."
 (defun docstr-major-modes ()
   "List of `major-mode' that supports document string."
   (let (lst)
-    (dolist (m docstr-writer-alist) (push (car m) docstr-writer-alist))
+    (dolist (m docstr-writers-alist) (push (car m) docstr-writers-alist))
     (reverse lst)))
 
 (defun docstr-get-writer ()
-  "Return the writer from `docstr-writer-alist'."
-  (assoc (buffer-local-value 'major-mode (current-buffer)) docstr-writer-alist))
+  "Return the writer from `docstr-writers-alist'."
+  (assoc (buffer-local-value 'major-mode (current-buffer)) docstr-writers-alist))
 
 (defun docstr--insert-doc-string (search-string)
   "Insert document string base on SEARCH-STRING."
@@ -199,9 +199,11 @@ Argument SR is the target symbol for us to stop looking for the end of declarati
   (interactive)
   (unless docstr-mode
     (let ((ln-prev (docstr-util-line-relative -1 t))
+          (ln-current (docstr-util-line-relative 0 t))
           (ln-next (docstr-util-line-relative 1 t))
           search-string)
-      (when (and (string-prefix-p "/*" ln-prev) (string-suffix-p "*/" ln-next))
+      (when (and (string-prefix-p "/*" ln-prev) (string= "*" ln-current)
+                 (string-suffix-p "*/" ln-next))
         (setq search-string (docstr--get-search-string 2 "{")
               search-string (string-trim search-string)
               search-string (s-replace "\n" " " search-string))
