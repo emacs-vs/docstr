@@ -10,7 +10,6 @@ Here is a list of all languages that support by this package. You can
 customize `docstr-writers-alist` variable to add your own document string
 `major-mode` and `writer`.
 
-* Assembly Language
 * ActionScript
 * C
 * C++
