@@ -74,12 +74,12 @@
   :type 'string
   :group 'docstr)
 
-(defcustom docstr-desc-param "Param desc here.."
+(defcustom docstr-desc-param "Param description here.."
   "Description for parameter document string."
   :type 'string
   :group 'docstr)
 
-(defcustom docstr-desc-return "Returns desc here.."
+(defcustom docstr-desc-return "Returns description here.."
   "Description for return document string."
   :type 'string
   :group 'docstr)
@@ -140,19 +140,21 @@ variable.  Argument DESC is the description of VAR."
 
 (defun docstr--enable ()
   "Enable `docstr' in current buffer."
-  (advice-add (key-binding (kbd "RET")) :after #'docstr--trigger-return)
-  (cl-case major-mode
-    (csharp-mode (advice-add (key-binding (kbd "/")) :after #'docstr--trigger-csharp))
-    (lua-mode (advice-add (key-binding (kbd "-")) :after #'docstr--trigger-lua))
-    (python-mode (advice-add (key-binding (kbd "\"")) :after #'docstr--trigger-python))))
+  (when (docstr-supports-p)
+    (advice-add (key-binding (kbd "RET")) :after #'docstr--trigger-return)
+    (cl-case major-mode
+      (csharp-mode (advice-add (key-binding (kbd "/")) :after #'docstr--trigger-csharp))
+      (lua-mode (advice-add (key-binding (kbd "-")) :after #'docstr--trigger-lua))
+      (python-mode (advice-add (key-binding (kbd "\"")) :after #'docstr--trigger-python)))))
 
 (defun docstr--disable ()
   "Disable `docstr' in current buffer."
-  (advice-remove (key-binding (kbd "RET")) #'docstr--trigger-return)
-  (cl-case major-mode
-    (csharp-mode (advice-remove (key-binding (kbd "/")) #'docstr--trigger-csharp))
-    (lua-mode (advice-remove (key-binding (kbd "-")) #'docstr--trigger-lua))
-    (python-mode (advice-remove (key-binding (kbd "\"")) #'docstr--trigger-python))))
+  (when (docstr-supports-p)
+    (advice-remove (key-binding (kbd "RET")) #'docstr--trigger-return)
+    (cl-case major-mode
+      (csharp-mode (advice-remove (key-binding (kbd "/")) #'docstr--trigger-csharp))
+      (lua-mode (advice-remove (key-binding (kbd "-")) #'docstr--trigger-lua))
+      (python-mode (advice-remove (key-binding (kbd "\"")) #'docstr--trigger-python)))))
 
 ;;;###autoload
 (define-minor-mode docstr-mode
@@ -165,10 +167,14 @@ variable.  Argument DESC is the description of VAR."
 ;; (@* "Core" )
 ;;
 
+(defun docstr-supports-p ()
+  "Return non-nil if current `major-mode' supports by `docstr'."
+  (memq major-mode (docstr-major-modes)))
+
 (defun docstr-major-modes ()
   "List of `major-mode' that supports document string."
   (let (lst)
-    (dolist (m docstr-writers-alist) (push (car m) docstr-writers-alist))
+    (dolist (m docstr-writers-alist) (push (car m) lst))
     (reverse lst)))
 
 (defun docstr-get-writer ()
