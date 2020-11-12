@@ -244,7 +244,7 @@ See function `docstr--get-search-string' description for argument TYPE."
   "Return non-nil if current able to insert document string."
   (and docstr-mode (docstr-util-comment-block-p)))
 
-(defun docstr--trigger-return ()
+(defun docstr--trigger-return (&rest _)
   "Trigger document string by pressing key return."
   (when (docstr--doc-valid-p)
     (let ((ln-prev (docstr-util-line-relative -1 t))
@@ -254,7 +254,7 @@ See function `docstr--get-search-string' description for argument TYPE."
         (when (string-empty-p ln-current) (insert "* "))
         (docstr--insert-doc-string (docstr--c-style-search-string 2))))))
 
-(defun docstr--trigger-csharp ()
+(defun docstr--trigger-csharp (&rest _)
   "Trigger document string inside C#."
   (when (and (docstr--doc-valid-p) (looking-back "///" 3))
     (save-excursion
@@ -265,12 +265,12 @@ See function `docstr--get-search-string' description for argument TYPE."
     (end-of-line)
     (docstr--insert-doc-string (docstr--c-style-search-string 2))))
 
-(defun docstr--trigger-golang ()
+(defun docstr--trigger-golang (&rest _)
   "Trigger document string inside Golang."
   (when (and (docstr--doc-valid-p) (looking-back "//" 2))
     (docstr--insert-doc-string (docstr--c-style-search-string 1))))
 
-(defun docstr--trigger-lua ()
+(defun docstr--trigger-lua (&rest _)
   "Trigger document string inside Lua."
   (when (and (docstr--doc-valid-p) (looking-back "---" 3))
     (backward-delete-char 3)
@@ -282,7 +282,7 @@ See function `docstr--get-search-string' description for argument TYPE."
     (end-of-line)
     (docstr--insert-doc-string (docstr--generic-search-string 2 ")"))))
 
-(defun docstr--trigger-python ()
+(defun docstr--trigger-python (&rest _)
   "Trigger document string inside Python."
   (when (and (docstr--doc-valid-p) (looking-back "\"\"\"" 3))
     (save-excursion (insert "\"\"\""))
