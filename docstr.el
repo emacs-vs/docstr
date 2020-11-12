@@ -171,10 +171,12 @@ variable.  Argument DESC is the description of VAR."
 ;; (@* "Core" )
 ;;
 
+;;;###autoload
 (defun docstr-supports-p ()
   "Return non-nil if current `major-mode' supports by `docstr'."
   (memq major-mode (docstr-major-modes)))
 
+;;;###autoload
 (defun docstr-major-modes ()
   "List of `major-mode' that supports document string."
   (let (lst)
