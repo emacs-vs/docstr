@@ -404,7 +404,6 @@ Argument START is the starting point ot the insertion."
     (unless (= param-var-len 0) (insert prefix))
     (docstr-writers--insert-param param-types param-vars prefix)
     (docstr-writers--insert-return return-type-str '("void") prefix)
-    (insert prefix)
     (docstr-writers-after start)))
 
 (defun docstr-writers-rust (search-string)
