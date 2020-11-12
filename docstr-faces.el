@@ -24,8 +24,6 @@
 
 ;;; Code:
 
-(require 'docstr)
-
 (defface docstr-faces-tag-face
   '((t (:foreground "SlateGray")))
   "Highlighting for Docstring tag."
