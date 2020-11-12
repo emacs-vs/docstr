@@ -167,6 +167,15 @@ variable.  Argument DESC is the description of VAR."
   :group docstr
   (if docstr-mode (docstr--enable) (docstr--disable)))
 
+(defun docstr--turn-on-docstr-mode ()
+  "Turn on the 'docstr-mode'."
+  (docstr-mode 1))
+
+;;;###autoload
+(define-globalized-minor-mode global-docstr-mode
+  docstr-mode docstr--turn-on-docstr-mode
+  :require 'docstr)
+
 ;;
 ;; (@* "Core" )
 ;;
