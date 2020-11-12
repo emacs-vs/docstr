@@ -8,6 +8,29 @@ TODO: Planning on extracting document string module from [jcs-emacs](https://git
 
 See https://github.com/jcs090218/jcs-emacs/blob/master/.emacs.jcs/func/jcs-docstring.el.
 
+## Supported Langauges
+
+Here is a list of all languages that support by this package. You can
+customize `docstr-writers-alist` variable to add your own document string
+`major-mode` and `writer`.
+
+* Assembly Language
+* ActionScript
+* C
+* C++
+* C#
+* Golang
+* Groovy
+* Java
+* JavaScript
+* JSX
+* Lua
+* PHP
+* Python
+* Rust
+* Scala
+* TypeScript
+
 ## Contribution
 
 If you would like to contribute to this project, you may either
