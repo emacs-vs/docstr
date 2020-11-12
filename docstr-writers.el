@@ -24,20 +24,38 @@
 
 ;;; Code:
 
+(require 's)
+
 (require 'docstr-util)
 
 ;;
 ;; (@* "Analyzer" )
 ;;
 
+(defun docstr-writers-insert-jsdoc-type (type-name open-char close-char)
+  "Insert the curly bracket by this order => OPEN-CHAR, TYPE-NAME, CLOSE-CHAR."
+  (insert open-char)
+  (insert type-name)
+  (insert close-char))
+
+(defun docstr-writers--param-empty-p (param-lst)
+  "Check if the full PARAM-LST empty."
+  (let ((param-lst-len (length param-lst))
+        (index 0) (is-empty t))
+    (while (and (< index param-lst-len) is-empty)
+      (unless (string= "" (string-trim (nth index param-lst)))
+        (setq is-empty nil))
+      (setq index (1+ index)))
+    is-empty))
+
 (defun docstr-writers--analyze-param-string (search-string)
   "Get rid of the open and close parentheses, only get the center part.
 SEARCH-STRING : string that use to analyze."
   (let (pos param-string)
     (setq param-string (substring search-string
-                                  (1+ (jcs-last-regex-in-string "(" search-string))
+                                  (1+ (docstr-util-last-regex-in-string "(" search-string))
                                   (length search-string))
-          pos (jcs-last-regex-in-string ")" param-string)
+          pos (docstr-util-last-regex-in-string ")" param-string)
           param-string (substring param-string 0 pos))
     param-string))
 
@@ -58,7 +76,7 @@ or with default value
     (setq param-string (docstr-writers--analyze-param-string search-string))
 
     (setq param-lst (split-string param-string ","))
-    (when (jcs--param-empty-p param-lst)
+    (when (docstr-writers--param-empty-p param-lst)
       (setq param-lst '()))
 
     (dolist (param-sec-string param-lst)
@@ -66,7 +84,7 @@ or with default value
             (param-split-str-lst-len -1) (param-split-str-lst-len-1 -1)
             (param-var-str "") (param-type-str ""))
         (setq param-sec-string (nth 0 (split-string param-sec-string "=")))
-        (setq param-split-str-lst (jcs-chop param-sec-string " "))
+        (setq param-split-str-lst (docstr-util-chop param-sec-string " "))
 
         (delete-dups param-split-str-lst)
         (setq param-split-str-lst (remove " " param-split-str-lst))
@@ -110,7 +128,7 @@ or with default value
 
   `(var-name : type-name = default-val, var-name : type-name = default-val)`.
 
-See `jcs-paren-param-list' function for argument description SEARCH-STRING.
+See `docstr-writers--paren-param-list' function for argument description SEARCH-STRING.
 
 An optional argument SPI-SYM is the split symbol for return type.  In most cases,
 this symbol often will be a 'colon'.
@@ -124,19 +142,19 @@ last word only."
     (setq param-string (docstr-writers--analyze-param-string search-string))
 
     (setq param-lst (split-string param-string ","))
-    (when (jcs--param-empty-p param-lst)
+    (when (docstr-writers--param-empty-p param-lst)
       (setq param-lst '()))
 
     (dolist (param-sec-string param-lst)
       (let ((param-split-str-lst '())
             (param-var-str "") (param-type-str ""))
         ;; First remove the possible default value.
-        (setq param-sec-string (nth 0 (split-string param-sec-string "=[^>]")))
-        (setq param-split-str-lst (split-string param-sec-string spi-sym))
-        (setq param-var-str (string-trim (nth 0 param-split-str-lst)))
+        (setq param-sec-string (nth 0 (split-string param-sec-string "=[^>]"))
+              param-split-str-lst (split-string param-sec-string spi-sym)
+              param-var-str (string-trim (nth 0 param-split-str-lst)))
         (if (= (length param-split-str-lst) 1)
             ;; Set default type name string here.
-            (setq param-type-str jcs--default-typename-string)
+            (setq param-type-str docstr-default-typename)
           (setq param-type-str (string-trim (nth 1 param-split-str-lst))))
 
         (when last-word
@@ -146,8 +164,8 @@ last word only."
         (push param-var-str param-var-str-lst)
         (push param-type-str param-type-str-lst)))
 
-    (setq param-type-strings (reverse param-type-str-lst))
-    (setq param-variable-strings (reverse param-var-str-lst))
+    (setq param-type-strings (reverse param-type-str-lst)
+          param-variable-strings (reverse param-var-str-lst))
 
     (push param-type-strings result-datas)
     (push param-variable-strings result-datas)
@@ -159,37 +177,62 @@ last word only."
 ;; (@* "Writers" )
 ;;
 
-(defun docstr-actionscript-writer (search-string)
+(defun docstr-writers-actionscript (search-string)
   "Insert document string for ActionScript using SEARCH-STRING."
-  )
+  (let* ((paren-param-list (jcs-paren-param-list-behind search-string ":"))
+         (param-type-strings (nth 0 paren-param-list))
+         (param-variable-strings (nth 1 paren-param-list))
+         (param-var-len (length param-variable-strings))
+         (param-index 0)
+         ;; Get all return data types.
+         (return-type-str (jcs--return-type-behind search-string ":"))
+         (there-is-return (not (null return-type-str)))
+         (start (point)))
+
+    ;; Process param tag.
+    (while (< param-index param-var-len)
+      (insert "\n * ")  ; start from newline.
+      (let ((type (nth param-index param-type-strings))
+            (var (nth param-index param-variable-strings)))
+        (insert (docstr-form-param type var docstr-desc-param)))
+      ;; add up counter.
+      (setq param-index (1+ param-index)))
+
+    ;; Lastly, process returns tag.
+    (when there-is-return
+      (unless (string= return-type-str "void")
+        (insert "\n * ")
+        (insert (docstr-form-return return-type-str "" docstr-desc-return))))
+    (indent-region start (point))
+    (goto-char start)))
 
 ;;
 ;; (@* "Configurations" )
 ;;
 
 (defcustom docstr-writer-alist
-  `((actionscript-mode . docstr-actionscript-writer)
-    (c-mode            . docstr-c-writer)
-    (c++-mode          . docstr-c++-writer)
-    (csharp-mode       . docstr-csharp-writer)
-    (go-mode           . docstr-go-writer)
-    (groovy-mode       . docstr-groovy-writer)
-    (groovy-mode       . docstr-groovy-writer)
-    (java-mode         . docstr-java-writer)
-    (javascript-mode   . docstr-javascript-writer)
-    (js-mode           . docstr-javascript-writer)
-    (js2-mode          . docstr-javascript-writer)
-    (js3-mode          . docstr-javascript-writer)
-    (lua-mode          . docstr-lua-writer)
-    (masm-mode         . docstr-asm-writer)
-    (nasm-mode         . docstr-asm-writer)
-    (php-mode          . docstr-php-writer)
-    (python-mode       . docstr-python-writer)
-    (rjsx-mode         . docstr-rjsx-writer)
-    (rust-mode         . docstr-rust-writer)
-    (scala-mode        . docstr-scala-writer)
-    (typescript-mode   . docstr-typescript-writer)
-    (web-mode          . docstr-php-writer))
+  `((actionscript-mode . docstr-writers-actionscript)
+    (c-mode            . docstr-writers-c)
+    (c++-mode          . docstr-writers-c++)
+    (csharp-mode       . docstr-writers-csharp)
+    (go-mode           . docstr-writers-go)
+    (groovy-mode       . docstr-writers-groovy)
+    (groovy-mode       . docstr-writers-groovy)
+    (java-mode         . docstr-writers-java)
+    (javascript-mode   . docstr-writers-javascript)
+    (js-mode           . docstr-writers-javascript)
+    (js2-mode          . docstr-writers-javascript)
+    (js3-mode          . docstr-writers-javascript)
+    (lua-mode          . docstr-writers-lua)
+    (masm-mode         . docstr-writers-asm)
+    (nasm-mode         . docstr-writers-asm)
+    (php-mode          . docstr-writers-php)
+    (python-mode       . docstr-writers-python)
+    (rjsx-mode         . docstr-writers-rjsx)
+    (rust-mode         . docstr-writers-rust)
+    (scala-mode        . docstr-writers-scala)
+    (typescript-mode   . docstr-writers-typescript)
+    (web-mode          . docstr-writers-php))
   "List of writer to each `major-mode'."
   :type 'list
   :group 'docstr)
