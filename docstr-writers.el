@@ -32,12 +32,6 @@
 ;; (@* "Analyzer" )
 ;;
 
-(defun docstr-writers-insert-jsdoc-type (type-name open-char close-char)
-  "Insert the curly bracket by this order => OPEN-CHAR, TYPE-NAME, CLOSE-CHAR."
-  (insert open-char)
-  (insert type-name)
-  (insert close-char))
-
 (defun docstr-writers--param-empty-p (param-lst)
   "Check if the full PARAM-LST empty."
   (let ((param-lst-len (length param-lst))
@@ -47,6 +41,35 @@
         (setq is-empty nil))
       (setq index (1+ index)))
     is-empty))
+
+(defun docstr-writers--return-type (search-string)
+  "Analyze SEARCH-STRING to get return type.
+This is for c-like programming languages."
+  (let ((pos (docstr-util-last-regex-in-string "(" search-string))
+        return-type-str)
+    (when pos
+      (setq return-type-str (substring search-string 0 pos)
+            return-type-str (split-string return-type-str " " t)
+            return-type-str (nth (- (length return-type-str) 2) return-type-str)))
+    (if (stringp return-type-str) (string-trim return-type-str) nil)))
+
+(defun docstr-writers--return-type-behind (search-string &optional spi-sym)
+  "Analyze SEARCH-STRING to get return type.
+
+This is for colon type programming languages.  For example, `actionscript',
+`typescript', etc.
+
+An optional argument SPI-SYM is the split symbol for return type."
+  (let ((pos (docstr-util-last-regex-in-string ")" search-string))
+        return-type-str)
+    (when pos
+      (setq return-type-str (substring search-string (1+ pos) (length search-string)))
+      (when spi-sym
+        (setq return-type-str (nth 1 (split-string return-type-str spi-sym)))))
+    (if (and (stringp return-type-str)
+             (not (string-empty-p return-type-str)))
+        (string-trim return-type-str)
+      nil)))
 
 (defun docstr-writers--analyze-param-string (search-string)
   "Get rid of the open and close parentheses, only get the center part.
@@ -177,34 +200,76 @@ last word only."
 ;; (@* "Writers" )
 ;;
 
+(defun docstr-writers-after (start)
+  "Do stuff after document string insertion.
+Argument START is the starting point ot the insertion."
+  (indent-region start (point))
+  (indent-for-tab-command)
+  (goto-char start))
+
 (defun docstr-writers-actionscript (search-string)
   "Insert document string for ActionScript using SEARCH-STRING."
-  (let* ((paren-param-list (jcs-paren-param-list-behind search-string ":"))
+  (let* ((paren-param-list (docstr-writers--paren-param-list-behind search-string ":"))
          (param-type-strings (nth 0 paren-param-list))
          (param-variable-strings (nth 1 paren-param-list))
          (param-var-len (length param-variable-strings))
          (param-index 0)
          ;; Get all return data types.
-         (return-type-str (jcs--return-type-behind search-string ":"))
+         (return-type-str (docstr-writers--return-type-behind search-string ":"))
          (there-is-return (not (null return-type-str)))
          (start (point)))
 
     ;; Process param tag.
     (while (< param-index param-var-len)
-      (insert "\n * ")  ; start from newline.
+      (insert "\n* ")  ; start from newline.
       (let ((type (nth param-index param-type-strings))
             (var (nth param-index param-variable-strings)))
         (insert (docstr-form-param type var docstr-desc-param)))
+      (indent-for-tab-command)
       ;; add up counter.
       (setq param-index (1+ param-index)))
 
     ;; Lastly, process returns tag.
     (when there-is-return
       (unless (string= return-type-str "void")
-        (insert "\n * ")
+        (insert "\n* ")
         (insert (docstr-form-return return-type-str "" docstr-desc-return))))
-    (indent-region start (point))
-    (goto-char start)))
+    (docstr-writers-after start)))
+
+(defun docstr-writers-python (search-string)
+  "Insert document string for Python using SEARCH-STRING."
+  (let* ((paren-param-list (docstr-writers--paren-param-list-behind search-string))
+         (param-type-strings (nth 0 paren-param-list))
+         (param-variable-strings (nth 1 paren-param-list))
+         (param-var-len (length param-variable-strings))
+         (param-index 0)
+         ;; Get the return data type.
+         (return-type-str "void")
+         there-is-return
+         (start (point)))
+    ;; Line break between description and tags.
+    (when (and (>= param-index 0) (not (= param-var-len 0)))
+      (insert "\n"))
+
+    (while (< param-index param-var-len)
+      (unless (string= "self" (nth param-index param-variable-strings))
+        (insert "\n")  ; start from newline.
+        (let ((var (nth param-index param-variable-strings)))
+          (insert (docstr-form-param "" var docstr-desc-param))))
+      (indent-for-tab-command)
+      (setq param-index (1+ param-index)))
+
+    ;; Lastly, process returns tag.
+    (when there-is-return
+      (unless (string= return-type-str "void")
+        (insert "\n* ")
+        (insert (docstr-form-return return-type-str "" docstr-desc-return))))
+    (insert "\n")
+    (docstr-writers-after start)))
+
+(defun docstr-writers-typescript (search-string)
+  "Insert document string for TypesSript using SEARCH-STRING."
+  (docstr-writers-actionscript search-string))
 
 ;;
 ;; (@* "Configurations" )
