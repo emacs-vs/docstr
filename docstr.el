@@ -179,7 +179,7 @@ variable.  Argument DESC is the description of VAR."
   (let ((writer (docstr-get-writer)))
     (if writer
         (progn
-          (run-hooks 'docstr-before-insert-hook)
+          (run-hook-with-args 'docstr-before-insert-hook search-string)
           (funcall (cdr writer) search-string))
       (user-error "[WARNING] No document string support for %s" major-mode))))
 
