@@ -48,6 +48,15 @@ See function `forward-line' for argument N."
       (when run-it (setq pos run-it)))
     (if (= pos -1) nil pos)))
 
+(defun docstr-util-comment-block-p (&optional pos)
+  "Return non-nil if POS is inside a comment block."
+  (unless pos (setq pos (point)))
+  (save-excursion (goto-char pos) (nth 4 (syntax-ppss))))
+
+;;
+;; (@* "List" )
+;;
+
 (defun docstr-util-chop (string separator)
   "Split a STRING without consuming a SEPARATOR."
   (cl-loop with seplen = (length separator)
@@ -62,7 +71,24 @@ See function `forward-line' for argument N."
 
 (defun docstr-util-is-contain-list-string (in-list in-str)
   "Check if IN-STR contain in any string in the IN-LIST."
-  (cl-some (lambda (lb-sub-str) (string-match-p (regexp-quote lb-sub-str) in-str)) in-list))
+  (cl-some (lambda (str) (string-match-p (regexp-quote str) in-str)) in-list))
+
+;;
+;; (@* "Character" )
+;;
+
+(defun docstr-util--get-current-char-string ()
+  "Get the current character as the 'string'."
+  (if (char-before) (string (char-before)) ""))
+
+(defun docstr-util-current-char-equal-p (c)
+  "Check the current character equal to C, C can be a list of character."
+  (cond ((and (stringp c)
+              (stringp (docstr-util--get-current-char-string)))
+         (string= (docstr-util--get-current-char-string) c))
+        ((listp c)
+         (docstr-util-is-contain-list-string c (docstr-util--get-current-char-string)))
+        (t nil)))
 
 (provide 'docstr-util)
 ;;; docstr-util.el ends here
