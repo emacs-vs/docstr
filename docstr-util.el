@@ -60,5 +60,9 @@ See function `forward-line' for argument N."
            while (< end len)
            do (setf start end next (+ seplen end))))
 
+(defun docstr-util-is-contain-list-string (in-list in-str)
+  "Check if IN-STR contain in any string in the IN-LIST."
+  (cl-some (lambda (lb-sub-str) (string-match-p (regexp-quote lb-sub-str) in-str)) in-list))
+
 (provide 'docstr-util)
 ;;; docstr-util.el ends here
