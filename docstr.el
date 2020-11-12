@@ -55,8 +55,9 @@
 
 (defun docstr-form-param (type var desc)
   "Return complete parameter document string.
-TYPE is the name of the name.  VAR is the name of the variable.
-DESC is the description of VAR."
+
+Argument TYPE is the name of the name.  Argument VAR is the name of the
+variable.  Argument DESC is the description of VAR."
   (let ((new docstr-format-param))
     (setq new (s-replace docstr-key-type type new)
           new (s-replace docstr-key-var var new)
@@ -65,7 +66,10 @@ DESC is the description of VAR."
     new))
 
 (defun docstr-form-return (type var desc)
-  "Return complete return document string."
+  "Return complete return document string.
+
+Argument TYPE is the name of the name.  Argument VAR is the name of the
+variable.  Argument DESC is the description of VAR."
   (let ((new docstr-format-return))
     (setq new (s-replace docstr-key-type type new)
           new (s-replace docstr-key-var var new)
