@@ -53,36 +53,22 @@
 (defconst docstr-key-var "#V" "String key that going to replace variable name.")
 (defconst docstr-key-desc "#D" "String key that going to replace description.")
 
-(defun docstr-form-param (type var desc)
-  "Return complete parameter document string.
+(defcustom docstr-format-type "{ %s }"
+  "Format string for type name section inside document string."
+  :type 'string
+  :group 'docstr)
 
-Argument TYPE is the name of the name.  Argument VAR is the name of the
-variable.  Argument DESC is the description of VAR."
-  (let ((new docstr-format-param))
-    (setq new (s-replace docstr-key-type type new)
-          new (s-replace docstr-key-var var new)
-          new (s-replace docstr-key-desc desc new)
-          new (s-replace-regexp "[ ]+" " " new))
-    new))
+(defcustom docstr-format-var "%s :"
+  "Format string for variable name section inside document string."
+  :type 'string
+  :group 'docstr)
 
-(defun docstr-form-return (type var desc)
-  "Return complete return document string.
-
-Argument TYPE is the name of the name.  Argument VAR is the name of the
-variable.  Argument DESC is the description of VAR."
-  (let ((new docstr-format-return))
-    (setq new (s-replace docstr-key-type type new)
-          new (s-replace docstr-key-var var new)
-          new (s-replace docstr-key-desc desc new)
-          new (s-replace-regexp "[ ]+" " " new))
-    new))
-
-(defcustom docstr-format-param "@param { #T } #V : #D"
+(defcustom docstr-format-param "@param #T #V #D"
   "Format string for parameter document string."
   :type 'string
   :group 'docstr)
 
-(defcustom docstr-format-return "@return { #T } #V : #D"
+(defcustom docstr-format-return "@return #T #V #D"
   "Format string for return document string."
   :type 'string
   :group 'docstr)
@@ -101,6 +87,47 @@ variable.  Argument DESC is the description of VAR."
   "Default typename when variable type is unknown."
   :type 'string
   :group 'docstr)
+
+(defcustom docstr-show-type-name t
+  "If non-nil, show the type name by default."
+  :type 'boolean
+  :group 'docstr)
+
+(defun docstr--able-type-p (type)
+  "Return non-nil if TYPE is valid string that able to show type name."
+  (and (not (string-empty-p type)) docstr-show-type-name))
+
+(defun docstr--get-type-name (type)
+  "Return TYPE's name."
+  (if (docstr--able-type-p type) (format docstr-format-type type) ""))
+
+(defun docstr--get-var-name (var)
+  "Return VAR's name."
+  (if (string-empty-p var) "" (format docstr-format-var var)))
+
+(defun docstr-form-param (type var desc)
+  "Return complete parameter document string.
+
+Argument TYPE is the name of the name.  Argument VAR is the name of the
+variable.  Argument DESC is the description of VAR."
+  (let ((new docstr-format-param))
+    (setq new (s-replace docstr-key-type (docstr--get-type-name type) new)
+          new (s-replace docstr-key-var (docstr--get-var-name var) new)
+          new (s-replace docstr-key-desc desc new)
+          new (s-replace-regexp "[ ]+" " " new))
+    new))
+
+(defun docstr-form-return (type var desc)
+  "Return complete return document string.
+
+Argument TYPE is the name of the name.  Argument VAR is the name of the
+variable.  Argument DESC is the description of VAR."
+  (let ((new docstr-format-return))
+    (setq new (s-replace docstr-key-type (docstr--get-type-name type) new)
+          new (s-replace docstr-key-var (docstr--get-var-name var) new)
+          new (s-replace docstr-key-desc desc new)
+          new (s-replace-regexp "[ ]+" " " new))
+    new))
 
 ;;
 ;; (@* "Entry" )
