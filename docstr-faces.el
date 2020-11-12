@@ -44,6 +44,7 @@
   :group 'docstr)
 (defvar docstr-faces-value-face 'docstr-faces-value-face)
 
+;;;###autoload
 (defun docstr-faces-apply ()
   "Apply standard document string faces."
   (dolist (mode (docstr-major-modes))
