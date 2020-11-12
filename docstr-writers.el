@@ -52,6 +52,15 @@
       (setq index (1+ index)))
     is-empty))
 
+(defun docstr-writers--function-name (search-string)
+  "Analyze SEARCH-STRING to get function name."
+  (let ((pos (docstr-util-last-regex-in-string "(" search-string)) fn-str)
+    (when pos
+      (setq fn-str (substring search-string 0 pos)
+            fn-str (split-string fn-str " " t)
+            fn-str (nth (1- (length fn-str)) fn-str)))
+    (if (stringp fn-str) (string-trim fn-str) nil)))
+
 (defun docstr-writers--return-type (search-string)
   "Analyze SEARCH-STRING to get return type.
 This is for c-like programming languages."
@@ -106,9 +115,11 @@ or with default value
         (param-type-str-lst '()) (param-var-str-lst '())
         param-types param-vars
         (result-datas '()))
-    (setq param-string (docstr-writers--analyze-param-string search-string))
+    (setq param-string
+          (ignore-errors (docstr-writers--analyze-param-string search-string)))
 
-    (setq param-lst (split-string param-string ","))
+    (when (stringp param-string)
+      (setq param-lst (split-string param-string ",")))
     (when (docstr-writers--param-empty-p param-lst)
       (setq param-lst '()))
 
@@ -173,9 +184,11 @@ the last word only."
         (param-type-str-lst '()) (param-var-str-lst '())
         param-types param-vars
         (result-datas '()))
-    (setq param-string (docstr-writers--analyze-param-string search-string))
+    (setq param-string
+          (ignore-errors (docstr-writers--analyze-param-string search-string)))
 
-    (setq param-lst (split-string param-string ","))
+    (when (stringp param-string)
+      (setq param-lst (split-string param-string ",")))
     (when (docstr-writers--param-empty-p param-lst)
       (setq param-lst '()))
 
@@ -232,7 +245,7 @@ Argument PREFIX is string infront of each document string."
 Argument RETURN-TYPE-STR is a string contain return type name.  Argument
 IGNORE-LST is a list of string contain return type that we want to skip.
 Argument PREFIX is string infront of each document string."
-  (when (and (not (string-empty-p return-type-str))
+  (when (and (stringp return-type-str)
              (not (docstr-util-is-contain-list-string ignore-lst return-type-str)))
     (insert prefix)
     (insert (docstr-form-return return-type-str "" docstr-desc-return))))
@@ -254,6 +267,22 @@ Argument START is the starting point ot the insertion."
          (return-type-str (docstr-writers--return-type-behind search-string ":")))
     (docstr-writers--insert-param param-types param-vars prefix)
     (docstr-writers--insert-return return-type-str '("void") prefix)
+    (docstr-writers-after start)))
+
+(defun docstr-writers-c (search-string)
+  "Insert document string for C using SEARCH-STRING."
+  (docstr-writers-c++ search-string))
+
+(defun docstr-writers-c++ (search-string)
+  "Insert document string for C++ using SEARCH-STRING."
+  (let* ((start (point)) (prefix "\n* ")
+         (paren-param-list (docstr-writers--paren-param-list search-string))
+         (param-types (nth 0 paren-param-list))
+         (param-vars (nth 1 paren-param-list))
+         ;; Get the return data type.
+         (return-type-str (docstr-writers--return-type search-string)))
+    (docstr-writers--insert-param param-types param-vars prefix)
+    (docstr-writers--insert-return return-type-str nil prefix)
     (docstr-writers-after start)))
 
 (defun docstr-writers-java (search-string)
