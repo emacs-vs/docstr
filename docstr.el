@@ -284,7 +284,7 @@ See function `docstr--get-search-string' description for argument TYPE."
 
 (defun docstr--trigger-python (&rest _)
   "Trigger document string inside Python."
-  (when (and (docstr--doc-valid-p) (looking-back "\"\"\"" 3))
+  (when (and docstr-mode (looking-back "\"\"\"" 3))
     (save-excursion (insert "\"\"\""))
     (docstr--insert-doc-string (docstr--generic-search-string -1 ":"))))
 
