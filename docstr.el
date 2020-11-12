@@ -46,6 +46,59 @@
   :link '(url-link :tag "Repository" "https://github.com/jcs-elpa/docstr"))
 
 ;;
+;; (@* "Customization" )
+;;
+
+(defconst docstr-key-type "#T" "String key that going to replace type name.")
+(defconst docstr-key-var "#V" "String key that going to replace variable name.")
+(defconst docstr-key-desc "#D" "String key that going to replace description.")
+
+(defun docstr-form-param (type var desc)
+  "Return complete parameter document string.
+TYPE is the name of the name.  VAR is the name of the variable.
+DESC is the description of VAR."
+  (let ((new docstr-format-param))
+    (setq new (s-replace docstr-key-type type new)
+          new (s-replace docstr-key-var var new)
+          new (s-replace docstr-key-desc desc new)
+          new (s-replace-regexp "[ ]+" " " new))
+    new))
+
+(defun docstr-form-return (type var desc)
+  "Return complete return document string."
+  (let ((new docstr-format-return))
+    (setq new (s-replace docstr-key-type type new)
+          new (s-replace docstr-key-var var new)
+          new (s-replace docstr-key-desc desc new)
+          new (s-replace-regexp "[ ]+" " " new))
+    new))
+
+(defcustom docstr-format-param "@param { #T } #V : #D"
+  "Format string for parameter document string."
+  :type 'string
+  :group 'docstr)
+
+(defcustom docstr-format-return "@return { #T } #V : #D"
+  "Format string for return document string."
+  :type 'string
+  :group 'docstr)
+
+(defcustom docstr-desc-param "Param desc here.."
+  "Description for parameter document string."
+  :type 'string
+  :group 'docstr)
+
+(defcustom docstr-desc-return "Returns desc here.."
+  "Description for return document string."
+  :type 'string
+  :group 'docstr)
+
+(defcustom docstr-default-typename "typename"
+  "Default typename when variable type is unknown."
+  :type 'string
+  :group 'docstr)
+
+;;
 ;; (@* "Entry" )
 ;;
 
@@ -89,7 +142,7 @@
 (defun docstr--insert-doc-string (search-string)
   "Insert document string base on SEARCH-STRING."
   (let ((writer (docstr-get-writer)))
-    (if writer (funcall writer search-string)
+    (if writer (funcall (cdr writer) search-string)
       (user-error "[WARNING] No document string support for %s" major-mode))))
 
 (defun docstr--get-search-string (type sr)
@@ -107,12 +160,13 @@ Argument SR is the target symbol for us to stop looking for the end of declarati
       (unless (docstr-util-current-line-empty-p)
         (setq beg (line-beginning-position))
         (re-search-forward sr nil t)
-        (substring (buffer-string) beg (point))))))
+        (backward-char (length (match-string 0)))
+        (buffer-substring beg (point))))))
 
 (defun docstr--trigger-return ()
   "Trigger document string by pressing key return."
   (interactive)
-  (when docstr-mode
+  (unless docstr-mode
     (let ((ln-prev (docstr-util-line-relative -1 t))
           (ln-next (docstr-util-line-relative 1 t))
           search-string)
