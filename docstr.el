@@ -51,9 +51,9 @@
 ;; (@* "Customization" )
 ;;
 
-(defconst docstr-key-type "#T" "String key that going to replace type name.")
-(defconst docstr-key-var "#V" "String key that going to replace variable name.")
-(defconst docstr-key-desc "#D" "String key that going to replace description.")
+(defconst docstr-key-type "#T#" "String key that going to replace type name.")
+(defconst docstr-key-var "#V#" "String key that going to replace variable name.")
+(defconst docstr-key-desc "#D#" "String key that going to replace description.")
 
 (defcustom docstr-format-type "{ %s }"
   "Format string for type name section inside document string."
@@ -65,12 +65,14 @@
   :type 'string
   :group 'docstr)
 
-(defcustom docstr-format-param "@param #T #V #D"
+(defcustom docstr-format-param
+  (format "@param %s %s %s" docstr-key-type docstr-key-var docstr-key-desc)
   "Format string for parameter document string."
   :type 'string
   :group 'docstr)
 
-(defcustom docstr-format-return "@return #T #V #D"
+(defcustom docstr-format-return
+  (format "@return %s %s %s" docstr-key-type docstr-key-var docstr-key-desc)
   "Format string for return document string."
   :type 'string
   :group 'docstr)
