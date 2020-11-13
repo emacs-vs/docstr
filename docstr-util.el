@@ -74,6 +74,17 @@ See function `forward-line' for argument N."
   (cl-some (lambda (str) (string-match-p (regexp-quote str) in-str)) in-list))
 
 ;;
+;; (@* "Searching" )
+;;
+
+(defun docstr-util-looking-back (regexp &optional limit greedy)
+  "Wrapper for function `looking-back'.
+
+See function `looking-back' description for arguments REGEXP, LIMIT,
+and GREEDY."
+  (ignore-errors (looking-back regexp limit greedy)))
+
+;;
 ;; (@* "Character" )
 ;;
 
