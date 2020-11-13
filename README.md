@@ -129,8 +129,11 @@ document style. Let's try apply to language `TypeScript` only within
 
 ## Advance Implementation
 
-| <img src="./etc/c++/cpp-define.gif"/> | <img src="./etc/c++/cpp-enum.gif"/> |
-|:------------------------------------|:------------------------------------|
+You are able to customize document string by running `before`/`after` hooks.
+The following are advance example for document string in `C++`.
+
+| <img src="./etc/c++/cpp-define.gif"/> | <img src="./etc/c++/cpp-enum.gif"/>  |
+|:--------------------------------------|:-------------------------------------|
 | <img src="./etc/c++/cpp-struct.gif"/> | <img src="./etc/c++/cpp-class.gif"/> |
 
 ## Configure Faces
