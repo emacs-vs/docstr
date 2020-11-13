@@ -93,8 +93,12 @@ insertion. In this example, `(docstr--c-style-search-string 2)` is the
 string base on the `search-string` information. Then this is the result.
 
 <p align="center">
-<img src="./etc/csharp-vs-doc-demo.gif" width="450" height="172"/>
+  <img src="./etc/csharp-vs-doc-demo.gif" width="450" height="172"/>
 </p>
+
+## Before Insertion
+
+You can customize document before you actually insert anything.
 
 ## Configure Faces
 
