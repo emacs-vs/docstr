@@ -64,10 +64,37 @@ that takes in one argument. For instance,
 ```
 
 Argument `search-string` will be populated by the triggeration associated list.
-See variable `docstr-trigger-alist` for more information.
+See variable `docstr-trigger-alist` for more information. For instance,
+a `C#` trigger data is like this
 
+```el
+(csharp-mode . ("/" docstr-trigger-csharp))
+```
 
-The document string is triggered by certain conditions are met.
+And the triggeration function will look like this
+
+```el
+(defun docstr-trigger-csharp (&rest _)
+  "Trigger document string inside C#."
+  (when (and (docstr--doc-valid-p) (looking-back "///" 3))
+    (save-excursion
+      (insert " <summary>\n")
+      (insert "/// \n")
+      (insert "/// </summary>"))
+    (forward-line 1)
+    (end-of-line)
+    (docstr--insert-doc-string (docstr--c-style-search-string 2))))
+```
+
+The document string is triggered by certain conditions are met; and it will
+finally calls the function `docstr--insert-doc-string` for document string
+insertion. In this example, `(docstr--c-style-search-string 2)` is the
+`search-string` ready for document string writer to write a proper document
+string base on the `search-string` information.
+
+<p align="center">
+<img src="./etc/csharp-vs-doc-demo.gif"/>
+</p>
 
 ## Configure Faces
 
