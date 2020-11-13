@@ -54,6 +54,19 @@ Here is a list of all languages that support by this package.
 You can customize `docstr-writers-alist` variable to add your own document
 string support for your favourite language. Just add a cons cell like `(mode-name . docstr-writer-name)`.
 
+To create your own document string writer, you would need to create a function
+that takes in one argument. For instance,
+
+```el
+(defun my-docstr-writer (search-string)
+  ;; Insert document stirng here.
+  )
+```
+
+Argument `search-string` will be populated
+
+The document string is triggered by certain conditions are met.
+
 ## Configure Faces
 
 This package provides a way to customize the document string faces in a
