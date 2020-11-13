@@ -412,10 +412,10 @@ Argument START is the starting point ot the insertion."
 (defun docstr-writers-rust (search-string)
   "Insert document string for Rust using SEARCH-STRING."
   (let* ((start (point)) (prefix "\n* ")
-         (paren-param-list (jcs-paren-param-list-behind search-string ":" t))
+         (paren-param-list (docstr-writers--paren-param-list-behind search-string ":" t))
          (param-types (nth 0 paren-param-list))
          (param-vars (nth 1 paren-param-list))
-         (return-type-str (jcs--return-type-behind search-string ":")))
+         (return-type-str (docstr-writers--return-type-behind search-string ":")))
     (docstr-writers--insert-param param-types param-vars prefix)
     (docstr-writers--insert-return return-type-str '("void") prefix)
     (docstr-writers-after start)))
