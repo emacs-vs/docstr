@@ -4,6 +4,33 @@
 # docstr
 > A document string minor mode.
 
+This package provides a simple solution to insert document string into the code.
+
+## Usage
+
+You can enable this package to a specific major mode, like
+
+```el
+;; Enable `docstr' inside these major modes.
+(add-hook 'actionscript-mode-hook (lambda () (docstr-mode 1)))
+(add-hook 'java-mode-hook (lambda () (docstr-mode 1)))
+```
+
+If you just want to enable it inside a specific buffer just call `docstr-mode`
+as a command throught minibuffer.
+
+```
+M-x docstr-mode
+```
+
+To enable this package through out all the buffers by default. Call global
+version of the minor mode; then just put the following code snippet to your
+configuration.
+
+```el
+(global-docstr-mode 1)
+```
+
 ## Supported Langauges
 
 Here is a list of all languages that support by this package. You can
