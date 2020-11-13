@@ -100,7 +100,32 @@ string base on the `search-string` information. Then this is the result.
 
 ## Before/After Insertion
 
-You can customize document before you actually insert anything.
+You can customize document before or after the document string insertion.
+There are total two hooks you can customize.
+
+* `docstr-before-insert-hook`
+* `docstr-after-insert-hook`
+
+The usage of this is to customize the document string with set up. For instance,
+some programming languages would add `@desc` before an actual description. Do
+the following can implement this.
+
+```el
+(add-hook 'docstr-before-insert-hook (lambda (search-string) (insert "@desc ")))
+```
+
+Of course, I would recommend you add it locally so it is language specific
+document style. Let's try apply to language `TypeScript` only within
+`typescript-mode`.
+
+```el
+(defun my-typescript-mode-hook ()
+  (add-hook 'docstr-before-insert-hook
+            (lambda (search-string) (insert "@desc "))
+            nil t))
+
+(add-hook 'typescript-mode-hook #'my-typescript-mode-hook)
+```
 
 ## Configure Faces
 
