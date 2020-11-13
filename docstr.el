@@ -6,7 +6,7 @@
 ;; Author: Shen, Jen-Chieh <jcs090218@gmail.com>
 ;; Description: A document string minor mode.
 ;; Keyword: document string
-;; Version: 5.2.0
+;; Version: 5.2.1
 ;; Package-Requires: ((emacs "24.4") (s "1.9.0"))
 ;; URL: https://github.com/jcs-elpa/docstr
 
