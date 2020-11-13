@@ -127,6 +127,12 @@ document style. Let's try apply to language `TypeScript` only within
 (add-hook 'typescript-mode-hook #'my-typescript-mode-hook)
 ```
 
+## Advance Implementation
+
+<p align="center">
+  <img src="./etc/cpp-doc-demo.gif" width="450" height="408"/>
+</p>
+
 ## Configure Faces
 
 This package provides a way to customize the document string faces in a
