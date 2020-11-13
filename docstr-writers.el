@@ -401,7 +401,10 @@ Argument START is the starting point ot the insertion."
     (setq param-vars (remove "self" param-vars)
           param-var-len (length param-vars))
     ;; Line break between description and tags.
-    (unless (= param-var-len 0) (insert prefix))
+    (unless (= param-var-len 0)
+      (insert prefix) (insert prefix)
+      (indent-for-tab-command)
+      (forward-line -1))
     (docstr-writers--insert-param param-types param-vars prefix)
     (docstr-writers--insert-return return-type-str '("void") prefix)
     (docstr-writers-after start)))
