@@ -33,9 +33,7 @@ configuration.
 
 ## Supported Langauges
 
-Here is a list of all languages that support by this package. You can
-customize `docstr-writers-alist` variable to add your own document string
-`major-mode` and `writer`.
+Here is a list of all languages that support by this package.
 
 * ActionScript
 * C
@@ -52,6 +50,9 @@ customize `docstr-writers-alist` variable to add your own document string
 * Rust
 * Scala
 * TypeScript
+
+You can customize `docstr-writers-alist` variable to add your own document
+string support for your favourite language. Just add a cons cell like `(mode-name . docstr-writer-name)`.
 
 ## Configure Faces
 
