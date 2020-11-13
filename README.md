@@ -95,7 +95,7 @@ insertion. In this example, `(docstr--c-style-search-string 2)` is the
 string base on the `search-string` information. Then this is the result.
 
 <p align="center">
-  <img src="./etc/csharp-vs-doc-demo.gif" width="450" height="172"/>
+  <img src="./etc/c#/csharp-vs-doc-demo.gif" width="450" height="172"/>
 </p>
 
 ## Before/After Insertion
@@ -130,7 +130,7 @@ document style. Let's try apply to language `TypeScript` only within
 ## Advance Implementation
 
 <p align="center">
-  <img src="./etc/cpp-doc-demo.gif" width="450" height="408"/>
+  <img src="./etc/c++/cpp-doc-demo.gif" width="450" height="408"/>
 </p>
 
 ## Configure Faces
