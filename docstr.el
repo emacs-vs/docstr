@@ -140,23 +140,42 @@ variable.  Argument DESC is the description of VAR."
 ;; (@* "Entry" )
 ;;
 
+(defcustom docstr-trigger-alist
+  `((csharp-mode . ("/" docstr-trigger-csharp))
+    (go-mode     . ("/" docstr-trigger-golang))
+    (lua-mode    . ("-" docstr-trigger-lua))
+    (python-mode . ("\"" docstr-trigger-python)))
+  "List of trigger to each `major-mode'.
+
+The data is a cons cell form by (mode-name . (key function)).  The first
+data is the symbol of the `major-mode' and the second data is a list form
+by the following order.
+
+  <1> Key string
+  <2> Trigger function name
+
+You should customize this variable to add your own triggeration methods."
+  :type 'hook
+  :group 'docstr)
+
+(defun docstr--enable-trigger (act)
+  "Enable/Disable trigger base on boolean ACT."
+  (dolist (tri docstr-trigger-alist)
+    (let* ((mode (car tri)) (data (cdr tri))
+           (key (nth 0 data)) (fnc (nth 1 data)))
+      (when (eq major-mode mode)
+        (if act (advice-add (key-binding (kbd key)) :after fnc)
+          (advice-remove (key-binding (kbd key)) fnc))))))
+
 (defun docstr--enable ()
   "Enable `docstr' in current buffer."
   (advice-add (key-binding (kbd "RET")) :after #'docstr--trigger-return)
-  (cl-case major-mode
-    (csharp-mode (advice-add (key-binding (kbd "/")) :after #'docstr--trigger-csharp))
-    (go-mode (advice-add (key-binding (kbd "/")) :after #'docstr--trigger-golang))
-    (lua-mode (advice-add (key-binding (kbd "-")) :after #'docstr--trigger-lua))
-    (python-mode (advice-add (key-binding (kbd "\"")) :after #'docstr--trigger-python))))
+  (docstr--enable-trigger t))
 
 (defun docstr--disable ()
   "Disable `docstr' in current buffer."
   (advice-remove (key-binding (kbd "RET")) #'docstr--trigger-return)
-  (cl-case major-mode
-    (csharp-mode (advice-remove (key-binding (kbd "/")) #'docstr--trigger-csharp))
-    (go-mode (advice-remove (key-binding (kbd "/")) #'docstr--trigger-golang))
-    (lua-mode (advice-remove (key-binding (kbd "-")) #'docstr--trigger-lua))
-    (python-mode (advice-remove (key-binding (kbd "\"")) #'docstr--trigger-python))))
+  (docstr--enable-trigger nil))
 
 ;;;###autoload
 (define-minor-mode docstr-mode
@@ -252,7 +271,7 @@ See function `docstr--get-search-string' description for argument TYPE."
         (when (string-empty-p ln-current) (insert "* "))
         (docstr--insert-doc-string (docstr--c-style-search-string 2))))))
 
-(defun docstr--trigger-csharp (&rest _)
+(defun docstr-trigger-csharp (&rest _)
   "Trigger document string inside C#."
   (when (and (docstr--doc-valid-p) (looking-back "///" 3))
     (save-excursion
@@ -263,12 +282,12 @@ See function `docstr--get-search-string' description for argument TYPE."
     (end-of-line)
     (docstr--insert-doc-string (docstr--c-style-search-string 2))))
 
-(defun docstr--trigger-golang (&rest _)
+(defun docstr-trigger-golang (&rest _)
   "Trigger document string inside Golang."
   (when (and (docstr--doc-valid-p) (looking-back "//" 2))
     (docstr--insert-doc-string (docstr--c-style-search-string 1))))
 
-(defun docstr--trigger-lua (&rest _)
+(defun docstr-trigger-lua (&rest _)
   "Trigger document string inside Lua."
   (when (and (docstr--doc-valid-p) (looking-back "---" 3))
     (backward-delete-char 3)
@@ -280,7 +299,7 @@ See function `docstr--get-search-string' description for argument TYPE."
     (end-of-line)
     (docstr--insert-doc-string (docstr--generic-search-string 2 ")"))))
 
-(defun docstr--trigger-python (&rest _)
+(defun docstr-trigger-python (&rest _)
   "Trigger document string inside Python."
   ;; TODO: For some reason, '(nth 4 (syntax-ppss))' doesn't work.
   (when (and docstr-mode (looking-back "\"\"\"" 3))
