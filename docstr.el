@@ -247,6 +247,7 @@ Argument SR is the target symbol for us to stop looking for the end of declarati
         (while (and (not (docstr-util-current-line-empty-p)) (not found))
           (setq found (re-search-forward sr (line-end-position) t))
           (forward-line 1))
+        (when found (goto-char found))
         (backward-char (length (match-string 0)))
         (buffer-substring beg (point))))))
 
@@ -259,7 +260,8 @@ and SR."
     (setq search-string (or (ignore-errors (docstr--get-search-string type sr))
                             "")
           search-string (string-trim search-string)
-          search-string (s-replace "\n" " " search-string))))
+          search-string (s-replace "\n" " " search-string))
+    search-string))
 
 (defun docstr--c-style-search-string (type)
   "Return c-style search string.
