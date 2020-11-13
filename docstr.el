@@ -278,7 +278,7 @@ See function `docstr--get-search-string' description for argument TYPE."
 
 (defun docstr-trigger-csharp (&rest _)
   "Trigger document string inside C#."
-  (when (and (docstr--doc-valid-p) (looking-back "///" 3))
+  (when (and (docstr--doc-valid-p) (docstr-util-looking-back "///" 3))
     (save-excursion
       (insert " <summary>\n")
       (insert "/// \n")
@@ -289,12 +289,12 @@ See function `docstr--get-search-string' description for argument TYPE."
 
 (defun docstr-trigger-golang (&rest _)
   "Trigger document string inside Golang."
-  (when (and (docstr--doc-valid-p) (looking-back "//" 2))
+  (when (and (docstr--doc-valid-p) (docstr-util-looking-back "//" 2))
     (docstr--insert-doc-string (docstr--c-style-search-string 1))))
 
 (defun docstr-trigger-lua (&rest _)
   "Trigger document string inside Lua."
-  (when (and (docstr--doc-valid-p) (looking-back "---" 3))
+  (when (and (docstr--doc-valid-p) (docstr-util-looking-back "---" 3))
     (backward-delete-char 3)
     (save-excursion
       (insert (format "%s\n" docstr-lua-splitter))
@@ -307,7 +307,7 @@ See function `docstr--get-search-string' description for argument TYPE."
 (defun docstr-trigger-python (&rest _)
   "Trigger document string inside Python."
   ;; TODO: For some reason, '(nth 4 (syntax-ppss))' doesn't work.
-  (when (and docstr-mode (looking-back "\"\"\"" 3))
+  (when (and docstr-mode (docstr-util-looking-back "\"\"\"" 3))
     (if (looking-at-p "\"\"\"")
         (delete-char 3)
       (save-excursion (insert "\"\"\""))
