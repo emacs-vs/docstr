@@ -132,7 +132,11 @@ document style. Let's try apply to language `TypeScript` only within
 You are able to customize document string by running `before`/`after` hooks.
 The following are advance example for document string in `C++`.
 
-| <img src="./etc/c++/cpp-define.gif"/> | <img src="./etc/c++/cpp-enum.gif"/>  |
+| Preprocessor                          | Enumerator                          |
+|:--------------------------------------|:------------------------------------|
+| <img src="./etc/c++/cpp-define.gif"/> | <img src="./etc/c++/cpp-enum.gif"/> |
+
+| Structure                             | Class                                |
 |:--------------------------------------|:-------------------------------------|
 | <img src="./etc/c++/cpp-struct.gif"/> | <img src="./etc/c++/cpp-class.gif"/> |
 
