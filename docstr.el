@@ -142,23 +142,21 @@ variable.  Argument DESC is the description of VAR."
 
 (defun docstr--enable ()
   "Enable `docstr' in current buffer."
-  (when (docstr-supports-p)
-    (advice-add (key-binding (kbd "RET")) :after #'docstr--trigger-return)
-    (cl-case major-mode
-      (csharp-mode (advice-add (key-binding (kbd "/")) :after #'docstr--trigger-csharp))
-      (go-mode (advice-add (key-binding (kbd "/")) :after #'docstr--trigger-golang))
-      (lua-mode (advice-add (key-binding (kbd "-")) :after #'docstr--trigger-lua))
-      (python-mode (advice-add (key-binding (kbd "\"")) :after #'docstr--trigger-python)))))
+  (advice-add (key-binding (kbd "RET")) :after #'docstr--trigger-return)
+  (cl-case major-mode
+    (csharp-mode (advice-add (key-binding (kbd "/")) :after #'docstr--trigger-csharp))
+    (go-mode (advice-add (key-binding (kbd "/")) :after #'docstr--trigger-golang))
+    (lua-mode (advice-add (key-binding (kbd "-")) :after #'docstr--trigger-lua))
+    (python-mode (advice-add (key-binding (kbd "\"")) :after #'docstr--trigger-python))))
 
 (defun docstr--disable ()
   "Disable `docstr' in current buffer."
-  (when (docstr-supports-p)
-    (advice-remove (key-binding (kbd "RET")) #'docstr--trigger-return)
-    (cl-case major-mode
-      (csharp-mode (advice-remove (key-binding (kbd "/")) #'docstr--trigger-csharp))
-      (go-mode (advice-remove (key-binding (kbd "/")) #'docstr--trigger-golang))
-      (lua-mode (advice-remove (key-binding (kbd "-")) #'docstr--trigger-lua))
-      (python-mode (advice-remove (key-binding (kbd "\"")) #'docstr--trigger-python)))))
+  (advice-remove (key-binding (kbd "RET")) #'docstr--trigger-return)
+  (cl-case major-mode
+    (csharp-mode (advice-remove (key-binding (kbd "/")) #'docstr--trigger-csharp))
+    (go-mode (advice-remove (key-binding (kbd "/")) #'docstr--trigger-golang))
+    (lua-mode (advice-remove (key-binding (kbd "-")) #'docstr--trigger-lua))
+    (python-mode (advice-remove (key-binding (kbd "\"")) #'docstr--trigger-python))))
 
 ;;;###autoload
 (define-minor-mode docstr-mode
@@ -242,7 +240,7 @@ See function `docstr--get-search-string' description for argument TYPE."
 
 (defun docstr--doc-valid-p ()
   "Return non-nil if current able to insert document string."
-  (and docstr-mode (docstr-util-comment-block-p)))
+  (and docstr-mode (docstr-supports-p) (docstr-util-comment-block-p)))
 
 (defun docstr--trigger-return (&rest _)
   "Trigger document string by pressing key return."
