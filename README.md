@@ -95,7 +95,7 @@ insertion. In this example, `(docstr--c-style-search-string 2)` is the
 string base on the `search-string` information. Then this is the result.
 
 <p align="center">
-  <img src="./etc/c#/csharp-vs-doc-demo.gif" width="450" height="172"/>
+  <img src="./etc/csharp/csharp-vs-doc-demo.gif" width="450" height="172"/>
 </p>
 
 ## Before/After Insertion
