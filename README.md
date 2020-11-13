@@ -144,11 +144,6 @@ The following are advance examples for document string in `C++`.
 
 You are able to customize default document string by tweaking these variables.
 
-### Varialbe Name
-
-* `docstr-format-param` - Format string contain parameter data.
-* `docstr-format-return`
-
 ### Type Name
 
 * `docstr-show-type-name`
@@ -167,6 +162,11 @@ The default type name is `typename` that is assigned by `docstr-default-typename
 You can change this value as well if you don't like the default type name. This
 variable is generally use for programming languages that aren't strong type.
 Like `Python`, `JavaScript`, `PHP`, etc.
+
+### Variable Name
+
+* `docstr-format-param` - Format string contain parameter data.
+* `docstr-format-return`
 
 ## Configure Faces
 
