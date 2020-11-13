@@ -442,8 +442,6 @@ Argument START is the starting point ot the insertion."
     (js2-mode          . docstr-writers-javascript)
     (js3-mode          . docstr-writers-javascript)
     (lua-mode          . docstr-writers-lua)
-    (masm-mode         . docstr-writers-asm)
-    (nasm-mode         . docstr-writers-asm)
     (php-mode          . docstr-writers-php)
     (python-mode       . docstr-writers-python)
     (rjsx-mode         . docstr-writers-javascript)
