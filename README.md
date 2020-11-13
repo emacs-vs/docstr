@@ -90,7 +90,7 @@ The document string is triggered by certain conditions are met; and it will
 finally calls the function `docstr--insert-doc-string` for document string
 insertion. In this example, `(docstr--c-style-search-string 2)` is the
 `search-string` ready for document string writer to write a proper document
-string base on the `search-string` information.
+string base on the `search-string` information. Then this is the result.
 
 <p align="center">
 <img src="./etc/csharp-vs-doc-demo.gif"/>
