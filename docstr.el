@@ -100,6 +100,10 @@
   :type 'hook
   :group 'docstr)
 
+(defcustom docstr-after-insert-hook nil
+  "Hooks run after inserting document string."
+  :type 'hook
+  :group 'docstr)
 
 (defun docstr--get-type-name (type)
   "Return TYPE's name."
@@ -220,7 +224,8 @@ You should customize this variable to add your own triggeration methods."
         (progn
           (run-hook-with-args 'docstr-before-insert-hook search-string)
           (save-excursion (funcall (cdr writer) search-string))
-          (end-of-line))
+          (end-of-line)
+          (run-hook-with-args 'docstr-after-insert-hook search-string))
       (user-error "[WARNING] No document string support for %s" major-mode))))
 
 (defun docstr--get-search-string (type sr)
