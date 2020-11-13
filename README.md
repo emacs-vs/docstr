@@ -130,7 +130,7 @@ document style. Let's try apply to language `TypeScript` only within
 ## Advance Implementation
 
 You are able to customize document string by running `before`/`after` hooks.
-The following are advance example for document string in `C++`.
+The following are advance examples for document string in `C++`.
 
 | Preprocessor                          | Enumerator                          |
 |:--------------------------------------|:------------------------------------|
@@ -139,6 +139,34 @@ The following are advance example for document string in `C++`.
 | Structure                             | Class                                |
 |:--------------------------------------|:-------------------------------------|
 | <img src="./etc/c++/cpp-struct.gif"/> | <img src="./etc/c++/cpp-class.gif"/> |
+
+## Document String
+
+You are able to customize default document string by tweaking these variables.
+
+### Varialbe Name
+
+* `docstr-format-param` - Format string contain parameter data.
+* `docstr-format-return`
+
+### Type Name
+
+* `docstr-show-type-name`
+
+If you don't want the type name to be shown; then set `docstr-show-type-name`
+to `nil` will make the trick. For instance, if you don't want the type name
+to be shown in `java-mode`; do the following.
+
+```el
+(add-hook 'java-mode-hook (lambda () (setq-local docstr-show-type-name nil)))
+```
+
+* `docstr-default-typename`
+
+The default type name is `typename` that is assigned by `docstr-default-typename`.
+You can change this value as well if you don't like the default type name. This
+variable is generally use for programming languages that aren't strong type.
+Like `Python`, `JavaScript`, `PHP`, etc.
 
 ## Configure Faces
 
