@@ -179,15 +179,16 @@ The default is having colon `:` at the back of the variable name. It only takes 
 * `docstr-format-param` - default to `@param #T# #V# #D#`
 * `docstr-format-return` - default to `@return #T# #V# #D#`
 
-You can customize this variable for different document style.
-
-### Unique Keys
+You can customize these variables for different document style. See the
+following talbe for desciption of key `#T#`, `#V#` and `#D#`.
 
 | Key   | Description                  |
 |:------|:-----------------------------|
 | `#T#` | Key represent type name.     |
 | `#V#` | Key represent variable name. |
 | `#D#` | Key represent description.   |
+
+*P.S. These variables are constant value.*
 
 ## Configure Faces
 
