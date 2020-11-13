@@ -236,13 +236,15 @@ execute it inside the buffer.  Otherwire, if it's an integer call function
 `forward-line' instead.
 
 Argument SR is the target symbol for us to stop looking for the end of declaration."
-  (let (beg)
+  (let (beg found)
     (save-excursion
       (cond ((functionp type) (funcall type))
             ((integerp type) (forward-line type)))
       (unless (docstr-util-current-line-empty-p)
         (setq beg (line-beginning-position))
-        (re-search-forward sr nil t)
+        (while (and (not (docstr-util-current-line-empty-p)) (not found))
+          (setq found (re-search-forward sr (line-end-position) t))
+          (forward-line 1))
         (backward-char (length (match-string 0)))
         (buffer-substring beg (point))))))
 
@@ -252,7 +254,8 @@ Argument SR is the target symbol for us to stop looking for the end of declarati
 See function `docstr--get-search-string' description for arguments TYPE
 and SR."
   (let (search-string)
-    (setq search-string (docstr--get-search-string type sr)
+    (setq search-string (or (ignore-errors (docstr--get-search-string type sr))
+                            "")
           search-string (string-trim search-string)
           search-string (s-replace "\n" " " search-string))))
 
