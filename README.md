@@ -146,7 +146,12 @@ You are able to customize default document string by tweaking these variables.
 
 ### Type Name
 
-* `docstr-show-type-name`
+* `docstr-format-type` - default to `"{ %s }"`
+
+The default is wrap around curly brackets. It only takes one `%s` for type name
+to plug in.
+
+* `docstr-show-type-name` - default to `t`
 
 If you don't want the type name to be shown; then set `docstr-show-type-name`
 to `nil` will make the trick. For instance, if you don't want the type name
@@ -156,17 +161,33 @@ to be shown in `java-mode`; do the following.
 (add-hook 'java-mode-hook (lambda () (setq-local docstr-show-type-name nil)))
 ```
 
-* `docstr-default-typename`
+* `docstr-default-typename` - default to `typename`
 
-The default type name is `typename` that is assigned by `docstr-default-typename`.
-You can change this value as well if you don't like the default type name. This
+You can change this value if you don't like the default type name. This
 variable is generally use for programming languages that aren't strong type.
 Like `Python`, `JavaScript`, `PHP`, etc.
 
 ### Variable Name
 
-* `docstr-format-param` - Format string contain parameter data.
-* `docstr-format-return`
+* `docstr-format-var` - default to `"%s :"`
+
+The default is having colon `:` at the back of the variable name. It only takes one
+`%s` for variable name to plug in.
+
+### Parameter & Return
+
+* `docstr-format-param` - default to `@param #T# #V# #D#`
+* `docstr-format-return` - default to `@return #T# #V# #D#`
+
+You can customize this variable for different document style.
+
+### Unique Keys
+
+| Key   | Description                  |
+|:------|:-----------------------------|
+| `#T#` | Key represent type name.     |
+| `#V#` | Key represent variable name. |
+| `#D#` | Key represent description.   |
 
 ## Configure Faces
 
