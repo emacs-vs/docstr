@@ -26,6 +26,22 @@ customize `docstr-writers-alist` variable to add your own document string
 * Scala
 * TypeScript
 
+## Configure Faces
+
+This package provides a way to customize the document string faces in a
+consistent way yet this is just an optional choice. If you find want the
+this feature, you can put the following code snippet into your configuration.
+
+```el
+(docstr-faces-apply)
+```
+
+There are three faces that you can customize for document string.
+
+* `docstr-faces-tag-face` - Highlight the tag face; like `@param`, `@return`, etc.
+* `docstr-faces-type-face` - Highlight the type name face.
+* `docstr-faces-value-face` - Highlight the variable name face.
+
 ## Contribution
 
 If you would like to contribute to this project, you may either
