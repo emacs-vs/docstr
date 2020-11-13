@@ -129,9 +129,9 @@ document style. Let's try apply to language `TypeScript` only within
 
 ## Advance Implementation
 
-<p align="center">
-  <img src="./etc/c++/cpp-doc-demo.gif" width="450" height="408"/>
-</p>
+| <img src="./etc/c++/cpp-define.gif"/> | <img src="./etc/c++/cpp-enum.gif"/> |
+|:------------------------------------|:------------------------------------|
+| <img src="./etc/c++/cpp-struct.gif"/> | <img src="./etc/c++/cpp-class.gif"/> |
 
 ## Configure Faces
 
