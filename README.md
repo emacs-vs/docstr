@@ -63,7 +63,9 @@ that takes in one argument. For instance,
   )
 ```
 
-Argument `search-string` will be populated
+Argument `search-string` will be populated by the triggeration associated list.
+See variable `docstr-trigger-alist` for more information.
+
 
 The document string is triggered by certain conditions are met.
 
