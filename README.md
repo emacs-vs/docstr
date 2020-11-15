@@ -193,8 +193,8 @@ following talbe for desciption of key `#T#`, `#V#` and `#D#`.
 ## Configure Faces
 
 This package provides a way to customize the document string faces in a
-consistent way yet this is just an optional choice. If you find want the
-this feature, you can put the following code snippet into your configuration.
+consistent way yet this is just an optional choice. To enable this
+feature, you can put the following code snippet into your configuration.
 
 ```el
 (docstr-faces-apply)
