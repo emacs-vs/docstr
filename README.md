@@ -127,7 +127,9 @@ document style. Let's try apply to language `TypeScript` only within
 (add-hook 'typescript-mode-hook #'my-typescript-mode-hook)
 ```
 
-<img src="./etc/typescript/ts-doc-demo.gif"/>
+<p align="center">
+  <img src="./etc/typescript/ts-doc-demo.gif"/>
+</p>
 
 ## Advance Implementation
 
