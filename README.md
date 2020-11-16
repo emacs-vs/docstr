@@ -128,7 +128,7 @@ document style. Let's try apply to language `TypeScript` only within
 ```
 
 <p align="center">
-  <img src="./etc/typescript/ts-doc-demo.gif"/>
+  <img src="./etc/typescript/ts-doc-demo.gif" width="450" height="149"/>
 </p>
 
 ## Advance Implementation
