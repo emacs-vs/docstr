@@ -127,6 +127,8 @@ document style. Let's try apply to language `TypeScript` only within
 (add-hook 'typescript-mode-hook #'my-typescript-mode-hook)
 ```
 
+<img src="./etc/typescript/ts-doc-demo.gif"/>
+
 ## Advance Implementation
 
 You are able to customize document string by running `before`/`after` hooks.
