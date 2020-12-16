@@ -24,6 +24,8 @@
 
 ;;; Code:
 
+(declare-function docstr-major-modes "ext:docstr.el")
+
 (defface docstr-faces-tag-face
   '((t (:foreground "SlateGray")))
   "Highlighting for Docstring tag."

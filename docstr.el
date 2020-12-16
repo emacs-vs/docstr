@@ -69,7 +69,7 @@
   (format "@param %s %s %s" docstr-key-type docstr-key-var docstr-key-desc)
   "Format string for parameter document string."
   :type 'string
-  :group 'docstr)
+  :group 'docstr) 
 
 (defcustom docstr-format-return
   (format "@return %s %s %s" docstr-key-type docstr-key-var docstr-key-desc)

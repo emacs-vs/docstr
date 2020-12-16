@@ -29,6 +29,13 @@
 
 (require 'docstr-util)
 
+(declare-function docstr-form-param "ext:docstr.el")
+(declare-function docstr-form-return "ext:docstr.el")
+
+(defvar docstr-default-typename)
+(defvar docstr-desc-param)
+(defvar docstr-desc-return)
+
 ;;
 ;; (@* "Others" )
 ;;
