@@ -36,6 +36,10 @@
 (defvar docstr-desc-param)
 (defvar docstr-desc-return)
 
+(defvar docstr-format-var)
+(defvar docstr-format-param)
+(defvar docstr-format-return)
+
 ;;
 ;; (@* "Others" )
 ;;
