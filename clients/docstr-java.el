@@ -47,7 +47,8 @@
 (defun docstr-java-config ()
   "Automatically configure style according to variable `docstr-java-style'."
   (cl-case docstr-java-style
-    (javadoc (docstr-java-config-javadoc))))
+    (javadoc (docstr-java-config-javadoc))
+    (t (docstr-util-default-format))))
 
 ;;;###autoload
 (defun docstr-writers-java (search-string)

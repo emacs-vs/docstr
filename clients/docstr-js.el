@@ -47,7 +47,8 @@
 (defun docstr-js-config ()
   "Automatically configure style according to variable `docstr-js-style'."
   (cl-case docstr-js-style
-    (jsdoc (docstr-js-config-jsdoc))))
+    (jsdoc (docstr-js-config-jsdoc))
+    (t (docstr-util-default-format))))
 
 ;;;###autoload
 (defun docstr-writers-javascript (search-string)

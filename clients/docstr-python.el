@@ -34,7 +34,12 @@
                  (const :tag "NumPy Style" numpy))
   :group 'docstr)
 
-(defcustom docstr-python-header-param "Keyword arguments:"
+(defcustom docstr-python-prefix ""
+  "Prefix you use on each newline."
+  :type 'string
+  :group 'docstr)
+
+(defcustom docstr-python-header-param ""
   "Header string before inserting parameters document string."
   :type 'string
   :group 'docstr)
@@ -42,23 +47,24 @@
 (defun docstr-python-config-pep-257 ()
   "Configre for convention, PEP 257."
   (docstr-util-default-format :param "")
-  (setq-local docstr-python-header-param "Keyword arguments:"
-              docstr-format-param (format "%s %s" docstr-key-var docstr-key-desc)
+  (setq-local docstr-python-prefix ""
+              docstr-python-header-param "Keyword arguments:"
               docstr-format-var "%s --"
               docstr-show-type-name nil))
 
 (defun docstr-python-config-google ()
   "Configre for convention, Google."
   (docstr-util-default-format :param "")
-  (setq-local docstr-python-header-param "Args:"
-              docstr-format-param (format "    %s %s" docstr-key-var docstr-key-desc)
+  (setq-local docstr-python-prefix "    "
+              docstr-python-header-param "Args:"
               docstr-format-var (format "%%s (%s):" docstr-default-typename)
               docstr-show-type-name nil))
 
 (defun docstr-python-config-numpy ()
   "Configre for convention, NumPy."
   (docstr-util-default-format :param "")
-  (setq-local docstr-python-header-param "Parameters\n----------"
+  (setq-local docstr-python-prefix ""
+              docstr-python-header-param "Parameters\n----------"
               docstr-format-param (format "%s\n    %s" docstr-key-var docstr-key-desc)
               docstr-format-var (format "%%s : %s" docstr-default-typename)
               docstr-show-type-name nil))
@@ -68,13 +74,14 @@
   (cl-case docstr-python-style
     (pep-257 (docstr-python-config-pep-257))
     (google (docstr-python-config-google))
-    (numpy (docstr-python-config-numpy))))
+    (numpy (docstr-python-config-numpy))
+    (t (docstr-util-default-format))))
 
 ;;;###autoload
 (defun docstr-writers-python (search-string)
   "Insert document string for Python using SEARCH-STRING."
   (docstr-python-config)
-  (let* ((start (point)) (prefix "")
+  (let* ((start (point)) (prefix docstr-python-prefix)
          (paren-param-list (docstr-writers--paren-param-list-behind search-string))
          (param-types (nth 0 paren-param-list))
          (param-vars (nth 1 paren-param-list))
