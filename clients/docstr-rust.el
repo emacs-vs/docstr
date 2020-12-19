@@ -40,7 +40,7 @@
 (defun docstr-rust-config-rfc-430 ()
   "Configure for convention, RFC 430."
   (docstr-util-default-format)
-  ;; TODO: 
+  ;; TODO: ..
   )
 
 (defun docstr-rust-config ()
