@@ -26,6 +26,8 @@
 
 (require 'docstr)
 
+(declare-function docstr-writers-actionscript "ext:docstr-actionscript.el")
+
 ;;;###autoload
 (defun docstr-writers-typescript (search-string)
   "Insert document string for TypesSript using SEARCH-STRING."

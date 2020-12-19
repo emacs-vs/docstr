@@ -26,6 +26,8 @@
 
 (require 'docstr)
 
+(declare-function docstr-writers-c++ "ext:docstr-c.el")
+
 ;;;###autoload
 (defun docstr-writers-c (search-string)
   "Insert document string for C using SEARCH-STRING."

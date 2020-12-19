@@ -26,6 +26,8 @@
 
 (require 'docstr)
 
+(declare-function docstr-writers-javascript "ext:docstr-js.el")
+
 ;;;###autoload
 (defun docstr-writers-php (search-string)
   "Insert document string for PHP using SEARCH-STRING."

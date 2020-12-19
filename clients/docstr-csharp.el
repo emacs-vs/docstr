@@ -26,6 +26,8 @@
 
 (require 'docstr)
 
+(declare-function docstr-writers-java "ext:docstr-java.el")
+
 ;;;###autoload
 (defun docstr-writers-csharp (search-string)
   "Insert document string for C# using SEARCH-STRING."

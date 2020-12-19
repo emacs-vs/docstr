@@ -26,6 +26,8 @@
 
 (require 'docstr)
 
+(declare-function docstr-writers-javascript "ext:docstr-js.el")
+
 ;;;###autoload
 (defun docstr-writers-groovy (search-string)
   "Insert document string for Groovy using SEARCH-STRING."

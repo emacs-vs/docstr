@@ -40,7 +40,7 @@
 (defun docstr-java-config-javadoc ()
   "Configre for convention, Javadoc."
   (docstr-util-default-format)
-  (setq-local docstr-js-prefix "* "
+  (setq-local docstr-java-prefix "* "
               docstr-format-var "%s"
               docstr-show-type-name nil))
 

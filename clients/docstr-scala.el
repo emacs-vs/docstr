@@ -26,6 +26,8 @@
 
 (require 'docstr)
 
+(declare-function docstr-writers-rust "ext:docstr-rust.el")
+
 ;;;###autoload
 (defun docstr-writers-scala (search-string)
   "Insert document string for Scala using SEARCH-STRING."
