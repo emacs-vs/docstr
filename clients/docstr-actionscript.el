@@ -28,8 +28,7 @@
 
 (defcustom docstr-actionscript-style nil
   "Style specification for document string in ActionScript."
-  :type '(choice (const :tag "No specify" nil)
-                 )
+  :type '(choice (const :tag "No specify" nil))
   :group 'docstr)
 
 (defcustom docstr-actionscript-prefix "* "
