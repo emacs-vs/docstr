@@ -250,12 +250,10 @@ Argument PREFIX is string infront of each document string.
 Argument POSTFIX is string behind of each document string."
   (let ((param-var-len (length param-vars)) (param-index 0))
     (while (< param-index param-var-len)
-      (let ((type (nth param-index param-types))
-            (var (nth param-index param-vars)))
-        (insert prefix)
-        (insert (docstr-form-param type var docstr-desc-param))
-        (when postfix (insert postfix))
-        (indent-for-tab-command))
+      (let ((type (nth param-index param-types)) (var (nth param-index param-vars)))
+        (docstr-util-insert prefix)
+        (docstr-util-insert-args (docstr-form-param type var docstr-desc-param))
+        (when postfix (insert postfix)))
       (setq param-index (1+ param-index)))))
 
 (defun docstr-writers--insert-return (return-type-str ignore-lst prefix &optional postfix)
@@ -266,16 +264,21 @@ IGNORE-LST is a list of string contain return type that we want to skip.
 Argument PREFIX is string infront of return document string.
 Argument POSTFIX is string behind of return document string."
   (when (docstr-writers--valid-return-type-p return-type-str ignore-lst)
-    (insert prefix)
-    (insert (docstr-form-return return-type-str "" docstr-desc-return))
+    (docstr-util-insert prefix)
+    (docstr-util-insert-args (docstr-form-return return-type-str "" docstr-desc-return))
     (when postfix (insert postfix))))
 
-(defun docstr-writers-after (start)
+(defun docstr-writers-after (start &optional preserve)
   "Do stuff after document string insertion.
-Argument START is the starting point ot the insertion."
+
+Argument START is the starting point ot the insertion.
+
+If optional argument PRESERVE is non-nil, don't go back to starting position."
   (indent-region start (point))
   (indent-for-tab-command)
-  (goto-char start))
+  (unless preserve (goto-char start)))
+
+;;---------------------------------------
 
 (defun docstr-writers-actionscript (search-string)
   "Insert document string for ActionScript using SEARCH-STRING."
@@ -359,28 +362,6 @@ Argument START is the starting point ot the insertion."
   "Insert document string for Groovy using SEARCH-STRING."
   (docstr-writers-javascript search-string))
 
-(defun docstr-writers-java (search-string)
-  "Insert document string for Java using SEARCH-STRING."
-  (let* ((start (point)) (prefix "\n* ")
-         (paren-param-list (docstr-writers--paren-param-list search-string))
-         (param-types (nth 0 paren-param-list))
-         (param-vars (nth 1 paren-param-list))
-         ;; Get the return data type.
-         (return-type-str (docstr-writers--return-type search-string)))
-    (docstr-writers--insert-param param-types param-vars prefix)
-    (docstr-writers--insert-return return-type-str '("void") prefix)
-    (docstr-writers-after start)))
-
-(defun docstr-writers-javascript (search-string)
-  "Insert document string for JavaScript using SEARCH-STRING."
-  (let* ((start (point)) (prefix "\n* ")
-         (paren-param-list (docstr-writers--paren-param-list search-string))
-         (param-types (nth 0 paren-param-list))
-         (param-vars (nth 1 paren-param-list)))
-    (docstr-writers--insert-param param-types param-vars prefix)
-    (docstr-writers--insert-return nil '("void") prefix)
-    (docstr-writers-after start)))
-
 (defun docstr-writers-lua (search-string)
   "Insert document string for Lua using SEARCH-STRING."
   (let* ((start (point)) (prefix "\n-- ")
@@ -398,27 +379,6 @@ Argument START is the starting point ot the insertion."
 (defun docstr-writers-php (search-string)
   "Insert document string for PHP using SEARCH-STRING."
   (docstr-writers-javascript search-string))
-
-(defun docstr-writers-python (search-string)
-  "Insert document string for Python using SEARCH-STRING."
-  (let* ((start (point)) (prefix "\n")
-         (paren-param-list (docstr-writers--paren-param-list-behind search-string))
-         (param-types (nth 0 paren-param-list))
-         (param-vars (nth 1 paren-param-list))
-         (param-var-len (length param-vars))
-         ;; Get the return data type.
-         (return-type-str "void"))
-    ;; Remove `self' from list.
-    (setq param-vars (remove "self" param-vars)
-          param-var-len (length param-vars))
-    ;; Line break between description and tags.
-    (unless (= param-var-len 0)
-      (insert prefix) (insert prefix)
-      (indent-for-tab-command)
-      (forward-line -1))
-    (docstr-writers--insert-param param-types param-vars prefix)
-    (docstr-writers--insert-return return-type-str '("void") prefix)
-    (docstr-writers-after start)))
 
 (defun docstr-writers-rust (search-string)
   "Insert document string for Rust using SEARCH-STRING."
@@ -463,7 +423,7 @@ Argument START is the starting point ot the insertion."
     (scala-mode        . docstr-writers-scala)
     (typescript-mode   . docstr-writers-typescript)
     (web-mode          . docstr-writers-php))
-  "List of writer to each `major-mode'."
+  "List of writers to each `major-mode'."
   :type 'list
   :group 'docstr)
 
