@@ -39,7 +39,7 @@
   :group 'docstr)
 
 (defun docstr-csharp-config ()
-  "Automatically configure style according to variable `docstr-java-style'."
+  "Automatically configure style according to variable `docstr-csharp-style'."
   (cl-case docstr-csharp-style
     (t (docstr-util-default-format))))
 

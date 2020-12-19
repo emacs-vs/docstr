@@ -41,6 +41,7 @@
   "Configre for convention, JSDoc."
   (docstr-util-default-format)
   (setq-local docstr-js-prefix "* "
+              docstr-format-type "{%s}"
               docstr-format-var "%s -"
               docstr-show-type-name t))
 

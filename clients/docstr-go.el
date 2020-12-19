@@ -28,10 +28,36 @@
 
 (declare-function docstr-writers-c++ "ext:docstr-c++.el")
 
+(defcustom docstr-go-style 'godoc
+  "Style specification for document string in Golang."
+  :type '(choice (const :tag "No specify" nil)
+                 (const :tag "Document String in Golang" godoc))
+  :group 'docstr)
+
+(defcustom docstr-go-prefix "// "
+  "Prefix you use on each newline."
+  :type 'string
+  :group 'docstr)
+
+(defun docstr-go-config-godoc ()
+  "Configre for convention, GoDoc."
+  (docstr-util-default-format)
+  (setq-local docstr-go-prefix "// "
+              docstr-format-type "{%s}"
+              docstr-format-var "%s -"
+              docstr-show-type-name nil))
+
+(defun docstr-go-config ()
+  "Automatically configure style according to variable `docstr-go-style'."
+  (cl-case docstr-go-style
+    (godoc (docstr-go-config-godoc))
+    (t (docstr-util-default-format))))
+
 ;;;###autoload
 (defun docstr-writers-golang (search-string)
   "Insert document string for Golang using SEARCH-STRING."
-  (let* ((start (point)) (prefix "\n// ")
+  (docstr-go-config)
+  (let* ((start (point)) (prefix docstr-go-prefix)
          (paren-param-list (docstr-writers--paren-param-list-behind search-string))
          (param-types (nth 0 paren-param-list))
          (param-vars (nth 1 paren-param-list))

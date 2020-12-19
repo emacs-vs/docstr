@@ -26,10 +26,10 @@
 
 (require 'docstr)
 
-(defcustom docstr-lua-style nil
+(defcustom docstr-lua-style 'lua-wiki
   "Style specification for document string in Lua."
   :type '(choice (const :tag "No specify" nil)
-                 )
+                 (const :tag "Official Lua org style" lua-wiki))
   :group 'docstr)
 
 (defcustom docstr-lua-prefix "-- "
@@ -43,9 +43,21 @@
   :type 'string
   :group 'docstr)
 
+(defun docstr-lua-config-lua-wiki ()
+  ""
+  (docstr-util-default-format)
+  (setq-local docstr-lua-prefix "-- "))
+
+(defun docstr-lua-config ()
+  "Automatically configure style according to variable `docstr-lua-style'."
+  (cl-case docstr-lua-style
+    (lua-wiki (docstr-lua-config-lua-wiki))
+    (t (docstr-util-default-format))))
+
 ;;;###autoload
 (defun docstr-writers-lua (search-string)
   "Insert document string for Lua using SEARCH-STRING."
+  (docstr-lua-config)
   (let* ((start (point)) (prefix docstr-lua-prefix)
          (paren-param-list (docstr-writers--paren-param-list-behind search-string))
          (param-types (nth 0 paren-param-list))
