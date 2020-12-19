@@ -11,3 +11,7 @@
 cd ..
 
 del /s *.elc
+
+cd ./clients
+
+del /s *.elc

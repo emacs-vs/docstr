@@ -11,3 +11,7 @@
 cd ..
 
 find . -name "*.elc" -type f -delete
+
+cd ./clients
+
+find . -name "*.elc" -type f -delete
