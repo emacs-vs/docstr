@@ -25,6 +25,7 @@
 ;;; Code:
 
 (require 'cl-lib)
+(require 'subr-x)
 
 (defun docstr-util-line-relative (&optional n trim)
   "Return string of N line relatively.
@@ -74,6 +75,36 @@ See function `forward-line' for argument N."
   (cl-some (lambda (str) (string-match-p (regexp-quote str) in-str)) in-list))
 
 ;;
+;; (@* "Insertion" )
+;;
+
+(defun docstr-util-insert (&rest args)
+  "First newline and indent then insert ARGS."
+  (insert "\n")
+  (indent-for-tab-command)
+  (apply 'insert args))
+
+(defun docstr-util-insert-list (lst)
+  "Insert list (LST) of strings with indnetation."
+  (let (ignore-first)
+    (dolist (str lst)
+      (if ignore-first
+          (docstr-util-insert str)
+        (insert str))
+      (setq ignore-first t))))
+
+(defun docstr-util-insert-args (&rest args)
+  "Insert after indentation with ARGS."
+  (let ((split (split-string (car args) "\n")))
+    (docstr-util-insert-list split))
+  (when (cdr args)
+    (apply 'docstr-util-insert-args (cdr args))))
+
+(defun docstr-util-delete-current-line ()
+  "Delete current line without consuming the newline."
+  (delete-region (line-beginning-position) (line-end-position)))
+
+;;
 ;; (@* "Searching" )
 ;;
 
@@ -100,6 +131,27 @@ and GREEDY."
         ((listp c)
          (docstr-util-is-contain-list-string c (docstr-util--get-current-char-string)))
         (t nil)))
+
+;;
+;; (@* "Default" )
+;;
+
+(defun docstr-util-generate-format (param ret)
+  ""
+  (let ((fmt ""))
+    (when (and docstr-show-type-name (not (string-empty-p docstr-format-type)))
+      (setq fmt (concat fmt docstr-key-type)))
+
+    fmt))
+
+(cl-defun docstr-util-default-format
+    (&key (fmt-type "{ %s }") (fmt-var "%s :") (param "@param") (ret "@return"))
+  "Set default format for document string."
+  (setq-local
+   docstr-format-type fmt-type
+   docstr-format-var fmt-var
+   docstr-format-param (format "%s%s %s %s" param docstr-key-type docstr-key-var docstr-key-desc)
+   docstr-format-return (format "%s%s %s %s" ret docstr-key-type docstr-key-var docstr-key-desc)))
 
 (provide 'docstr-util)
 ;;; docstr-util.el ends here
