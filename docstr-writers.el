@@ -41,16 +41,6 @@
 (defvar docstr-format-return)
 
 ;;
-;; (@* "Others" )
-;;
-
-(defcustom docstr-lua-splitter
-  "-------------------------------------------------------------"
-  "Document string splitter for Lua programming language."
-  :type 'string
-  :group 'docstr)
-
-;;
 ;; (@* "Analyzer" )
 ;;
 
@@ -277,115 +267,6 @@ If optional argument PRESERVE is non-nil, don't go back to starting position."
   (indent-region start (point))
   (indent-for-tab-command)
   (unless preserve (goto-char start)))
-
-;;---------------------------------------
-
-(defun docstr-writers-c (search-string)
-  "Insert document string for C using SEARCH-STRING."
-  (docstr-writers-c++ search-string))
-
-(defun docstr-writers-c++ (search-string)
-  "Insert document string for C++ using SEARCH-STRING."
-  (let* ((start (point)) (prefix "\n* ")
-         (paren-param-list (docstr-writers--paren-param-list search-string))
-         (param-types (nth 0 paren-param-list))
-         (param-vars (nth 1 paren-param-list))
-         ;; Get the return data type.
-         (return-type-str (docstr-writers--return-type search-string)))
-    (docstr-writers--insert-param param-types param-vars prefix)
-    (docstr-writers--insert-return return-type-str nil prefix)
-    (docstr-writers-after start)))
-
-(defun docstr-writers-csharp (search-string)
-  "Insert document string for C# using SEARCH-STRING."
-  (let* ((start (point)) (prefix "\n/// ")
-         (paren-param-list (docstr-writers--paren-param-list search-string))
-         (param-types (nth 0 paren-param-list))
-         (param-vars (nth 1 paren-param-list))
-         ;; Get the return data type.
-         (return-type-str (docstr-writers--return-type search-string))
-         docstring-type)
-    ;; Determine the docstring type.
-    (save-excursion
-      (backward-char 1)
-      (if (docstr-util-current-char-equal-p "*")
-          (setq docstring-type 'javadoc) (setq docstring-type 'vsdoc)))
-
-    (cl-case docstring-type
-      (javadoc (docstr-writers-java search-string))
-      (vsdoc
-       (forward-line 1) (end-of-line)
-       (let ((docstr-format-var "%s")
-             (docstr-format-param "<param name=\"#V\"></param>")
-             (docstr-format-return "<returns></returns>"))
-         (docstr-writers--insert-param param-types param-vars prefix)
-         (docstr-writers--insert-return return-type-str '("void") prefix))
-       (docstr-writers-after start)))))
-
-(defun docstr-writers-golang (search-string)
-  "Insert document string for Golang using SEARCH-STRING."
-  (let* ((start (point)) (prefix "\n// ")
-         (paren-param-list (docstr-writers--paren-param-list-behind search-string))
-         (param-types (nth 0 paren-param-list))
-         (param-vars (nth 1 paren-param-list))
-         ;; Get the return data type.
-         (return-type-str (docstr-writers--return-type-behind search-string))
-         docstring-type)
-
-    ;; Determine the docstring type.
-    (save-excursion
-      (backward-char 1)
-      (if (docstr-util-current-char-equal-p "*")
-          (setq docstring-type 'javadoc) (setq docstring-type 'godoc)))
-
-    (cl-case docstring-type
-      (javadoc (docstr-writers-c++ search-string))
-      (godoc
-       (end-of-line) (insert " ")
-       (docstr-writers--insert-param param-types param-vars prefix)
-       (docstr-writers--insert-return return-type-str nil prefix)
-       (docstr-writers-after start)))))
-
-(defun docstr-writers-groovy (search-string)
-  "Insert document string for Groovy using SEARCH-STRING."
-  (docstr-writers-javascript search-string))
-
-(defun docstr-writers-lua (search-string)
-  "Insert document string for Lua using SEARCH-STRING."
-  (let* ((start (point)) (prefix "\n-- ")
-         (paren-param-list (docstr-writers--paren-param-list-behind search-string))
-         (param-types (nth 0 paren-param-list))
-         (param-vars (nth 1 paren-param-list))
-         (param-var-len (length param-vars))
-         (return-type-str "void"))  ; Get the return data type.
-    (unless (= param-var-len 0)
-      (insert (format "\n%s" docstr-lua-splitter)))
-    (docstr-writers--insert-param param-types param-vars prefix)
-    (docstr-writers--insert-return return-type-str '("void") prefix)
-    (docstr-writers-after start)))
-
-(defun docstr-writers-php (search-string)
-  "Insert document string for PHP using SEARCH-STRING."
-  (docstr-writers-javascript search-string))
-
-(defun docstr-writers-rust (search-string)
-  "Insert document string for Rust using SEARCH-STRING."
-  (let* ((start (point)) (prefix "\n* ")
-         (paren-param-list (docstr-writers--paren-param-list-behind search-string ":" t))
-         (param-types (nth 0 paren-param-list))
-         (param-vars (nth 1 paren-param-list))
-         (return-type-str (docstr-writers--return-type-behind search-string ":")))
-    (docstr-writers--insert-param param-types param-vars prefix)
-    (docstr-writers--insert-return return-type-str '("void") prefix)
-    (docstr-writers-after start)))
-
-(defun docstr-writers-scala (search-string)
-  "Insert document string for Scala using SEARCH-STRING."
-  (docstr-writers-rust search-string))
-
-(defun docstr-writers-typescript (search-string)
-  "Insert document string for TypesSript using SEARCH-STRING."
-  (docstr-writers-actionscript search-string))
 
 ;;
 ;; (@* "Configurations" )
