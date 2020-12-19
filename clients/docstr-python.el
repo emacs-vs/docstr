@@ -102,5 +102,15 @@
     (docstr-writers--insert-return return-type-str '("void") prefix)
     (docstr-writers-after start)))
 
+;;;###autoload
+(defun docstr-trigger-python (&rest _)
+  "Trigger document string inside Python."
+  ;; TODO: For some reason, '(nth 4 (syntax-ppss))' doesn't work.
+  (when (and docstr-mode (docstr-util-looking-back "\"\"\"" 3))
+    (if (looking-at-p "\"\"\"")
+        (delete-char 3)
+      (save-excursion (insert "\"\"\""))
+      (docstr--insert-doc-string (docstr--generic-search-string -1 ":")))))
+
 (provide 'docstr-python)
 ;;; docstr-python.el ends here

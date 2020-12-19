@@ -58,5 +58,18 @@
     (docstr-writers--insert-return return-type-str '("void") prefix)
     (docstr-writers-after start)))
 
+;;;###autoload
+(defun docstr-trigger-lua (&rest _)
+  "Trigger document string inside Lua."
+  (when (and (docstr--doc-valid-p) (docstr-util-looking-back "---" 3))
+    (backward-delete-char 3)
+    (save-excursion
+      (insert (format "%s\n" docstr-lua-splitter))
+      (insert "-- \n")
+      (insert (format "%s" docstr-lua-splitter)))
+    (forward-line 1)
+    (end-of-line)
+    (docstr--insert-doc-string (docstr--generic-search-string 2 ")"))))
+
 (provide 'docstr-lua)
 ;;; docstr-lua.el ends here

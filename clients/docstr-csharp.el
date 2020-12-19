@@ -53,5 +53,17 @@
          (docstr-writers--insert-return return-type-str '("void") prefix))
        (docstr-writers-after start)))))
 
+;;;###autoload
+(defun docstr-trigger-csharp (&rest _)
+  "Trigger document string inside C#."
+  (when (and (docstr--doc-valid-p) (docstr-util-looking-back "///" 3))
+    (save-excursion
+      (insert " <summary>\n")
+      (insert "/// \n")
+      (insert "/// </summary>"))
+    (forward-line 1)
+    (end-of-line)
+    (docstr--insert-doc-string (docstr--c-style-search-string 2))))
+
 (provide 'docstr-csharp)
 ;;; docstr-csharp.el ends here

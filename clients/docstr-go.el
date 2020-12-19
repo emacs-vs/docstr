@@ -24,6 +24,8 @@
 
 ;;; Code:
 
+(require 'docstr)
+
 ;;;###autoload
 (defun docstr-writers-golang (search-string)
   "Insert document string for Golang using SEARCH-STRING."
@@ -48,6 +50,12 @@
        (docstr-writers--insert-param param-types param-vars prefix)
        (docstr-writers--insert-return return-type-str nil prefix)
        (docstr-writers-after start)))))
+
+;;;###autoload
+(defun docstr-trigger-golang (&rest _)
+  "Trigger document string inside Golang."
+  (when (and (docstr--doc-valid-p) (docstr-util-looking-back "//" 2))
+    (docstr--insert-doc-string (docstr--c-style-search-string 1))))
 
 (provide 'docstr-go)
 ;;; docstr-go.el ends here
