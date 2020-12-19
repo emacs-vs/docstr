@@ -47,18 +47,19 @@
 ;;;###autoload
 (defun docstr-faces-apply ()
   "Apply standard document string faces."
-  (dolist (mode (docstr-major-modes))
-    (font-lock-add-keywords
-     mode
-     '(;; `@param` { typename } val-tag : value tag description..
-       ("\\(?:^\\|\\s-\\)\\(@[^ \"'{}()\t\r\n]+\\)" 1 'docstr-faces-tag-face t)
-       ;; @param `{ typename }` val-tag : value tag description..
-       ("[ \t]+@[^ \t\r\n]+\\(?:^\\|\\s-\\)\\([\\[{][^}]*.\\)" 1 'docstr-faces-type-face t)
-       ;; @param { typename } `val-tag` : value tag description..
-       ("[ \t]+@[^ \t\r\n].*[\]\|}]\\([^\r\n]*\\)[:-]" 1 'docstr-faces-value-face t)
-       ;; @param `val-tag` : value tag description..
-       ("[ \t]+@[^ \t\r\n]*[ \t]*\\([a-zA-Z0-9_.*&]*\\)[ \t\n]*[{:-]" 1 'docstr-faces-value-face t))
-     'end)))
+  (let ((modes (docstr-major-modes)))
+    (dolist (mode modes)
+      (font-lock-add-keywords
+       mode
+       '(;; `@param` { typename } val-tag : value tag description..
+         ("\\(?:^\\|\\s-\\)\\(@[^ \"'{}()\t\r\n]+\\)" 1 'docstr-faces-tag-face t)
+         ;; @param `{ typename }` val-tag : value tag description..
+         ("[ \t]+@[^ \t\r\n]+\\(?:^\\|\\s-\\)\\([\\[{][^}]*.\\)" 1 'docstr-faces-type-face t)
+         ;; @param { typename } `val-tag` : value tag description..
+         ("[ \t]+@[^ \t\r\n].*[\]\|}]\\([^\r\n]*\\)[:-]" 1 'docstr-faces-value-face t)
+         ;; @param `val-tag` : value tag description..
+         ("[ \t]+@[^ \t\r\n]*[ \t]*\\([a-zA-Z0-9_.*&]*\\)[ \t\n]*[{:-]" 1 'docstr-faces-value-face t))
+       'end))))
 
 (provide 'docstr-faces)
 ;;; docstr-faces.el ends here
