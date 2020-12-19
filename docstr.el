@@ -66,13 +66,13 @@
   :group 'docstr)
 
 (defcustom docstr-format-param
-  (format "@param%s%s%s" docstr-key-type docstr-key-var docstr-key-desc)
+  (format "@param %s%s%s" docstr-key-type docstr-key-var docstr-key-desc)
   "Format string for parameter document string."
   :type 'string
   :group 'docstr)
 
 (defcustom docstr-format-return
-  (format "@return%s%s%s" docstr-key-type docstr-key-var docstr-key-desc)
+  (format "@return %s%s%s" docstr-key-type docstr-key-var docstr-key-desc)
   "Format string for return document string."
   :type 'string
   :group 'docstr)
@@ -138,6 +138,7 @@ variable.  Argument DESC is the description of VAR."
     (setq new (s-replace docstr-key-type (docstr--get-type-name type) new)
           new (s-replace docstr-key-var (docstr--get-var-name var) new)
           new (s-replace docstr-key-desc desc new))
+    (message "new: %s" (s-replace docstr-key-desc desc new))
     new))
 
 ;;

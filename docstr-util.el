@@ -137,7 +137,7 @@ and GREEDY."
 ;;
 
 (cl-defun docstr-util-default-format
-    (&key (fmt-type "{ %s }") (fmt-var "%s :") (param "@param") (ret "@return"))
+    (&key (fmt-type "{ %s }") (fmt-var "%s :") (param "@param ") (ret "@return "))
   "Set default format for document string."
   (setq-local
    docstr-format-type fmt-type
