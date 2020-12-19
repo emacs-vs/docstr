@@ -253,7 +253,6 @@ Argument POSTFIX is string behind of each document string."
       (let ((type (nth param-index param-types)) (var (nth param-index param-vars)))
         (docstr-util-insert prefix)
         (docstr-util-insert-args (docstr-form-param type var docstr-desc-param))
-        (message "%s" (docstr-form-param type var docstr-desc-param))
         (when postfix (insert postfix)))
       (setq param-index (1+ param-index)))))
 
