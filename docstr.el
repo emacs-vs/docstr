@@ -92,7 +92,7 @@
   :type 'string
   :group 'docstr)
 
-(defcustom docstr-default-typename "{[type]}"
+(defcustom docstr-default-typename "[type]"
   "Default typename when variable type is unknown."
   :type 'string
   :group 'docstr)

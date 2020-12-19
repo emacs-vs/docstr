@@ -180,8 +180,8 @@ The default is having colon `:` at the back of the variable name. It only takes 
 
 ### Parameter & Return
 
-* `docstr-format-param` - default to `@param #T# #V# #D#`
-* `docstr-format-return` - default to `@return #T# #V# #D#`
+* `docstr-format-param` - default to `@param #T##V##D#`
+* `docstr-format-return` - default to `@return #T##V##D#`
 
 You can customize these variables for different document style. See the
 following talbe for desciption of key `#T#`, `#V#` and `#D#`.
@@ -193,6 +193,17 @@ following talbe for desciption of key `#T#`, `#V#` and `#D#`.
 | `#D#` | Key represent description.   |
 
 *P.S. These variables are constant value.*
+
+### Default descriptions
+
+Here is a list of default description strings that you are allow to customize.
+These strings are placeholder before you actually replace these strings with
+realy content description.
+
+* `docstr-desc-summary` - default to `"[summary]"`.
+* `docstr-desc-param` - default to `"[description]"`.
+* `docstr-desc-return` - default to `"[description]"`.
+* `docstr-desc-typename` - default to `"[type]"`.
 
 ## Configure Faces
 
