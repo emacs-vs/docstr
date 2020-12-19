@@ -77,17 +77,22 @@
   :type 'string
   :group 'docstr)
 
-(defcustom docstr-desc-param "Param description here.."
+(defcustom docstr-desc-summary "[summary]"
+  "Description for summary document string."
+  :type 'string
+  :group 'docstr)
+
+(defcustom docstr-desc-param "[description]"
   "Description for parameter document string."
   :type 'string
   :group 'docstr)
 
-(defcustom docstr-desc-return "Returns description here.."
+(defcustom docstr-desc-return "[description]"
   "Description for return document string."
   :type 'string
   :group 'docstr)
 
-(defcustom docstr-default-typename "typename"
+(defcustom docstr-default-typename "{[type]}"
   "Default typename when variable type is unknown."
   :type 'string
   :group 'docstr)
@@ -111,6 +116,10 @@
   "Flag to see if add a space after getting type name.")
 (defvar docstr-concat-var t
   "Flag to see if add a space after getting variable name.")
+
+(defun docstr-insert-summary (_search-string)
+  "Insert the default summary for user to replace."
+  (insert docstr-desc-summary))
 
 (defun docstr--get-type-name (type)
   "Return TYPE's name."
@@ -181,7 +190,8 @@ You should customize this variable to add your own triggeration methods."
 (defun docstr--enable ()
   "Enable `docstr' in current buffer."
   (advice-add (key-binding (kbd "RET")) :after #'docstr--trigger-return)
-  (docstr--enable-trigger t))
+  (docstr--enable-trigger t)
+  (add-hook 'docstr-before-insert-hook #'docstr-insert-summary))
 
 (defun docstr--disable ()
   "Disable `docstr' in current buffer."
