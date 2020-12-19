@@ -253,6 +253,7 @@ Argument POSTFIX is string behind of each document string."
       (let ((type (nth param-index param-types)) (var (nth param-index param-vars)))
         (docstr-util-insert prefix)
         (docstr-util-insert-args (docstr-form-param type var docstr-desc-param))
+        (message "%s" (docstr-form-param type var docstr-desc-param))
         (when postfix (insert postfix)))
       (setq param-index (1+ param-index)))))
 
@@ -279,18 +280,6 @@ If optional argument PRESERVE is non-nil, don't go back to starting position."
   (unless preserve (goto-char start)))
 
 ;;---------------------------------------
-
-(defun docstr-writers-actionscript (search-string)
-  "Insert document string for ActionScript using SEARCH-STRING."
-  (let* ((start (point)) (prefix "\n* ")
-         (paren-param-list (docstr-writers--paren-param-list-behind search-string ":"))
-         (param-types (nth 0 paren-param-list))
-         (param-vars (nth 1 paren-param-list))
-         ;; Get all return data types.
-         (return-type-str (docstr-writers--return-type-behind search-string ":")))
-    (docstr-writers--insert-param param-types param-vars prefix)
-    (docstr-writers--insert-return return-type-str '("void") prefix)
-    (docstr-writers-after start)))
 
 (defun docstr-writers-c (search-string)
   "Insert document string for C using SEARCH-STRING."
