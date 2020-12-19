@@ -66,13 +66,13 @@
   :group 'docstr)
 
 (defcustom docstr-format-param
-  (format "@param %s %s %s" docstr-key-type docstr-key-var docstr-key-desc)
+  (format "@param%s%s%s" docstr-key-type docstr-key-var docstr-key-desc)
   "Format string for parameter document string."
   :type 'string
   :group 'docstr)
 
 (defcustom docstr-format-return
-  (format "@return %s %s %s" docstr-key-type docstr-key-var docstr-key-desc)
+  (format "@return%s%s%s" docstr-key-type docstr-key-var docstr-key-desc)
   "Format string for return document string."
   :type 'string
   :group 'docstr)
@@ -112,11 +112,11 @@
   (if (not docstr-show-type-name) ""
     (when (or (null type) (string-empty-p type))
       (setq type docstr-default-typename))
-    (format docstr-format-type type)))
+    (concat (format docstr-format-type type) " ")))
 
 (defun docstr--get-var-name (var)
   "Return VAR's name."
-  (if (string-empty-p var) "" (format docstr-format-var var)))
+  (if (string-empty-p var) "" (concat (format docstr-format-var var) " ")))
 
 (defun docstr-form-param (type var desc)
   "Return complete parameter document string.

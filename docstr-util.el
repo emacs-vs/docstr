@@ -150,8 +150,8 @@ and GREEDY."
   (setq-local
    docstr-format-type fmt-type
    docstr-format-var fmt-var
-   docstr-format-param (format "%s%s %s %s" param docstr-key-type docstr-key-var docstr-key-desc)
-   docstr-format-return (format "%s%s %s %s" ret docstr-key-type docstr-key-var docstr-key-desc)))
+   docstr-format-param (format "%s%s%s%s" param docstr-key-type docstr-key-var docstr-key-desc)
+   docstr-format-return (format "%s%s%s%s" ret docstr-key-type docstr-key-var docstr-key-desc)))
 
 (provide 'docstr-util)
 ;;; docstr-util.el ends here
