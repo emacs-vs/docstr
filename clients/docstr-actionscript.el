@@ -36,9 +36,15 @@
   :type 'string
   :group 'docstr)
 
+(defun docstr-actionscript-config ()
+  "Automatically configure style according to variable `docstr-actionscript-style'."
+  (cl-case docstr-actionscript-style
+    (t (docstr-util-default-format))))
+
 ;;;###autoload
 (defun docstr-writers-actionscript (search-string)
   "Insert document string for ActionScript using SEARCH-STRING."
+  (docstr-actionscript-config)
   (let* ((start (point)) (prefix docstr-actionscript-prefix)
          (paren-param-list (docstr-writers--paren-param-list-behind search-string ":"))
          (param-types (nth 0 paren-param-list))

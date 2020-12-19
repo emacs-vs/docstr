@@ -26,10 +26,26 @@
 
 (require 'docstr)
 
+(defcustom docstr-c++-style nil
+  "Style specification for document string in C++."
+  :type '(choice (const :tag "No specify" nil))
+  :group 'docstr)
+
+(defcustom docstr-c++-prefix "* "
+  "Prefix you use on each newline."
+  :type 'string
+  :group 'docstr)
+
+(defun docstr-c++-config ()
+  "Automatically configure style according to variable `docstr-c++-style'."
+  (cl-case docstr-c++-style
+    (t (docstr-util-default-format))))
+
 ;;;###autoload
 (defun docstr-writers-c++ (search-string)
   "Insert document string for C++ using SEARCH-STRING."
-  (let* ((start (point)) (prefix "\n* ")
+  (docstr-c++-config)
+  (let* ((start (point)) (prefix docstr-c++-prefix)
          (paren-param-list (docstr-writers--paren-param-list search-string))
          (param-types (nth 0 paren-param-list))
          (param-vars (nth 1 paren-param-list))

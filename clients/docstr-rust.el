@@ -26,9 +26,20 @@
 
 (require 'docstr)
 
+(defcustom docstr-rust-style nil
+  "Style specification for document string in Rust."
+  :type '(choice (const :tag "No specify" nil))
+  :group 'docstr)
+
+(defun docstr-rust-config ()
+  "Automatically configure style according to variable `docstr-rust-style'."
+  (cl-case docstr-rust-style
+    (t (docstr-util-default-format))))
+
 ;;;###autoload
 (defun docstr-writers-rust (search-string)
   "Insert document string for Rust using SEARCH-STRING."
+  (docstr-rust-config)
   (let* ((start (point)) (prefix "\n* ")
          (paren-param-list (docstr-writers--paren-param-list-behind search-string ":" t))
          (param-types (nth 0 paren-param-list))

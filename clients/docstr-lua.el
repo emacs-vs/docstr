@@ -44,7 +44,7 @@
   :group 'docstr)
 
 (defun docstr-lua-config-lua-wiki ()
-  ""
+  "Configre for convention, Lua-Users Wiki."
   (docstr-util-default-format)
   (setq-local docstr-lua-prefix "-- "))
 

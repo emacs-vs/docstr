@@ -28,9 +28,20 @@
 
 (declare-function docstr-writers-rust "ext:docstr-rust.el")
 
+(defcustom docstr-scala-style nil
+  "Style specification for document string in Scala."
+  :type '(choice (const :tag "No specify" nil))
+  :group 'docstr)
+
+(defun docstr-scala-config ()
+  "Automatically configure style according to variable `docstr-scala-style'."
+  (cl-case docstr-scala-style
+    (t (docstr-util-default-format))))
+
 ;;;###autoload
 (defun docstr-writers-scala (search-string)
   "Insert document string for Scala using SEARCH-STRING."
+  (docstr-scala-config)
   (docstr-writers-rust search-string))
 
 (provide 'docstr-scala)

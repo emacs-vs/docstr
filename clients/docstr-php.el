@@ -29,13 +29,19 @@
 (declare-function docstr-writers-javascript "ext:docstr-js.el")
 
 (defcustom docstr-php-style nil
-  "Style specification for document string in PGP."
+  "Style specification for document string in PHP."
   :type '(choice (const :tag "No specify" nil))
   :group 'docstr)
+
+(defun docstr-php-config ()
+  "Automatically configure style according to variable `docstr-php-style'."
+  (cl-case docstr-php-style
+    (t (docstr-util-default-format))))
 
 ;;;###autoload
 (defun docstr-writers-php (search-string)
   "Insert document string for PHP using SEARCH-STRING."
+  (docstr-php-config)
   (docstr-writers-javascript search-string))
 
 (provide 'docstr-php)

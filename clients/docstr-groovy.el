@@ -28,9 +28,20 @@
 
 (declare-function docstr-writers-javascript "ext:docstr-js.el")
 
+(defcustom docstr-groovy-style nil
+  "Style specification for document string in Groovy."
+  :type '(choice (const :tag "No specify" nil))
+  :group 'docstr)
+
+(defun docstr-groovy-config ()
+  "Automatically configure style according to variable `docstr-groovy-style'."
+  (cl-case docstr-groovy-style
+    (t (docstr-util-default-format))))
+
 ;;;###autoload
 (defun docstr-writers-groovy (search-string)
   "Insert document string for Groovy using SEARCH-STRING."
+  (docstr-groovy-config)
   (docstr-writers-javascript search-string))
 
 (provide 'docstr-groovy)

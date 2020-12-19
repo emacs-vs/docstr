@@ -28,9 +28,25 @@
 
 (declare-function docstr-writers-c++ "ext:docstr-c.el")
 
+(defcustom docstr-c-style nil
+  "Style specification for document string in C."
+  :type '(choice (const :tag "No specify" nil))
+  :group 'docstr)
+
+(defcustom docstr-c-prefix "* "
+  "Prefix you use on each newline."
+  :type 'string
+  :group 'docstr)
+
+(defun docstr-c-config ()
+  "Automatically configure style according to variable `docstr-c-style'."
+  (cl-case docstr-c-style
+    (t (docstr-util-default-format))))
+
 ;;;###autoload
 (defun docstr-writers-c (search-string)
   "Insert document string for C using SEARCH-STRING."
+  (docstr-c-config)
   (docstr-writers-c++ search-string))
 
 (provide 'docstr-c)

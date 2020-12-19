@@ -28,9 +28,20 @@
 
 (declare-function docstr-writers-actionscript "ext:docstr-actionscript.el")
 
+(defcustom docstr-typescript-style nil
+  "Style specification for document string in TypeScript."
+  :type '(choice (const :tag "No specify" nil))
+  :group 'docstr)
+
+(defun docstr-typescript-config ()
+  "Automatically configure style according to variable `docstr-typescript-style'."
+  (cl-case docstr-typescript-style
+    (t (docstr-util-default-format))))
+
 ;;;###autoload
 (defun docstr-writers-typescript (search-string)
   "Insert document string for TypesSript using SEARCH-STRING."
+  (docstr-typescript-config)
   (docstr-writers-actionscript search-string))
 
 (provide 'docstr-typescript)
