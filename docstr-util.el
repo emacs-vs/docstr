@@ -136,14 +136,6 @@ and GREEDY."
 ;; (@* "Default" )
 ;;
 
-(defun docstr-util-generate-format (param ret)
-  ""
-  (let ((fmt ""))
-    (when (and docstr-show-type-name (not (string-empty-p docstr-format-type)))
-      (setq fmt (concat fmt docstr-key-type)))
-
-    fmt))
-
 (cl-defun docstr-util-default-format
     (&key (fmt-type "{ %s }") (fmt-var "%s :") (param "@param") (ret "@return"))
   "Set default format for document string."
