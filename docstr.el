@@ -281,42 +281,5 @@ See function `docstr--get-search-string' description for argument TYPE."
         (when (string-empty-p ln-current) (insert "* "))
         (docstr--insert-doc-string (docstr--c-style-search-string 2))))))
 
-(defun docstr-trigger-csharp (&rest _)
-  "Trigger document string inside C#."
-  (when (and (docstr--doc-valid-p) (docstr-util-looking-back "///" 3))
-    (save-excursion
-      (insert " <summary>\n")
-      (insert "/// \n")
-      (insert "/// </summary>"))
-    (forward-line 1)
-    (end-of-line)
-    (docstr--insert-doc-string (docstr--c-style-search-string 2))))
-
-(defun docstr-trigger-golang (&rest _)
-  "Trigger document string inside Golang."
-  (when (and (docstr--doc-valid-p) (docstr-util-looking-back "//" 2))
-    (docstr--insert-doc-string (docstr--c-style-search-string 1))))
-
-(defun docstr-trigger-lua (&rest _)
-  "Trigger document string inside Lua."
-  (when (and (docstr--doc-valid-p) (docstr-util-looking-back "---" 3))
-    (backward-delete-char 3)
-    (save-excursion
-      (insert (format "%s\n" docstr-lua-splitter))
-      (insert "-- \n")
-      (insert (format "%s" docstr-lua-splitter)))
-    (forward-line 1)
-    (end-of-line)
-    (docstr--insert-doc-string (docstr--generic-search-string 2 ")"))))
-
-(defun docstr-trigger-python (&rest _)
-  "Trigger document string inside Python."
-  ;; TODO: For some reason, '(nth 4 (syntax-ppss))' doesn't work.
-  (when (and docstr-mode (docstr-util-looking-back "\"\"\"" 3))
-    (if (looking-at-p "\"\"\"")
-        (delete-char 3)
-      (save-excursion (insert "\"\"\""))
-      (docstr--insert-doc-string (docstr--generic-search-string -1 ":")))))
-
 (provide 'docstr)
 ;;; docstr.el ends here
