@@ -78,22 +78,22 @@
   :group 'docstr)
 
 (defcustom docstr-desc-summary "[summary]"
-  "Description for summary document string."
+  "Placeholder string for summary description."
   :type 'string
   :group 'docstr)
 
 (defcustom docstr-desc-param "[description]"
-  "Description for parameter document string."
+  "Placeholder string for parameter description."
   :type 'string
   :group 'docstr)
 
 (defcustom docstr-desc-return "[description]"
-  "Description for return document string."
+  "Placeholder string for return description."
   :type 'string
   :group 'docstr)
 
 (defcustom docstr-default-typename "[type]"
-  "Default typename when variable type is unknown."
+  "Placeholder string for unknown type description."
   :type 'string
   :group 'docstr)
 
