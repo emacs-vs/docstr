@@ -26,21 +26,34 @@
 
 (require 'docstr)
 
-(defcustom docstr-rust-style nil
+(defcustom docstr-rust-style 'rfc-430
   "Style specification for document string in Rust."
-  :type '(choice (const :tag "No specify" nil))
+  :type '(choice (const :tag "No specify" nil)
+                 (const :tag "RFC 430 documentation conventions" rfc-430))
   :group 'docstr)
+
+(defcustom docstr-rust-prefix "* "
+  "Prefix you use on each newline."
+  :type 'string
+  :group 'docstr)
+
+(defun docstr-rust-config-rfc-430 ()
+  "Configure for convention, RFC 430."
+  (docstr-util-default-format)
+  ;; TODO: 
+  )
 
 (defun docstr-rust-config ()
   "Automatically configure style according to variable `docstr-rust-style'."
   (cl-case docstr-rust-style
+    (rfc-430 (docstr-rust-config-rfc-430))
     (t (docstr-util-default-format))))
 
 ;;;###autoload
 (defun docstr-writers-rust (search-string)
   "Insert document string for Rust using SEARCH-STRING."
   (docstr-rust-config)
-  (let* ((start (point)) (prefix "\n* ")
+  (let* ((start (point)) (prefix docstr-rust-prefix)
          (paren-param-list (docstr-writers--paren-param-list-behind search-string ":" t))
          (param-types (nth 0 paren-param-list))
          (param-vars (nth 1 paren-param-list))
