@@ -28,10 +28,26 @@
 
 (declare-function docstr-writers-java "ext:docstr-java.el")
 
+(defcustom docstr-csharp-style nil
+  "Style specification for document string in C#."
+  :type '(choice (const :tag "No specify" nil))
+  :group 'docstr)
+
+(defcustom docstr-csharp-prefix "/// "
+  "Prefix you use on each newline."
+  :type 'string
+  :group 'docstr)
+
+(defun docstr-csharp-config ()
+  "Automatically configure style according to variable `docstr-java-style'."
+  (cl-case docstr-csharp-style
+    (t (docstr-util-default-format))))
+
 ;;;###autoload
 (defun docstr-writers-csharp (search-string)
   "Insert document string for C# using SEARCH-STRING."
-  (let* ((start (point)) (prefix "\n/// ")
+  (docstr-csharp-config)
+  (let* ((start (point)) (prefix docstr-csharp-prefix)
          (paren-param-list (docstr-writers--paren-param-list search-string))
          (param-types (nth 0 paren-param-list))
          (param-vars (nth 1 paren-param-list))
@@ -49,8 +65,9 @@
       (vsdoc
        (forward-line 1) (end-of-line)
        (let ((docstr-format-var "%s")
-             (docstr-format-param "<param name=\"#V\"></param>")
-             (docstr-format-return "<returns></returns>"))
+             (docstr-format-param (format "<param name=\"%s\"></param>" docstr-key-var))
+             (docstr-format-return "<returns></returns>")
+             (docstr-concat-var nil))
          (docstr-writers--insert-param param-types param-vars prefix)
          (docstr-writers--insert-return return-type-str '("void") prefix))
        (docstr-writers-after start)))))
