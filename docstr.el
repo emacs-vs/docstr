@@ -107,16 +107,22 @@
   :type 'hook
   :group 'docstr)
 
+(defvar docstr-concat-type t
+  "Flag to see if add a space after getting type name.")
+(defvar docstr-concat-var t
+  "Flag to see if add a space after getting variable name.")
+
 (defun docstr--get-type-name (type)
   "Return TYPE's name."
   (if (not docstr-show-type-name) ""
     (when (or (null type) (string-empty-p type))
       (setq type docstr-default-typename))
-    (concat (format docstr-format-type type) " ")))
+    (concat (format docstr-format-type type) (if docstr-concat-type " " ""))))
 
 (defun docstr--get-var-name (var)
   "Return VAR's name."
-  (if (string-empty-p var) "" (concat (format docstr-format-var var) " ")))
+  (if (string-empty-p var) ""
+    (concat (format docstr-format-var var) (if docstr-concat-var " " ""))))
 
 (defun docstr-form-param (type var desc)
   "Return complete parameter document string.
