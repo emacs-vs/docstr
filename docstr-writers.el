@@ -254,15 +254,15 @@ Argument POSTFIX is string behind of return document string."
     (docstr-util-insert-args (docstr-form-return return-type-str "" docstr-desc-return))
     (when postfix (insert postfix))))
 
-(defun docstr-writers-after (start &optional preserve)
+(defun docstr-writers-after (start &optional ind-r ind-l restore-pt)
   "Do stuff after document string insertion.
 
 Argument START is the starting point ot the insertion.
 
-If optional argument PRESERVE is non-nil, don't go back to starting position."
-  (indent-region start (point))
-  (indent-for-tab-command)
-  (unless preserve (goto-char start)))
+If optional argument RESTORE-PT is non-nil, go back to starting position."
+  (when ind-r (indent-region start (point)))
+  (when ind-l (indent-for-tab-command))
+  (when restore-pt (goto-char start)))
 
 ;;
 ;; (@* "Configurations" )
