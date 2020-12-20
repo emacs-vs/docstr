@@ -29,7 +29,8 @@
 (defcustom docstr-js-style 'jsdoc
   "Style specification for document string in JavaScript."
   :type '(choice (const :tag "No specify" nil)
-                 (const :tag "Document String in JavaScript" jsdoc))
+                 (const :tag "Document String in JavaScript" jsdoc)
+                 (const :tag "Google Style" google))
   :group 'docstr)
 
 (defcustom docstr-js-prefix "* "
@@ -45,10 +46,19 @@
               docstr-format-var "%s -"
               docstr-show-type-name t))
 
+(defun docstr-js-config-google ()
+  "Configre for convention, Google."
+  (docstr-util-default-format)
+  (setq-local docstr-js-prefix "* "
+              docstr-format-type "{%s}"
+              docstr-format-var "%s"
+              docstr-show-type-name t))
+
 (defun docstr-js-config ()
   "Automatically configure style according to variable `docstr-js-style'."
   (cl-case docstr-js-style
     (jsdoc (docstr-js-config-jsdoc))
+    (google (docstr-js-config-google))
     (t (docstr-util-default-format))))
 
 ;;;###autoload
