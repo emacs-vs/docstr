@@ -71,7 +71,7 @@
          (param-vars (nth 1 paren-param-list)))
     (docstr-writers--insert-param param-types param-vars prefix)
     (docstr-writers--insert-return nil '("void") prefix)
-    (docstr-writers-after start)))
+    (docstr-writers-after start  t t t)))
 
 (provide 'docstr-js)
 ;;; docstr-js.el ends here

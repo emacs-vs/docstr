@@ -40,7 +40,7 @@
 (defun docstr-c++-config-qt ()
   "Configre for convention, Qt."
   (docstr-util-default-format :param "\\param" :ret "\\return")
-  (setq-local docstr-c++-prefix ""
+  (setq-local docstr-c++-prefix "    "
               docstr-format-var "%s"
               docstr-show-type-name nil))
 
@@ -62,7 +62,7 @@
          (return-type-str (docstr-writers--return-type search-string)))
     (docstr-writers--insert-param param-types param-vars prefix)
     (docstr-writers--insert-return return-type-str nil prefix)
-    (docstr-writers-after start)))
+    (docstr-writers-after start nil t t)))
 
 (provide 'docstr-c++)
 ;;; docstr-c++.el ends here

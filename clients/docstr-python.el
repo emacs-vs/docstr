@@ -100,7 +100,7 @@
         (docstr-util-insert docstr-python-header-param)))
     (docstr-writers--insert-param param-types param-vars prefix)
     (docstr-writers--insert-return return-type-str '("void") prefix)
-    (docstr-writers-after start)))
+    (docstr-writers-after start t t t)))
 
 ;;;###autoload
 (defun docstr-trigger-python (&rest _)

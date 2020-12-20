@@ -53,7 +53,7 @@
          (return-type-str (docstr-writers--return-type-behind search-string ":")))
     (docstr-writers--insert-param param-types param-vars prefix)
     (docstr-writers--insert-return return-type-str '("void") prefix)
-    (docstr-writers-after start)))
+    (docstr-writers-after start t t t)))
 
 (provide 'docstr-actionscript)
 ;;; docstr-actionscript.el ends here
