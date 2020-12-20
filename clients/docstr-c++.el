@@ -28,7 +28,8 @@
 
 (defcustom docstr-c++-style nil
   "Style specification for document string in C++."
-  :type '(choice (const :tag "No specify" nil))
+  :type '(choice (const :tag "No specify" nil)
+                 (const :tag "Qt Documentation Style" qt))
   :group 'docstr)
 
 (defcustom docstr-c++-prefix "* "
@@ -36,9 +37,17 @@
   :type 'string
   :group 'docstr)
 
+(defun docstr-c++-config-qt ()
+  "Configre for convention, Qt."
+  (docstr-util-default-format :param "\\param" :ret "\\return")
+  (setq-local docstr-c++-prefix ""
+              docstr-format-var "%s"
+              docstr-show-type-name nil))
+
 (defun docstr-c++-config ()
   "Automatically configure style according to variable `docstr-c++-style'."
   (cl-case docstr-c++-style
+    (qt (docstr-c++-config-qt))
     (t (docstr-util-default-format))))
 
 ;;;###autoload
