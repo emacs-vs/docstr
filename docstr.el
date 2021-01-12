@@ -153,7 +153,6 @@ variable.  Argument DESC is the description of VAR."
     (setq new (s-replace docstr-key-type (docstr--get-type-name type) new)
           new (s-replace docstr-key-var (docstr--get-var-name var) new)
           new (s-replace docstr-key-desc desc new))
-    (message "new: %s" (s-replace docstr-key-desc desc new))
     new))
 
 ;;
