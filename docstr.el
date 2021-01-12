@@ -183,18 +183,18 @@ You should customize this variable to add your own triggeration methods."
     (let* ((mode (car tri)) (data (cdr tri))
            (key (nth 0 data)) (fnc (nth 1 data)))
       (when (eq major-mode mode)
-        (if act (advice-add (key-binding (kbd key)) :after fnc)
-          (advice-remove (key-binding (kbd key)) fnc))))))
+        (if act (docstr-util-key-advice-add key fnc)
+          (docstr-util-key-advice-remove key fnc))))))
 
 (defun docstr--enable ()
   "Enable `docstr' in current buffer."
-  (advice-add (key-binding (kbd "RET")) :after #'docstr--trigger-return)
+  (docstr-util-key-advice-add "RET" #'docstr--trigger-return)
   (docstr--enable-trigger t)
   (add-hook 'docstr-before-insert-hook #'docstr-insert-summary))
 
 (defun docstr--disable ()
   "Disable `docstr' in current buffer."
-  (advice-remove (key-binding (kbd "RET")) #'docstr--trigger-return)
+  (docstr-util-key-advice-remove "RET" #'docstr--trigger-return)
   (docstr--enable-trigger nil))
 
 ;;;###autoload
