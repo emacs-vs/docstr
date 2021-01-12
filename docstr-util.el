@@ -133,6 +133,20 @@ and GREEDY."
         (t nil)))
 
 ;;
+;; (@* "Key" )
+;;
+
+(defun docstr-util-key-advice-add (key fnc)
+  "Safe add advice KEY with FNC."
+  (let ((key-fnc (key-binding (kbd key))))
+    (when (symbolp key-fnc) (advice-add key-fnc :after fnc))))
+
+(defun docstr-util-key-advice-remove (key fnc)
+  "Safe remove advice KEY with FNC."
+  (let ((key-fnc (key-binding (kbd key))))
+    (when (symbolp key-fnc) (advice-remove key-fnc fnc))))
+
+;;
 ;; (@* "Default" )
 ;;
 
