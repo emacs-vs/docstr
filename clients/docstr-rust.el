@@ -37,11 +37,18 @@
   :type 'string
   :group 'docstr)
 
+(defcustom docstr-rust-header-param ""
+  "Header string before inserting paramters document string."
+  :type 'string
+  :group 'docstr)
+
 (defun docstr-rust-config-rfc-430 ()
   "Configure for convention, RFC 430."
-  (docstr-util-default-format)
-  ;; TODO: ..
-  )
+  (docstr-util-default-format :param "*" :ret "")
+  (setq-local docstr-rust-prefix "/// "
+              docstr-rust-header-param "# Arguments"
+              docstr-format-var "`%s` -"
+              docstr-show-type-name nil))
 
 (defun docstr-rust-config ()
   "Automatically configure style according to variable `docstr-rust-style'."
@@ -57,10 +64,27 @@
          (paren-param-list (docstr-writers--paren-param-list-behind search-string ":" t))
          (param-types (nth 0 paren-param-list))
          (param-vars (nth 1 paren-param-list))
+         (param-var-len (length param-vars))
          (return-type-str (docstr-writers--return-type-behind search-string ":")))
+    (unless (= param-var-len 0)
+      (insert "\n")
+      (insert docstr-rust-prefix)
+      (insert "\n")
+      (unless (string-empty-p docstr-rust-header-param)
+        (insert docstr-rust-prefix)
+        (insert docstr-rust-header-param)
+        (insert "\n")
+        (insert docstr-rust-prefix)))
     (docstr-writers--insert-param param-types param-vars prefix)
     (docstr-writers--insert-return return-type-str '("void") prefix)
     (docstr-writers-after start t t t)))
+
+;;;###autoload
+(defun docstr-trigger-rust (&rest _)
+  "Trigger document string inside Rust."
+  (when (and (docstr--doc-valid-p) (docstr-util-looking-back "///" 3))
+    (insert " ")
+    (docstr--insert-doc-string (docstr--c-style-search-string 2))))
 
 (provide 'docstr-rust)
 ;;; docstr-rust.el ends here
