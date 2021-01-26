@@ -38,17 +38,11 @@ configuration.
 Here is a list of all languages that support by this package.
 
 * ActionScript
-* C
-* C++
-* C#
-* Golang
-* Groovy
-* Java
-* JavaScript
-* JSX
+* C / C++ / C#
+* Golang / Groovy
+* Java / JavaScript / JSX
 * Lua
-* PHP
-* Python
+* PHP / Python
 * Rust
 * Scala
 * TypeScript
