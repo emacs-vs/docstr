@@ -62,7 +62,7 @@
          ;; Get the return data type.
          (return-type-str (docstr-writers--return-type search-string)))
     (unless (= param-var-len 0)
-      (docstr-util-insert docstr-groovy-prefix))
+      (docstr-util-insert docstr-java-prefix))
     (docstr-writers--insert-param param-types param-vars prefix)
     (docstr-writers--insert-return return-type-str '("void") prefix)
     (docstr-writers-after start t t t)))
