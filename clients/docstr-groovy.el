@@ -26,23 +26,46 @@
 
 (require 'docstr)
 
-(declare-function docstr-writers-javascript "ext:docstr-js.el")
-
-(defcustom docstr-groovy-style nil
+(defcustom docstr-groovy-style 'groovydoc
   "Style specification for document string in Groovy."
-  :type '(choice (const :tag "No specify" nil))
+  :type '(choice (const :tag "No specify" nil)
+                 (const :tag "Document String in Groovy" groovydoc))
   :group 'docstr)
+
+(defcustom docstr-groovy-prefix "* "
+  "Prefix you use on each newline."
+  :type 'string
+  :group 'docstr)
+
+(defun docstr-groovy-config-groovydoc ()
+  "Configre for convention, Groovydoc."
+  (docstr-util-default-format)
+  (setq-local docstr-groovy-prefix "* "
+              docstr-format-var "%s"
+              docstr-show-type-name nil))
 
 (defun docstr-groovy-config ()
   "Automatically configure style according to variable `docstr-groovy-style'."
   (cl-case docstr-groovy-style
+    (groovydoc (docstr-groovy-config-groovydoc))
     (t (docstr-util-default-format))))
 
 ;;;###autoload
 (defun docstr-writers-groovy (search-string)
   "Insert document string for Groovy using SEARCH-STRING."
   (docstr-groovy-config)
-  (docstr-writers-javascript search-string))
+  (let* ((start (point)) (prefix docstr-groovy-prefix)
+         (paren-param-list (docstr-writers--paren-param-list search-string))
+         (param-types (nth 0 paren-param-list))
+         (param-vars (nth 1 paren-param-list))
+         (param-var-len (length param-vars))
+         ;; Get the return data type.
+         (return-type-str (docstr-writers--return-type search-string)))
+    (unless (= param-var-len 0)
+      (docstr-util-insert docstr-groovy-prefix))
+    (docstr-writers--insert-param param-types param-vars prefix)
+    (docstr-writers--insert-return return-type-str '("void") prefix)
+    (docstr-writers-after start t t t)))
 
 (provide 'docstr-groovy)
 ;;; docstr-groovy.el ends here
