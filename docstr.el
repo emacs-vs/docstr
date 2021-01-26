@@ -163,7 +163,8 @@ variable.  Argument DESC is the description of VAR."
   `((csharp-mode . ("/" docstr-trigger-csharp))
     (go-mode     . ("/" docstr-trigger-golang))
     (lua-mode    . ("-" docstr-trigger-lua))
-    (python-mode . ("\"" docstr-trigger-python)))
+    (python-mode . ("\"" docstr-trigger-python))
+    (rust-mode   . ("/" docstr-trigger-rust)))
   "List of trigger to each `major-mode'.
 
 The data is a cons cell form by (mode-name . (key function)).  The first
