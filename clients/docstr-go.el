@@ -68,13 +68,13 @@
     ;; Determine the docstring type.
     (save-excursion
       (backward-char 1)
-      (if (docstr-util-current-char-equal-p "*")
-          (setq docstring-type 'javadoc) (setq docstring-type 'godoc)))
+      (setq docstring-type (if (docstr-util-current-char-equal-p "/")
+                               'godoc 'javadoc)))
 
     (cl-case docstring-type
       (javadoc (docstr-writers-c++ search-string))
       (godoc
-       (end-of-line) (insert " ")
+       (end-of-line)
        (docstr-writers--insert-param param-types param-vars prefix)
        (docstr-writers--insert-return return-type-str nil prefix)
        (docstr-writers-after start t t t)))))
@@ -83,6 +83,7 @@
 (defun docstr-trigger-golang (&rest _)
   "Trigger document string inside Golang."
   (when (and (docstr--doc-valid-p) (docstr-util-looking-back "//" 2))
+    (insert " ")
     (docstr--insert-doc-string (docstr--c-style-search-string 1))))
 
 (provide 'docstr-go)
