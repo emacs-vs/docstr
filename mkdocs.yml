@@ -28,8 +28,8 @@ extra_css:
 
 theme:
   name: material
-  logo: examples/logo-mini.png
-  favicon: examples/logo-mini.png
+  logo: etc/logo.png
+  favicon: etc/logo.png
   icon:
     repo: fontawesome/brands/github
   features:
