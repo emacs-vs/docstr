@@ -7,7 +7,7 @@ nav:
   - Home:
     - Overview: README.md
   - Languages:
-    - All Languages: page/languages.md
+    - All Languages: page/all_languages.md
     - ActionScript: page/langs/actionscript.md
     - C/C++: page/langs/cpp.md
     - C#: page/langs/csharp.md
