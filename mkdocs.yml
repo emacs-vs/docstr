@@ -16,11 +16,11 @@ nav:
     - Java: page/langs/java.md
     - JavaScript: page/langs/javascript.md
     - Lua: page/langs/lua.md
-    - PHP: page/langes/php.md
-    - Python: page/langes/python.md
-    - Rust: page/langes/rust.md
-    - Scala: page/langes/scala.md
-    - TypeScript: page/langes/typescript.md
+    - PHP: page/langs/php.md
+    - Python: page/langs/python.md
+    - Rust: page/langs/rust.md
+    - Scala: page/langs/scala.md
+    - TypeScript: page/langs/typescript.md
 
 extra_css:
   - stylesheets/extra.css
