@@ -8,7 +8,7 @@
 
 This package provides a simple solution to insert document string into the code.
 
-## Usagec
+## Usage
 
 You can enable this package to a specific major mode, like
 
