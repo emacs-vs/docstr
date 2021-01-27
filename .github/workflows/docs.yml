@@ -13,9 +13,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Move README.md
-        with:
-          args: -s CHANGELOG.org -t gfm -o docs/page/CHANGELOG.md
-          run: cp -rf README.md docs/page/README.md
+        run: cp -rf README.md docs/page/README.md
 
       - name: MkDocs
         run: |
