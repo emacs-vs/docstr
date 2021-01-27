@@ -8,6 +8,10 @@
 
 This package provides a simple solution to insert document string into the code.
 
+## Prerequisite
+
+N/A
+
 ## Usage
 
 You can enable this package to a specific major mode, like

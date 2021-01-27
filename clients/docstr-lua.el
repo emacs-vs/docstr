@@ -30,7 +30,8 @@
   "Style specification for document string in Lua."
   :type '(choice (const :tag "No specify" nil)
                  (const :tag "Kepler's specification" luadoc)
-                 (const :tag "doxygen/Javadoc-like style" doxygen))
+                 (const :tag "doxygen/Javadoc-like style" doxygen)
+                 (const :tag "Lua based document generator to Markdown" scriptum))
   :group 'docstr)
 
 (defcustom docstr-lua-prefix "-- "
@@ -57,11 +58,18 @@
   (setq-local docstr-lua-prefix "-- "
               docstr-show-type-name nil))
 
+(defun docstr-lua-config-scriptum ()
+  "Configre for convention, lua-scriptum."
+  (docstr-util-default-format)
+  (setq-local docstr-lua-prefix ""
+              docstr-show-type-name t))
+
 (defun docstr-lua-config ()
   "Automatically configure style according to variable `docstr-lua-style'."
   (cl-case docstr-lua-style
     (luadoc (docstr-lua-config-luadoc))
     (doxygen (docstr-lua-config-doxygen))
+    (scriptum (docstr-lua-config-scriptum))
     (t (docstr-util-default-format))))
 
 ;;;###autoload
@@ -102,6 +110,16 @@
   (when (and (docstr--doc-valid-p) (docstr-util-looking-back "---" 3))
     (add-hook 'docstr-before-insert-hook #'docstr-lua--before-insert nil t)
     (docstr--insert-doc-string (docstr--generic-search-string 1 ")"))))
+
+;;;###autoload
+(defun docstr-trigger-lua-return (&rest _)
+  "Trigger document string inside Lua multiline comment."
+  (when (docstr--doc-valid-p)
+    (let ((ln-prev (docstr-util-line-relative -1 t))
+          (ln-current (docstr-util-line-relative 0 t))
+          (ln-next (docstr-util-line-relative 1 t)))
+      (when (and (string-prefix-p "-[[" ln-prev) (string-suffix-p "]]" ln-next))
+        (docstr--insert-doc-string (docstr--generic-search-string 2 ")"))))))
 
 (provide 'docstr-lua)
 ;;; docstr-lua.el ends here

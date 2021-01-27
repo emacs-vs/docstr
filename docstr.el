@@ -163,6 +163,7 @@ variable.  Argument DESC is the description of VAR."
   `((csharp-mode . ("/" docstr-trigger-csharp))
     (go-mode     . ("/" docstr-trigger-golang))
     (lua-mode    . ("-" docstr-trigger-lua))
+    (lua-mode    . ("RET" docstr-trigger-lua-return))
     (python-mode . ("\"" docstr-trigger-python))
     (rust-mode   . ("/" docstr-trigger-rust)))
   "List of trigger to each `major-mode'.
