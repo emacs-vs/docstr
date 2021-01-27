@@ -13,21 +13,21 @@
         <meta name="author" content="jcs090218@gmail.com">
       
       
-        <link rel="canonical" href="https://jcs-elpa.github.io/docstr/page/">
+        <link rel="canonical" href="https://jcs-elpa.github.io/docstr/">
       
-      <link rel="shortcut icon" href="../etc/logo.png">
+      <link rel="shortcut icon" href="etc/logo.png">
       <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-6.2.4">
     
     
       
-        <title>Index - docstr - A document string minor mode</title>
+        <title>Overview - docstr - A document string minor mode</title>
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.15aa0b43.min.css">
+      <link rel="stylesheet" href="assets/stylesheets/main.15aa0b43.min.css">
       
         
-        <link rel="stylesheet" href="../assets/stylesheets/palette.75751829.min.css">
+        <link rel="stylesheet" href="assets/stylesheets/palette.75751829.min.css">
         
       
     
@@ -42,7 +42,7 @@
     
     
     
-      <link rel="stylesheet" href="../stylesheets/extra.css">
+      <link rel="stylesheet" href="stylesheets/extra.css">
     
     
       
@@ -85,7 +85,7 @@
   <nav class="md-header-nav md-grid" aria-label="Header">
     <a href="https://jcs-elpa.github.io/docstr" title="docstr - A document string minor mode" class="md-header-nav__button md-logo" aria-label="docstr - A document string minor mode">
       
-  <img src="../etc/logo.png" alt="logo">
+  <img src="etc/logo.png" alt="logo">
 
     </a>
     <label class="md-header-nav__button md-icon" for="__drawer">
@@ -101,7 +101,7 @@
         <div class="md-header-nav__topic">
           <span class="md-ellipsis">
             
-              Index
+              Overview
             
           </span>
         </div>
@@ -167,13 +167,15 @@
         
   
   
+    
+  
 
 
   
   
   
     <li class="md-tabs__item">
-      <a href="../README.md" class="md-tabs__link">
+      <a href="." class="md-tabs__link md-tabs__link--active">
         Home
       </a>
     </li>
@@ -189,7 +191,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="languages/" class="md-tabs__link">
+      <a href="page/languages/" class="md-tabs__link">
         Languages
       </a>
     </li>
@@ -220,7 +222,7 @@
   <label class="md-nav__title" for="__drawer">
     <a href="https://jcs-elpa.github.io/docstr" title="docstr - A document string minor mode" class="md-nav__button md-logo" aria-label="docstr - A document string minor mode">
       
-  <img src="../etc/logo.png" alt="logo">
+  <img src="etc/logo.png" alt="logo">
 
     </a>
     docstr - A document string minor mode
@@ -246,12 +248,14 @@
       
 
 
+  
+
 
   
-  <li class="md-nav__item md-nav__item--nested">
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
     
     
-      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-1" type="checkbox" id="nav-1" >
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-1" type="checkbox" id="nav-1" checked>
     
     <label class="md-nav__link" for="nav-1">
       Home
@@ -270,11 +274,125 @@
           
 
 
+  
 
-  <li class="md-nav__item">
-    <a href="../README.md" class="md-nav__link">
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        Overview
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+    
+    <a href="." class="md-nav__link md-nav__link--active">
       Overview
     </a>
+    
+      
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#usage" class="md-nav__link">
+    Usage
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#supported-langauges" class="md-nav__link">
+    Supported Langauges
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#beforeafter-insertion" class="md-nav__link">
+    Before/After Insertion
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#advance-implementation" class="md-nav__link">
+    Advance Implementation
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#document-string" class="md-nav__link">
+    Document String
+  </a>
+  
+    <nav class="md-nav" aria-label="Document String">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#type-name" class="md-nav__link">
+    Type Name
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#variable-name" class="md-nav__link">
+    Variable Name
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#parameter-return" class="md-nav__link">
+    Parameter &amp; Return
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#default-descriptions" class="md-nav__link">
+    Default descriptions
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configure-faces" class="md-nav__link">
+    Configure Faces
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#contribution" class="md-nav__link">
+    Contribution
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+    
   </li>
 
         
@@ -314,7 +432,7 @@
 
 
   <li class="md-nav__item">
-    <a href="languages/" class="md-nav__link">
+    <a href="page/languages/" class="md-nav__link">
       Languages
     </a>
   </li>
@@ -327,7 +445,7 @@
 
 
   <li class="md-nav__item">
-    <a href="langs/actionscript/" class="md-nav__link">
+    <a href="page/langs/actionscript/" class="md-nav__link">
       ActionScript
     </a>
   </li>
@@ -340,7 +458,7 @@
 
 
   <li class="md-nav__item">
-    <a href="langs/cpp/" class="md-nav__link">
+    <a href="page/langs/cpp/" class="md-nav__link">
       C/C++
     </a>
   </li>
@@ -353,7 +471,7 @@
 
 
   <li class="md-nav__item">
-    <a href="langs/csharp/" class="md-nav__link">
+    <a href="page/langs/csharp/" class="md-nav__link">
       C#
     </a>
   </li>
@@ -366,7 +484,7 @@
 
 
   <li class="md-nav__item">
-    <a href="langs/go/" class="md-nav__link">
+    <a href="page/langs/go/" class="md-nav__link">
       Go
     </a>
   </li>
@@ -379,7 +497,7 @@
 
 
   <li class="md-nav__item">
-    <a href="langs/groovy/" class="md-nav__link">
+    <a href="page/langs/groovy/" class="md-nav__link">
       Groovy
     </a>
   </li>
@@ -392,7 +510,7 @@
 
 
   <li class="md-nav__item">
-    <a href="langs/java/" class="md-nav__link">
+    <a href="page/langs/java/" class="md-nav__link">
       Java
     </a>
   </li>
@@ -405,7 +523,7 @@
 
 
   <li class="md-nav__item">
-    <a href="langs/javascript/" class="md-nav__link">
+    <a href="page/langs/javascript/" class="md-nav__link">
       JavaScript
     </a>
   </li>
@@ -418,7 +536,7 @@
 
 
   <li class="md-nav__item">
-    <a href="langs/lua/" class="md-nav__link">
+    <a href="page/langs/lua/" class="md-nav__link">
       Lua
     </a>
   </li>
@@ -431,7 +549,7 @@
 
 
   <li class="md-nav__item">
-    <a href="langes/php.md" class="md-nav__link">
+    <a href="page/langes/php.md" class="md-nav__link">
       PHP
     </a>
   </li>
@@ -444,7 +562,7 @@
 
 
   <li class="md-nav__item">
-    <a href="langes/python.md" class="md-nav__link">
+    <a href="page/langes/python.md" class="md-nav__link">
       Python
     </a>
   </li>
@@ -457,7 +575,7 @@
 
 
   <li class="md-nav__item">
-    <a href="langes/rust.md" class="md-nav__link">
+    <a href="page/langes/rust.md" class="md-nav__link">
       Rust
     </a>
   </li>
@@ -470,7 +588,7 @@
 
 
   <li class="md-nav__item">
-    <a href="langes/scala.md" class="md-nav__link">
+    <a href="page/langes/scala.md" class="md-nav__link">
       Scala
     </a>
   </li>
@@ -483,7 +601,7 @@
 
 
   <li class="md-nav__item">
-    <a href="langes/typescript.md" class="md-nav__link">
+    <a href="page/langes/typescript.md" class="md-nav__link">
       TypeScript
     </a>
   </li>
@@ -613,7 +731,7 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/jcs-elpa/docstr/edit/master/docs/page/README.md" title="Edit this page" class="md-content__button md-icon">
+                  <a href="https://github.com/jcs-elpa/docstr/edit/master/docs/README.md" title="Edit this page" class="md-content__button md-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
                   </a>
                 
@@ -863,13 +981,13 @@ Any methods are welcome!</p>
       <nav class="md-footer-nav__inner md-grid" aria-label="Footer">
         
         
-          <a href="languages/" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="page/languages/" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-footer-nav__title">
               <div class="md-ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                None
+                Languages
               </div>
             </div>
             <div class="md-footer-nav__button md-icon">
@@ -918,15 +1036,15 @@ Any methods are welcome!</p>
       
     </div>
     
-      <script src="../assets/javascripts/vendor.93c04032.min.js"></script>
-      <script src="../assets/javascripts/bundle.83e5331e.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}</script>
+      <script src="assets/javascripts/vendor.93c04032.min.js"></script>
+      <script src="assets/javascripts/bundle.83e5331e.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}</script>
       
       <script>
         app = initialize({
-          base: "..",
+          base: ".",
           features: ['navigation.tabs'],
           search: Object.assign({
-            worker: "../assets/javascripts/worker/search.8c7e0a7e.min.js"
+            worker: "assets/javascripts/worker/search.8c7e0a7e.min.js"
           }, typeof search !== "undefined" && search)
         })
       </script>
