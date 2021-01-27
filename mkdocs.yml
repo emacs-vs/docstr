@@ -24,8 +24,7 @@ nav:
     - TypeScript: page/langes/typescript.md
 
 extra_css:
-  - stylesheets/layout.css
-  - stylesheets/members.css
+  - stylesheets/extra.css
 
 theme:
   name: material
