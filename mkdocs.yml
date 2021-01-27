@@ -10,7 +10,7 @@ nav:
     - page/languages.md
     - ActionScript: page/langs/actionscript.md
     - C/C++: page/langs/cpp.md
-    - C#: page/langs/chsarp.md
+    - C#: page/langs/csharp.md
     - Go: page/langs/go.md
     - Groovy: page/langs/groovy.md
     - Java: page/langs/java.md
