@@ -26,11 +26,11 @@
 
 (require 'docstr)
 
-(defcustom docstr-lua-style 'lua-wiki
+(defcustom docstr-lua-style 'luadoc
   "Style specification for document string in Lua."
   :type '(choice (const :tag "No specify" nil)
-                 (const :tag "Official Lua org style" lua-wiki)
-                 (const :tag "Kepler's specification" luadoc))
+                 (const :tag "Kepler's specification" luadoc)
+                 (const :tag "doxygen/Javadoc-like style" doxygen))
   :group 'docstr)
 
 (defcustom docstr-lua-prefix "-- "
@@ -39,15 +39,17 @@
   :group 'docstr)
 
 (defcustom docstr-lua-splitter
-  "-------------------------------------------------------------"
+  "-------------------------------------"
   "Document string splitter for Lua programming language."
   :type 'string
   :group 'docstr)
 
-(defun docstr-lua-config-lua-wiki ()
-  "Configre for convention, Lua-Users Wiki."
+(defun docstr-lua-config-doxygen ()
+  "Configre for convention, doxygen/Javadoc-like style."
   (docstr-util-default-format)
-  (setq-local docstr-lua-prefix "-- "))
+  (setq-local docstr-lua-prefix "-- "
+              docstr-format-var "%s"
+              docstr-show-type-name nil))
 
 (defun docstr-lua-config-luadoc ()
   "Configre for convention, LuaDoc."
@@ -58,8 +60,8 @@
 (defun docstr-lua-config ()
   "Automatically configure style according to variable `docstr-lua-style'."
   (cl-case docstr-lua-style
-    (lua-wiki (docstr-lua-config-lua-wiki))
     (luadoc (docstr-lua-config-luadoc))
+    (doxygen (docstr-lua-config-doxygen))
     (t (docstr-util-default-format))))
 
 ;;;###autoload
@@ -73,9 +75,11 @@
          (param-var-len (length param-vars))
          (return-type-str "void"))  ; Get the return data type.
     (cl-case docstr-lua-style
-      (lua-wiki
+      (doxygen
        (unless (= param-var-len 0)
-         (insert (format "\n%s" docstr-lua-splitter)))))
+         (insert (format "\n%s" docstr-lua-splitter))
+         (forward-line -1)
+         (end-of-line))))
     (docstr-writers--insert-param param-types param-vars prefix)
     (docstr-writers--insert-return return-type-str '("void") prefix)
     (docstr-writers-after start t t t)))
@@ -83,12 +87,11 @@
 (defun docstr-lua--before-insert (_search-string)
   "Before inserting parameters, etc."
   (cl-case docstr-lua-style
-    (lua-wiki
+    (doxygen
      (backward-delete-char 3)
      (save-excursion
        (insert (format "%s\n" docstr-lua-splitter))
-       (insert (format "%s\n" docstr-lua-prefix))
-       (insert (format "%s" docstr-lua-splitter)))
+       (insert (format "%s\n" docstr-lua-prefix)))
      (forward-line 1)
      (end-of-line))
     (luadoc (insert " "))))
