@@ -12,9 +12,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Move README.md
-        run: cp -rf README.md docs/page/README.md
-
       - name: MkDocs
         run: |
           cp -rf README.md docs etc
