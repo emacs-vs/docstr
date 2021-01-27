@@ -12,6 +12,10 @@
   max-width: 70rem;
 }
 
+.md-tabs {
+  background: #492D72;
+}
+
 .md-typeset a {
   color: #7B58B0;
 }
