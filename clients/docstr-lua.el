@@ -62,6 +62,10 @@
   "Configre for convention, lua-scriptum."
   (docstr-util-default-format)
   (setq-local docstr-lua-prefix ""
+              docstr-format-param (format "@param %s%s%s"  docstr-key-var
+                                          docstr-key-type docstr-key-desc)
+              docstr-format-var "%s"
+              docstr-format-type "(%s)"
               docstr-show-type-name t))
 
 (defun docstr-lua-config ()
@@ -118,7 +122,7 @@
     (let ((ln-prev (docstr-util-line-relative -1 t))
           (ln-current (docstr-util-line-relative 0 t))
           (ln-next (docstr-util-line-relative 1 t)))
-      (when (and (string-prefix-p "-[[" ln-prev) (string-suffix-p "]]" ln-next))
+      (when (and (string-prefix-p "--[[" ln-prev) (string-suffix-p "]]" ln-next))
         (docstr--insert-doc-string (docstr--generic-search-string 2 ")"))))))
 
 (provide 'docstr-lua)
