@@ -39,7 +39,7 @@ extra:
     - icon: fontawesome/brands/github-alt
       link: https://github.com/jcs-elpa/docstr
     - icon: fontawesome/brands/twitter
-      link: https://twitter.com/jcs090218
+      link: https://twitter.com/jenchieh94
 
 repo_name: jcs-elpa/docstr
 repo_url: https://github.com/jcs-elpa/docstr
