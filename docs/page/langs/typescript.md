@@ -8,5 +8,5 @@ You can customize variable `docstr-typescript-style` for the following value.
 
 ## References
 
-- [TypeDoc](https://typedoc.org/guides/doccomments/)
-- [TSDoc](https://tsdoc.org/)
+* [TypeDoc](https://typedoc.org/guides/doccomments/)
+* [TSDoc](https://tsdoc.org/)
