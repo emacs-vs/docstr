@@ -120,7 +120,6 @@
   "Trigger document string inside Lua multiline comment."
   (when (docstr--doc-valid-p)
     (let ((ln-prev (docstr-util-line-relative -1 t))
-          (ln-current (docstr-util-line-relative 0 t))
           (ln-next (docstr-util-line-relative 1 t)))
       (when (and (string-prefix-p "--[[" ln-prev) (string-suffix-p "]]" ln-next))
         (docstr--insert-doc-string (docstr--generic-search-string 2 ")"))))))
