@@ -1,0 +1,1546 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Document String tool for Emacs">
+      
+      
+      
+        <meta name="author" content="jcs090218@gmail.com">
+      
+      
+        <link rel="canonical" href="https://jcs-elpa.github.io/docstr/">
+      
+      <link rel="shortcut icon" href="examples/logo-mini.png">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-6.2.4">
+    
+    
+      
+        <title>Overview - docstr - A document string minor mode</title>
+      
+    
+    
+      <link rel="stylesheet" href="assets/stylesheets/main.15aa0b43.min.css">
+      
+        
+        <link rel="stylesheet" href="assets/stylesheets/palette.75751829.min.css">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>body,input{font-family:"Roboto",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono",SFMono-Regular,Consolas,Menlo,monospace}</style>
+      
+    
+    
+    
+      <link rel="stylesheet" href="stylesheets/layout.css">
+    
+      <link rel="stylesheet" href="stylesheets/members.css">
+    
+    
+      
+        
+<script>window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-165661257-1","auto"),ga("set","anonymizeIp",!0),ga("send","pageview"),document.addEventListener("DOMContentLoaded",function(){document.forms.search&&document.forms.search.query.addEventListener("blur",function(){if(this.value){var e=document.location.pathname;ga("send","pageview",e+"?q="+this.value)}})}),document.addEventListener("DOMContentSwitch",function(){ga("send","pageview",document.location.pathname)})</script>
+<script async src="https://www.google-analytics.com/analytics.js"></script>
+      
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
+      
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#docstr" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid" aria-label="Header">
+    <a href="https://jcs-elpa.github.io/docstr" title="docstr - A document string minor mode" class="md-header-nav__button md-logo" aria-label="docstr - A document string minor mode">
+      
+  <img src="examples/logo-mini.png" alt="logo">
+
+    </a>
+    <label class="md-header-nav__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header-nav__title" data-md-component="header-title">
+      <div class="md-header-nav__ellipsis">
+        <div class="md-header-nav__topic">
+          <span class="md-ellipsis">
+            docstr - A document string minor mode
+          </span>
+        </div>
+        <div class="md-header-nav__topic">
+          <span class="md-ellipsis">
+            
+              Overview
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      <label class="md-header-nav__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" data-md-component="search-reset" tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header-nav__source">
+        
+<a href="https://github.com/jcs-elpa/docstr/" title="Go to repository" class="md-source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    jcs-elpa/docstr
+  </div>
+</a>
+      </div>
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+    
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="." class="md-tabs__link md-tabs__link--active">
+        Home
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="page/languages/" class="md-tabs__link">
+        Languages
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="page/gallery.md" class="md-tabs__link">
+        Gallery
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="page/CHANGELOG.md" class="md-tabs__link">
+        Changelog
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="tutorials/CPP-guide.md" class="md-tabs__link">
+        Tutorials
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="https://jcs-elpa.github.io/docstr" title="docstr - A document string minor mode" class="md-nav__button md-logo" aria-label="docstr - A document string minor mode">
+      
+  <img src="examples/logo-mini.png" alt="logo">
+
+    </a>
+    docstr - A document string minor mode
+  </label>
+  
+    <div class="md-nav__source">
+      
+<a href="https://github.com/jcs-elpa/docstr/" title="Go to repository" class="md-source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    jcs-elpa/docstr
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  
+
+
+  
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-1" type="checkbox" id="nav-1" checked>
+    
+    <label class="md-nav__link" for="nav-1">
+      Home
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Home" data-md-level="1">
+      <label class="md-nav__title" for="nav-1">
+        <span class="md-nav__icon md-icon"></span>
+        Home
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        Overview
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+    
+    <a href="." class="md-nav__link md-nav__link--active">
+      Overview
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#usage" class="md-nav__link">
+    Usage
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#supported-langauges" class="md-nav__link">
+    Supported Langauges
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#beforeafter-insertion" class="md-nav__link">
+    Before/After Insertion
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#advance-implementation" class="md-nav__link">
+    Advance Implementation
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#document-string" class="md-nav__link">
+    Document String
+  </a>
+  
+    <nav class="md-nav" aria-label="Document String">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#type-name" class="md-nav__link">
+    Type Name
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#variable-name" class="md-nav__link">
+    Variable Name
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#parameter-return" class="md-nav__link">
+    Parameter &amp; Return
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#default-descriptions" class="md-nav__link">
+    Default descriptions
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configure-faces" class="md-nav__link">
+    Configure Faces
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#contribution" class="md-nav__link">
+    Contribution
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+        
+          
+          
+          
+
+
+
+  
+  <li class="md-nav__item md-nav__item--nested">
+    
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-1-2" type="checkbox" id="nav-1-2" >
+    
+    <label class="md-nav__link" for="nav-1-2">
+      Setup
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Setup" data-md-level="2">
+      <label class="md-nav__title" for="nav-1-2">
+        <span class="md-nav__icon md-icon"></span>
+        Setup
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="page/installation.md" class="md-nav__link">
+      Installation
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="page/performance.md" class="md-nav__link">
+      Performance
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="page/main-features.md" class="md-nav__link">
+      Main features
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="page/settings.md" class="md-nav__link">
+      Settings
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="page/keybindings.md" class="md-nav__link">
+      Keybindings
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  
+  <li class="md-nav__item md-nav__item--nested">
+    
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-1-6" type="checkbox" id="nav-1-6" >
+    
+    <label class="md-nav__link" for="nav-1-6">
+      Extensions
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Extensions" data-md-level="2">
+      <label class="md-nav__title" for="nav-1-6">
+        <span class="md-nav__icon md-icon"></span>
+        Extensions
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="https://emacs-lsp.github.io/lsp-ui" class="md-nav__link">
+      UI
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="https://github.com/emacs-lsp/lsp-treemacs" class="md-nav__link">
+      Treemacs
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="https://github.com/emacs-lsp/helm-lsp" class="md-nav__link">
+      Helm
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="https://github.com/emacs-lsp/lsp-ivy" class="md-nav__link">
+      Ivy
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="page/integration/iedit.md" class="md-nav__link">
+      Iedit
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="page/limitations.md" class="md-nav__link">
+      Limitations
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="page/remote.md" class="md-nav__link">
+      Remote
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="page/faq.md" class="md-nav__link">
+      FAQ
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="page/troubleshooting.md" class="md-nav__link">
+      Troubleshooting
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="page/adding-new-language.md" class="md-nav__link">
+      Adding new language
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+
+  
+  <li class="md-nav__item md-nav__item--nested">
+    
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2" >
+    
+    <label class="md-nav__link" for="nav-2">
+      Languages
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Languages" data-md-level="1">
+      <label class="md-nav__title" for="nav-2">
+        <span class="md-nav__icon md-icon"></span>
+        Languages
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="page/languages/" class="md-nav__link">
+      Languages
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="page/langs/actionscript/" class="md-nav__link">
+      ActionScript
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="page/langs/cpp/" class="md-nav__link">
+      C/C++
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="page/langs/chsarp.md" class="md-nav__link">
+      C#
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="page/langs/go/" class="md-nav__link">
+      Go
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="page/langs/groovy/" class="md-nav__link">
+      Groovy
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="page/langs/java/" class="md-nav__link">
+      Java
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="page/langs/javascript/" class="md-nav__link">
+      JavaScript
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="page/langs/lua/" class="md-nav__link">
+      Lua
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="page/langes/php.md" class="md-nav__link">
+      PHP
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="page/langes/python.md" class="md-nav__link">
+      Python
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="page/langes/rust.md" class="md-nav__link">
+      Rust
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="page/langes/rust.md" class="md-nav__link">
+      Rust
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="page/langes/scala.md" class="md-nav__link">
+      Scala
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="page/langes/typescript.md" class="md-nav__link">
+      TypeScript
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+
+  
+  <li class="md-nav__item md-nav__item--nested">
+    
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3" >
+    
+    <label class="md-nav__link" for="nav-3">
+      Gallery
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Gallery" data-md-level="1">
+      <label class="md-nav__title" for="nav-3">
+        <span class="md-nav__icon md-icon"></span>
+        Gallery
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="page/gallery.md" class="md-nav__link">
+      None
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+
+  
+  <li class="md-nav__item md-nav__item--nested">
+    
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4" >
+    
+    <label class="md-nav__link" for="nav-4">
+      Changelog
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Changelog" data-md-level="1">
+      <label class="md-nav__title" for="nav-4">
+        <span class="md-nav__icon md-icon"></span>
+        Changelog
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="page/CHANGELOG.md" class="md-nav__link">
+      None
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+
+  
+  <li class="md-nav__item md-nav__item--nested">
+    
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-5" type="checkbox" id="nav-5" >
+    
+    <label class="md-nav__link" for="nav-5">
+      Tutorials
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Tutorials" data-md-level="1">
+      <label class="md-nav__title" for="nav-5">
+        <span class="md-nav__icon md-icon"></span>
+        Tutorials
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="tutorials/CPP-guide.md" class="md-nav__link">
+      Configuring Emacs as a C/C++ IDE
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="tutorials/how-to-turn-off.md" class="md-nav__link">
+      A guide on disabling/enabling lsp-mode features
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="tutorials/reactjs-tutorial.md" class="md-nav__link">
+      React JavaScript Tutorial in Emacs
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="tutorials/clojure-guide.md" class="md-nav__link">
+      Configuring Emacs as a Clojure IDE
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#usage" class="md-nav__link">
+    Usage
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#supported-langauges" class="md-nav__link">
+    Supported Langauges
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#beforeafter-insertion" class="md-nav__link">
+    Before/After Insertion
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#advance-implementation" class="md-nav__link">
+    Advance Implementation
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#document-string" class="md-nav__link">
+    Document String
+  </a>
+  
+    <nav class="md-nav" aria-label="Document String">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#type-name" class="md-nav__link">
+    Type Name
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#variable-name" class="md-nav__link">
+    Variable Name
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#parameter-return" class="md-nav__link">
+    Parameter &amp; Return
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#default-descriptions" class="md-nav__link">
+    Default descriptions
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configure-faces" class="md-nav__link">
+    Configure Faces
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#contribution" class="md-nav__link">
+    Contribution
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                  <a href="https://github.com/jcs-elpa/docstr/edit/master/docs/README.md" title="Edit this page" class="md-content__button md-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
+                  </a>
+                
+                
+                <p><a href="https://travis-ci.com/jcs-elpa/docstr"><img alt="Build Status" src="https://travis-ci.com/jcs-elpa/docstr.svg?branch=master" /></a>
+<a href="https://github.com/jcs-elpa/docstr/releases/latest"><img alt="Release Tag" src="https://img.shields.io/github/tag/jcs-elpa/docstr.svg?label=release" /></a>
+<a href="https://www.gnu.org/software/emacs/"><img alt="Emacs Ver." src="https://img.shields.io/badge/Emacs-25.1+-7B59B0.svg" /></a>
+<a href="https://www.gnu.org/licenses/gpl-3.0"><img alt="License: GPL v3" src="https://img.shields.io/badge/License-GPL%20v3-blue.svg" /></a></p>
+<h1 id="docstr">docstr<a class="headerlink" href="#docstr" title="Permanent link">#</a></h1>
+<blockquote>
+<p>A document string minor mode.</p>
+</blockquote>
+<p>This package provides a simple solution to insert document string into the code.</p>
+<h2 id="usage">Usage<a class="headerlink" href="#usage" title="Permanent link">#</a></h2>
+<p>You can enable this package to a specific major mode, like</p>
+<div class="highlight"><pre><span></span><code>;; Enable `docstr&#39; inside these major modes.
+(add-hook &#39;actionscript-mode-hook (lambda () (docstr-mode 1)))
+(add-hook &#39;java-mode-hook (lambda () (docstr-mode 1)))
+</code></pre></div>
+<p>If you just want to enable it inside a specific buffer just call <code>docstr-mode</code>
+as a command throught minibuffer.</p>
+<div class="highlight"><pre><span></span><code>M-x docstr-mode
+</code></pre></div>
+<p>To enable this package through out all the buffers by default. Call global
+version of the minor mode; then just put the following code snippet to your
+configuration.</p>
+<div class="highlight"><pre><span></span><code>(global-docstr-mode 1)
+</code></pre></div>
+<h2 id="supported-langauges">Supported Langauges<a class="headerlink" href="#supported-langauges" title="Permanent link">#</a></h2>
+<p>Here is a list of all languages that support by this package.</p>
+<ul>
+<li>ActionScript</li>
+<li>C / C++ / C#</li>
+<li>Golang / Groovy</li>
+<li>Java / JavaScript / JSX</li>
+<li>Lua</li>
+<li>PHP / Python</li>
+<li>Rust</li>
+<li>Scala</li>
+<li>TypeScript</li>
+</ul>
+<p>You can customize <code>docstr-writers-alist</code> variable to add your own document
+string support for your favourite language. Just add a cons cell like <code>(mode-name . docstr-writer-name)</code>.</p>
+<p>To create your own document string writer, you would need to create a function
+that takes in one argument. For instance,</p>
+<div class="highlight"><pre><span></span><code>(defun my-docstr-writer (search-string)
+  ;; Insert document stirng here.
+  )
+</code></pre></div>
+<p>Argument <code>search-string</code> will be populated by the triggeration associated list.
+See variable <code>docstr-trigger-alist</code> for more information. For instance,
+a <code>C#</code> trigger data is like this</p>
+<div class="highlight"><pre><span></span><code>(csharp-mode . (&quot;/&quot; docstr-trigger-csharp))
+</code></pre></div>
+<p>And the triggeration function will look like this</p>
+<div class="highlight"><pre><span></span><code>(defun docstr-trigger-csharp (&amp;rest _)
+  &quot;Trigger document string inside C#.&quot;
+  (when (and (docstr--doc-valid-p) (looking-back &quot;///&quot; 3))
+    (save-excursion
+      (insert &quot; &lt;summary&gt;\n&quot;)
+      (insert &quot;/// \n&quot;)
+      (insert &quot;/// &lt;/summary&gt;&quot;))
+    (forward-line 1)
+    (end-of-line)
+    (docstr--insert-doc-string (docstr--c-style-search-string 2))))
+</code></pre></div>
+<p>The document string is triggered by certain conditions are met; and it will
+finally calls the function <code>docstr--insert-doc-string</code> for document string
+insertion. In this example, <code>(docstr--c-style-search-string 2)</code> is the
+<code>search-string</code> ready for document string writer to write a proper document
+string base on the <code>search-string</code> information. Then this is the result.</p>
+<p align="center">
+  <img src="./etc/csharp/csharp-vs-doc-demo.gif" width="450" height="172"/>
+</p>
+
+<h2 id="beforeafter-insertion">Before/After Insertion<a class="headerlink" href="#beforeafter-insertion" title="Permanent link">#</a></h2>
+<p>You can customize document before or after the document string insertion.
+There are total two hooks you can customize.</p>
+<ul>
+<li><code>docstr-before-insert-hook</code></li>
+<li><code>docstr-after-insert-hook</code></li>
+</ul>
+<p>The usage of this is to customize the document string with set up. For instance,
+some programming languages would add <code>@desc</code> before an actual description. Do
+the following can implement this.</p>
+<div class="highlight"><pre><span></span><code>(add-hook &#39;docstr-before-insert-hook (lambda (search-string) (insert &quot;@desc &quot;)))
+</code></pre></div>
+<p>Of course, I would recommend you add it locally so it is language specific
+document style. Let's try apply to language <code>TypeScript</code> only within
+<code>typescript-mode</code>.</p>
+<div class="highlight"><pre><span></span><code>(defun my-typescript-mode-hook ()
+  (add-hook &#39;docstr-before-insert-hook
+            (lambda (search-string) (insert &quot;@desc &quot;))
+            nil t))
+
+(add-hook &#39;typescript-mode-hook #&#39;my-typescript-mode-hook)
+</code></pre></div>
+<p align="center">
+  <img src="./etc/typescript/ts-doc-demo.gif" width="450" height="149"/>
+</p>
+
+<h2 id="advance-implementation">Advance Implementation<a class="headerlink" href="#advance-implementation" title="Permanent link">#</a></h2>
+<p>You are able to customize document string by running <code>before</code>/<code>after</code> hooks.
+The following are advance examples for document string in <code>C++</code>.</p>
+<table>
+<thead>
+<tr>
+<th align="left">Preprocessor</th>
+<th align="left">Enumerator</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"><img src="./etc/c++/cpp-define.gif"/></td>
+<td align="left"><img src="./etc/c++/cpp-enum.gif"/></td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th align="left">Structure</th>
+<th align="left">Class</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"><img src="./etc/c++/cpp-struct.gif"/></td>
+<td align="left"><img src="./etc/c++/cpp-class.gif"/></td>
+</tr>
+</tbody>
+</table>
+<h2 id="document-string">Document String<a class="headerlink" href="#document-string" title="Permanent link">#</a></h2>
+<p>You are able to customize default document string by tweaking these variables.</p>
+<h3 id="type-name">Type Name<a class="headerlink" href="#type-name" title="Permanent link">#</a></h3>
+<ul>
+<li><code>docstr-format-type</code> - default to <code>"{ %s }"</code></li>
+</ul>
+<p>The default is wrap around curly brackets. It only takes one <code>%s</code> for type name
+to plug in.</p>
+<ul>
+<li><code>docstr-show-type-name</code> - default to <code>t</code></li>
+</ul>
+<p>If you don't want the type name to be shown; then set <code>docstr-show-type-name</code>
+to <code>nil</code> will make the trick. For instance, if you don't want the type name
+to be shown in <code>java-mode</code>; do the following.</p>
+<div class="highlight"><pre><span></span><code>(add-hook &#39;java-mode-hook (lambda () (setq-local docstr-show-type-name nil)))
+</code></pre></div>
+<ul>
+<li><code>docstr-default-typename</code> - default to <code>typename</code></li>
+</ul>
+<p>You can change this value if you don't like the default type name. This
+variable is generally use for programming languages that aren't strong type.
+Like <code>Python</code>, <code>JavaScript</code>, <code>PHP</code>, etc.</p>
+<h3 id="variable-name">Variable Name<a class="headerlink" href="#variable-name" title="Permanent link">#</a></h3>
+<ul>
+<li><code>docstr-format-var</code> - default to <code>"%s :"</code></li>
+</ul>
+<p>The default is having colon <code>:</code> at the back of the variable name. It only takes one
+<code>%s</code> for variable name to plug in.</p>
+<h3 id="parameter-return">Parameter &amp; Return<a class="headerlink" href="#parameter-return" title="Permanent link">#</a></h3>
+<ul>
+<li><code>docstr-format-param</code> - default to <code>@param #T##V##D#</code></li>
+<li><code>docstr-format-return</code> - default to <code>@return #T##V##D#</code></li>
+</ul>
+<p>You can customize these variables for different document style. See the
+following talbe for desciption of key <code>#T#</code>, <code>#V#</code> and <code>#D#</code>.</p>
+<table>
+<thead>
+<tr>
+<th align="left">Key</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"><code>#T#</code></td>
+<td align="left">Key represent type name.</td>
+</tr>
+<tr>
+<td align="left"><code>#V#</code></td>
+<td align="left">Key represent variable name.</td>
+</tr>
+<tr>
+<td align="left"><code>#D#</code></td>
+<td align="left">Key represent description.</td>
+</tr>
+</tbody>
+</table>
+<p><em>P.S. These variables are constant value.</em></p>
+<h3 id="default-descriptions">Default descriptions<a class="headerlink" href="#default-descriptions" title="Permanent link">#</a></h3>
+<p>Here is a list of default description strings that you are allow to customize.
+These strings are placeholder before you actually replace these strings with
+realy content description.</p>
+<ul>
+<li><code>docstr-desc-summary</code> - default to <code>"[summary]"</code>.</li>
+<li><code>docstr-desc-param</code> - default to <code>"[description]"</code>.</li>
+<li><code>docstr-desc-return</code> - default to <code>"[description]"</code>.</li>
+<li><code>docstr-desc-typename</code> - default to <code>"[type]"</code>.</li>
+</ul>
+<h2 id="configure-faces">Configure Faces<a class="headerlink" href="#configure-faces" title="Permanent link">#</a></h2>
+<p>This package provides a way to customize the document string faces in a
+consistent way yet this is just an optional choice. To enable this
+feature, you can put the following code snippet into your configuration.</p>
+<div class="highlight"><pre><span></span><code>(docstr-faces-apply)
+</code></pre></div>
+<p>There are three faces that you can customize for document string.</p>
+<ul>
+<li><code>docstr-faces-tag-face</code> - Highlight the tag face; like <code>@param</code>, <code>@return</code>, etc.</li>
+<li><code>docstr-faces-type-face</code> - Highlight the type name face.</li>
+<li><code>docstr-faces-value-face</code> - Highlight the variable name face.</li>
+</ul>
+<h2 id="contribution">Contribution<a class="headerlink" href="#contribution" title="Permanent link">#</a></h2>
+<p>If you would like to contribute to this project, you may either
+clone and make pull requests to this repository. Or you can
+clone the project and establish your own branch of this tool.
+Any methods are welcome!</p>
+                
+                  
+                    
+
+<hr>
+<div class="md-source-date">
+  <small>
+    
+      Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">January 27, 2021</span>
+    
+  </small>
+</div>
+                  
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid" aria-label="Footer">
+        
+        
+          <a href="page/languages/" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                Languages
+              </div>
+            </div>
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+      </div>
+      
+  <div class="md-footer-social">
+    
+      
+      
+        
+        
+      
+      <a href="https://github.com/jcs-elpa/docstr" target="_blank" rel="noopener" title="github.com" class="md-footer-social__link">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 512"><path d="M186.1 328.7c0 20.9-10.9 55.1-36.7 55.1s-36.7-34.2-36.7-55.1 10.9-55.1 36.7-55.1 36.7 34.2 36.7 55.1zM480 278.2c0 31.9-3.2 65.7-17.5 95-37.9 76.6-142.1 74.8-216.7 74.8-75.8 0-186.2 2.7-225.6-74.8-14.6-29-20.2-63.1-20.2-95 0-41.9 13.9-81.5 41.5-113.6-5.2-15.8-7.7-32.4-7.7-48.8 0-21.5 4.9-32.3 14.6-51.8 45.3 0 74.3 9 108.8 36 29-6.9 58.8-10 88.7-10 27 0 54.2 2.9 80.4 9.2 34-26.7 63-35.2 107.8-35.2 9.8 19.5 14.6 30.3 14.6 51.8 0 16.4-2.6 32.7-7.7 48.2 27.5 32.4 39 72.3 39 114.2zm-64.3 50.5c0-43.9-26.7-82.6-73.5-82.6-18.9 0-37 3.4-56 6-14.9 2.3-29.8 3.2-45.1 3.2-15.2 0-30.1-.9-45.1-3.2-18.7-2.6-37-6-56-6-46.8 0-73.5 38.7-73.5 82.6 0 87.8 80.4 101.3 150.4 101.3h48.2c70.3 0 150.6-13.4 150.6-101.3zm-82.6-55.1c-25.8 0-36.7 34.2-36.7 55.1s10.9 55.1 36.7 55.1 36.7-34.2 36.7-55.1-10.9-55.1-36.7-55.1z"/></svg>
+      </a>
+    
+      
+      
+        
+        
+      
+      <a href="https://twitter.com/yonchovski" target="_blank" rel="noopener" title="twitter.com" class="md-footer-social__link">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg>
+      </a>
+    
+      
+      
+        
+        
+      
+      <a href="https://discord.gg/swuxy5AAgT" target="_blank" rel="noopener" title="discord.gg" class="md-footer-social__link">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M297.216 243.2c0 15.616-11.52 28.416-26.112 28.416-14.336 0-26.112-12.8-26.112-28.416s11.52-28.416 26.112-28.416c14.592 0 26.112 12.8 26.112 28.416zm-119.552-28.416c-14.592 0-26.112 12.8-26.112 28.416s11.776 28.416 26.112 28.416c14.592 0 26.112-12.8 26.112-28.416.256-15.616-11.52-28.416-26.112-28.416zM448 52.736V512c-64.494-56.994-43.868-38.128-118.784-107.776l13.568 47.36H52.48C23.552 451.584 0 428.032 0 398.848V52.736C0 23.552 23.552 0 52.48 0h343.04C424.448 0 448 23.552 448 52.736zm-72.96 242.688c0-82.432-36.864-149.248-36.864-149.248-36.864-27.648-71.936-26.88-71.936-26.88l-3.584 4.096c43.52 13.312 63.744 32.512 63.744 32.512-60.811-33.329-132.244-33.335-191.232-7.424-9.472 4.352-15.104 7.424-15.104 7.424s21.248-20.224 67.328-33.536l-2.56-3.072s-35.072-.768-71.936 26.88c0 0-36.864 66.816-36.864 149.248 0 0 21.504 37.12 78.08 38.912 0 0 9.472-11.52 17.152-21.248-32.512-9.728-44.8-30.208-44.8-30.208 3.766 2.636 9.976 6.053 10.496 6.4 43.21 24.198 104.588 32.126 159.744 8.96 8.96-3.328 18.944-8.192 29.44-15.104 0 0-12.8 20.992-46.336 30.464 7.68 9.728 16.896 20.736 16.896 20.736 56.576-1.792 78.336-38.912 78.336-38.912z"/></svg>
+      </a>
+    
+  </div>
+
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="assets/javascripts/vendor.93c04032.min.js"></script>
+      <script src="assets/javascripts/bundle.83e5331e.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}</script>
+      
+      <script>
+        app = initialize({
+          base: ".",
+          features: ['navigation.tabs'],
+          search: Object.assign({
+            worker: "assets/javascripts/worker/search.8c7e0a7e.min.js"
+          }, typeof search !== "undefined" && search)
+        })
+      </script>
+      
+        <script src="js/expanded_nav.js"></script>
+      
+    
+  </body>
+</html>
