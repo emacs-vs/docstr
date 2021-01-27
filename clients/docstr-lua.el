@@ -29,7 +29,8 @@
 (defcustom docstr-lua-style 'lua-wiki
   "Style specification for document string in Lua."
   :type '(choice (const :tag "No specify" nil)
-                 (const :tag "Official Lua org style" lua-wiki))
+                 (const :tag "Official Lua org style" lua-wiki)
+                 (const :tag "Kepler's specification" luadoc))
   :group 'docstr)
 
 (defcustom docstr-lua-prefix "-- "
@@ -48,10 +49,17 @@
   (docstr-util-default-format)
   (setq-local docstr-lua-prefix "-- "))
 
+(defun docstr-lua-config-luadoc ()
+  "Configre for convention, LuaDoc."
+  (docstr-util-default-format)
+  (setq-local docstr-lua-prefix "-- "
+              docstr-show-type-name nil))
+
 (defun docstr-lua-config ()
   "Automatically configure style according to variable `docstr-lua-style'."
   (cl-case docstr-lua-style
     (lua-wiki (docstr-lua-config-lua-wiki))
+    (luadoc (docstr-lua-config-luadoc))
     (t (docstr-util-default-format))))
 
 ;;;###autoload
@@ -64,24 +72,33 @@
          (param-vars (nth 1 paren-param-list))
          (param-var-len (length param-vars))
          (return-type-str "void"))  ; Get the return data type.
-    (unless (= param-var-len 0)
-      (insert (format "\n%s" docstr-lua-splitter)))
+    (cl-case docstr-lua-style
+      (lua-wiki
+       (unless (= param-var-len 0)
+         (insert (format "\n%s" docstr-lua-splitter)))))
     (docstr-writers--insert-param param-types param-vars prefix)
     (docstr-writers--insert-return return-type-str '("void") prefix)
     (docstr-writers-after start t t t)))
+
+(defun docstr-lua--before-insert (_search-string)
+  "Before inserting parameters, etc."
+  (cl-case docstr-lua-style
+    (lua-wiki
+     (backward-delete-char 3)
+     (save-excursion
+       (insert (format "%s\n" docstr-lua-splitter))
+       (insert (format "%s\n" docstr-lua-prefix))
+       (insert (format "%s" docstr-lua-splitter)))
+     (forward-line 1)
+     (end-of-line))
+    (luadoc (insert " "))))
 
 ;;;###autoload
 (defun docstr-trigger-lua (&rest _)
   "Trigger document string inside Lua."
   (when (and (docstr--doc-valid-p) (docstr-util-looking-back "---" 3))
-    (backward-delete-char 3)
-    (save-excursion
-      (insert (format "%s\n" docstr-lua-splitter))
-      (insert "-- \n")
-      (insert (format "%s" docstr-lua-splitter)))
-    (forward-line 1)
-    (end-of-line)
-    (docstr--insert-doc-string (docstr--generic-search-string 2 ")"))))
+    (add-hook 'docstr-before-insert-hook #'docstr-lua--before-insert nil t)
+    (docstr--insert-doc-string (docstr--generic-search-string 1 ")"))))
 
 (provide 'docstr-lua)
 ;;; docstr-lua.el ends here
