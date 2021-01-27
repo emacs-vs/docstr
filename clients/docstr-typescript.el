@@ -26,23 +26,52 @@
 
 (require 'docstr)
 
-(declare-function docstr-writers-actionscript "ext:docstr-actionscript.el")
-
-(defcustom docstr-typescript-style nil
+(defcustom docstr-typescript-style 'typedoc
   "Style specification for document string in TypeScript."
-  :type '(choice (const :tag "No specify" nil))
+  :type '(choice (const :tag "No specify" nil)
+                 (const :tag "TypeDoc" typedoc)
+                 (const :tag "TsDoc" tsdoc))
   :group 'docstr)
+
+(defcustom docstr-typescript-prefix "* "
+  "Prefix you use on each newline."
+  :type 'string
+  :group 'docstr)
+
+(defun docstr-typescript-config-typedoc ()
+  "Configre for convention, TypeDoc."
+  (docstr-util-default-format)
+  (setq-local docstr-typescript-prefix "* "
+              docstr-format-var "%s"
+              docstr-show-type-name nil))
+
+(defun docstr-typescript-config-tsdoc ()
+  "Configre for convention, TSDoc."
+  (docstr-util-default-format)
+  (setq-local docstr-typescript-prefix "* "
+              docstr-format-var "%s -"
+              docstr-show-type-name nil))
 
 (defun docstr-typescript-config ()
   "Automatically configure style according to variable `docstr-typescript-style'."
   (cl-case docstr-typescript-style
+    (typedoc (docstr-typescript-config-typedoc))
+    (tsdoc (docstr-typescript-config-tsdoc))
     (t (docstr-util-default-format))))
 
 ;;;###autoload
 (defun docstr-writers-typescript (search-string)
   "Insert document string for TypesSript using SEARCH-STRING."
   (docstr-typescript-config)
-  (docstr-writers-actionscript search-string))
+  (let* ((start (point)) (prefix docstr-typescript-prefix)
+         (paren-param-list (docstr-writers--paren-param-list-behind search-string ":"))
+         (param-types (nth 0 paren-param-list))
+         (param-vars (nth 1 paren-param-list))
+         ;; Get all return data types.
+         (return-type-str (docstr-writers--return-type-behind search-string ":")))
+    (docstr-writers--insert-param param-types param-vars prefix)
+    (docstr-writers--insert-return return-type-str '("void") prefix)
+    (docstr-writers-after start t t t)))
 
 (provide 'docstr-typescript)
 ;;; docstr-typescript.el ends here
