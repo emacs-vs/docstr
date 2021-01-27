@@ -39,5 +39,21 @@
      <loc>https://jcs-elpa.github.io/docstr/page/langs/lua/</loc>
      <lastmod>2021-01-27</lastmod>
      <changefreq>daily</changefreq>
+    </url><url>
+     <loc>https://jcs-elpa.github.io/docstr/page/langs/python/</loc>
+     <lastmod>2021-01-27</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
+     <loc>https://jcs-elpa.github.io/docstr/page/langs/rust/</loc>
+     <lastmod>2021-01-27</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
+     <loc>https://jcs-elpa.github.io/docstr/page/langs/scala/</loc>
+     <lastmod>2021-01-27</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
+     <loc>https://jcs-elpa.github.io/docstr/page/langs/typescript/</loc>
+     <lastmod>2021-01-27</lastmod>
+     <changefreq>daily</changefreq>
     </url>
 </urlset>
