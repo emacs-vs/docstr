@@ -73,9 +73,7 @@ This function will help insert the corresponding prefix on every line of the
 document string."
   (if (not (docstr-javadoc-like-p)) (apply fnc args)
     (if (not (docstr-util-comment-block-p)) (apply fnc args)
-      (let ((new-doc-p
-             (and (save-excursion (search-backward "/*" (line-beginning-position) t))
-                  (save-excursion (search-forward "*/" (line-end-position) t)))))
+      (let ((new-doc-p (docstr-util-between-pair-p "/*" "*/")))
         (apply fnc args)
         (docstr-key-insert-prefix)
         ;; We can't use `newline-and-indent' here, or else the space will
@@ -107,9 +105,7 @@ This function has two features.
 
 P.S. Prefix will matches the same as your document style selection."
   (cond ((and (eq major-mode 'lua-mode) (jcs-inside-comment-block-p))
-         (let ((new-doc-p
-                (and (save-excursion (search-backward "--[[" (line-beginning-position) t))
-                     (save-excursion (search-forward "]]" (line-end-position) t)))))
+         (let ((new-doc-p (docstr-util-between-pair-p "--[[" "]]")))
            (apply fnc args)
            (indent-for-tab-command)
            (when new-doc-p (end-of-line)))

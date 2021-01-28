@@ -352,13 +352,18 @@ See function `docstr--get-search-string' description for argument TYPE."
     (scala-mode        . docstr-scala-prefix)
     (typescript-mode   . docstr-typescript-prefix)
     (web-mode          . docstr-php-prefix))
-  "Assocaition list for (major-mode . prefix-name).")
+  "Assocaition list for (major-mode . name).
+
+`name` can either be a variable or function.")
 
 (defun docstr-get-prefix ()
   "Return prefix from the corresponding mode."
   (docstr-load-all)
-  (let ((prefix (assoc major-mode docstr-prefix-alist)))
-    (if prefix (symbol-value (cdr prefix)) "")))
+  (let* ((prefix-cons (assoc major-mode docstr-prefix-alist))
+         (prefix (cdr prefix-cons)))
+    (cond ((functionp prefix) (funcall prefix))
+          ((boundp prefix) (symbol-value prefix))
+          (t ""))))
 
 (provide 'docstr)
 ;;; docstr.el ends here

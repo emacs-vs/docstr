@@ -151,6 +151,11 @@ and GREEDY."
 ;; (@* "Comment" )
 ;;
 
+(defun docstr-util-between-pair-p (p1 p2)
+  "Return non-nil if pair P1 and P2 on the same line."
+  (and (save-excursion (search-backward p1 (line-beginning-position) t))
+       (save-excursion (search-forward p2 (line-end-position) t))))
+
 (defun docstr-util--goto-start-comment ()
   "Go to the start of the comment."
   (while (docstr-util-comment-block-p)
