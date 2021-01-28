@@ -27,6 +27,7 @@
 (require 'cl-lib)
 (require 'subr-x)
 
+(defvar docstr-format-type)
 (defvar docstr-key-type)
 (defvar docstr-key-var)
 (defvar docstr-key-desc)
