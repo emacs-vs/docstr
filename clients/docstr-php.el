@@ -26,9 +26,10 @@
 
 (require 'docstr)
 
-(defcustom docstr-php-style nil
+(defcustom docstr-php-style 'phpdoc
   "Style specification for document string in PHP."
-  :type '(choice (const :tag "No specify" nil))
+  :type '(choice (const :tag "No specify" nil)
+                 (const :tag "PHPDoc Style" phpdoc))
   :group 'docstr)
 
 (defcustom docstr-php-prefix "* "
@@ -36,9 +37,17 @@
   :type 'string
   :group 'docstr)
 
+(defun docstr-php-config-phpdoc ()
+  "Configre for convention, PHPDoc."
+  (docstr-util-default-format)
+  (setq-local docstr-php-prefix "* "
+              docstr-format-var "%s"
+              docstr-show-type-name nil))
+
 (defun docstr-php-config ()
   "Automatically configure style according to variable `docstr-php-style'."
   (cl-case docstr-php-style
+    (phpdoc (docstr-php-config-phpdoc))
     (t (docstr-util-default-format))))
 
 ;;;###autoload
