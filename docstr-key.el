@@ -60,21 +60,20 @@ This fulfill condition, /* with */ into a pair."
 
 This function will help insert the corresponding prefix."
   (if (not (docstr-util-comment-block-p)) (apply fnc args)
-    (let (valid-doc-block-p)
-      (setq valid-doc-block-p
-            (save-excursion (search-backward "/*" (line-beginning-position) t))
-            (save-excursion (search-forward "*/" (line-end-position) t)))
+    (let (new-doc-p)
+      (setq new-doc-p
+            (and (save-excursion (search-backward "/*" (line-beginning-position) t))
+                 (save-excursion (search-forward "*/" (line-end-position) t))))
       (apply fnc args)
-
-      (if valid-doc-block-p
+      (if new-doc-p
           (progn
-            (insert "\n")
-            (insert (concat (docstr-get-prefix) " "))
-            (indent-for-tab-command))
-        (insert "\n* ") (indent-for-tab-command)
-        ;; We can't use `newline-and-indent' here, or else the space will
-        ;; be gone.
-        (progn (insert "\n") (indent-for-tab-command)))
+            (insert "\n* ") (indent-for-tab-command)
+            ;; We can't use `newline-and-indent' here, or else the space will
+            ;; be gone.
+            (progn (insert "\n") (indent-for-tab-command)))
+        (insert "\n")
+        (insert (concat (docstr-get-prefix) " "))
+        (indent-for-tab-command))
       (forward-line -1)
       (end-of-line))))
 
