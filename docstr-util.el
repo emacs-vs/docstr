@@ -29,6 +29,8 @@
 
 (defvar docstr-format-type)
 (defvar docstr-format-var)
+(defvar docstr-format-param)
+(defvar docstr-format-return)
 (defvar docstr-key-type)
 (defvar docstr-key-var)
 (defvar docstr-key-desc)
