@@ -35,11 +35,12 @@ conditions."
 
 (defcustom docstr-key-javadoc-like-modes
   (append '(c-mode c++-mode objc-mode csharp-mode swift-mode)
-          '(java-mode php-mode groovy-mode web-mode)
+          '(java-mode groovy-mode processing-mode)
           '(javascript-mode js-mode js2-mode js3-mode json-mode)
+          '(web-mode php-mode)
           '(actionscript-mode typescript-mode)
           '(go-mode rust-mode scala-mode)
-          '(processing-mode ssass-mode scss-mode))
+          '(css-mode ssass-mode scss-mode))
   "List of major-mode that can be use Javadoc style."
   :type 'list
   :group 'docstr)
@@ -59,8 +60,7 @@ This fulfill condition, /* with */ into a pair."
   "Initailization for key functions."
   (when docstr-key-support
     (when (memq major-mode docstr-key-javadoc-like-modes)
-      (docstr-util-key-advice-add "*" :around #'docstr-key-javadoc-asterik))
-    ))
+      (docstr-util-key-advice-add "*" :around #'docstr-key-javadoc-asterik))))
 
 (provide 'docstr-key)
 ;;; docstr-key.el ends here
