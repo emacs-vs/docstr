@@ -8,10 +8,6 @@
 
 This package provides a simple solution to insert document string into the code.
 
-## Prerequisite
-
-N/A
-
 ## Usage
 
 You can enable this package to a specific major mode, like
@@ -218,6 +214,14 @@ There are three faces that you can customize for document string.
 * `docstr-faces-tag-face` - Highlight the tag face; like `@param`, `@return`, etc.
 * `docstr-faces-type-face` - Highlight the type name face.
 * `docstr-faces-value-face` - Highlight the variable name face.
+
+## Multiline Docstring & Keys
+
+Make sure you have starting and ending comment before triggering document string
+insertion from this package. For instance, you will need `/*` and `*/` before
+hitting return. There are several packages that can help you achieve this.
+You can also enable variable `docstr-key-support` for the built-in support
+from this package.
 
 ## Contribution
 
