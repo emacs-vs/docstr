@@ -52,7 +52,7 @@
       (font-lock-add-keywords
        mode
        '(;; `@param` { typename } val-tag : value tag description..
-         ("\\(?:^\\|\\s-\\)\\(@[^ \"'{}()\t\r\n]+\\)" 1 'docstr-faces-tag-face t)
+         ("\\(?:^\\|\\s-\\)\\([@\\][^ \"'{}()\t\r\n]+\\)" 1 'docstr-faces-tag-face t)
          ;; @param `{ typename }` val-tag : value tag description..
          ("[ \t]+@[^ \t\r\n]+\\(?:^\\|\\s-\\)\\([\\[{][^}\n]*.\\)" 1 'docstr-faces-type-face t)
          ;; @param { typename } `val-tag` : value tag description..
