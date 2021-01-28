@@ -70,13 +70,9 @@ This function will help insert the corresponding prefix."
             (and (save-excursion (search-backward "/*" (line-beginning-position) t))
                  (save-excursion (search-forward "*/" (line-end-position) t))))
       (apply fnc args)
-      (if new-doc-p
-          (progn
-            (docstr-key-insert-prefix)
-            ;; We can't use `newline-and-indent' here, or else the space will
-            ;; be gone.
-            (progn (insert "\n") (indent-for-tab-command)))
-        (docstr-key-insert-prefix))
+      ;; We can't use `newline-and-indent' here, or else the space will
+      ;; be gone.
+      (when new-doc-p (insert "\n") (indent-for-tab-command))
       (forward-line -1)
       (end-of-line))))
 
