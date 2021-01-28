@@ -116,6 +116,16 @@ and GREEDY."
   (ignore-errors (looking-back regexp limit greedy)))
 
 ;;
+;; (@* "Point" )
+;;
+
+(defun docstr-util-is-behind-last-char-at-line-p (&optional pt)
+  "Return non-nil if there is nothing behind of the right from the PT."
+  (save-excursion
+    (when pt (goto-char pt))
+    (null (re-search-forward "[^ \t]" (line-end-position) t))))
+
+;;
 ;; (@* "Character" )
 ;;
 
@@ -136,10 +146,10 @@ and GREEDY."
 ;; (@* "Key" )
 ;;
 
-(defun docstr-util-key-advice-add (key fnc)
+(defun docstr-util-key-advice-add (key where fnc)
   "Safe add advice KEY with FNC."
   (let ((key-fnc (key-binding (kbd key))))
-    (when (symbolp key-fnc) (advice-add key-fnc :after fnc))))
+    (when (symbolp key-fnc) (advice-add key-fnc where fnc))))
 
 (defun docstr-util-key-advice-remove (key fnc)
   "Safe remove advice KEY with FNC."
