@@ -29,7 +29,7 @@
 (defcustom docstr-java-style 'javadoc
   "Style specification for document string in Java."
   :type '(choice (const :tag "No specify" nil)
-                 (const :tag "Document String in Java" javadoc))
+                 (const :tag "Javadoc Style" javadoc))
   :group 'docstr)
 
 (defcustom docstr-java-prefix "* "

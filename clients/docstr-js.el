@@ -29,7 +29,7 @@
 (defcustom docstr-js-style 'jsdoc
   "Style specification for document string in JavaScript."
   :type '(choice (const :tag "No specify" nil)
-                 (const :tag "Document String in JavaScript" jsdoc)
+                 (const :tag "JSdoc Style" jsdoc)
                  (const :tag "Google Style" google))
   :group 'docstr)
 

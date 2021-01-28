@@ -26,10 +26,11 @@
 
 (require 'docstr)
 
-(defcustom docstr-c++-style nil
+(defcustom docstr-c++-style 'javadoc
   "Style specification for document string in C++."
   :type '(choice (const :tag "No specify" nil)
-                 (const :tag "Qt Documentation Style" qt))
+                 (const :tag "Javadoc Style" javadoc)
+                 (const :tag "Qt Style" qt))
   :group 'docstr)
 
 (defcustom docstr-c++-prefix "* "
@@ -37,8 +38,15 @@
   :type 'string
   :group 'docstr)
 
+(defun docstr-c++-config-javadoc ()
+  "Configre for convention, Javadoc Style."
+  (docstr-util-default-format)
+  (setq-local docstr-c++-prefix "* "
+              docstr-format-var "%s"
+              docstr-show-type-name nil))
+
 (defun docstr-c++-config-qt ()
-  "Configre for convention, Qt."
+  "Configre for convention, Qt Style."
   (docstr-util-default-format :param "\\param" :ret "\\return")
   (setq-local docstr-c++-prefix "    "
               docstr-format-var "%s"
@@ -47,6 +55,7 @@
 (defun docstr-c++-config ()
   "Automatically configure style according to variable `docstr-c++-style'."
   (cl-case docstr-c++-style
+    (javadoc (docstr-c++-config-javadoc))
     (qt (docstr-c++-config-qt))
     (t (docstr-util-default-format))))
 
