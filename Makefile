@@ -5,8 +5,7 @@ CASK ?= cask
 
 DOCSTR-FILES := docstr.el docstr-util.el docstr-writers.el $(wildcard clients/*.el)
 
-TEST-FILES := test/windows-bootstrap.el test/test-helper.el \
-	$(shell ls test/docstr-*.el)
+TEST-FILES := test/bootstrap.el $(shell ls test/docstr-*.el)
 LOAD-FILE = -l $(test-file)
 LOAD-TEST-FILES := $(foreach test-file, $(TEST-FILES), $(LOAD-FILE))
 
