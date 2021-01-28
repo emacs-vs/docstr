@@ -40,7 +40,7 @@
 (defun docstr-actionscript-config-asdoc ()
   "Configre for convention, ASDoc."
   (docstr-util-default-format)
-  (setq-local docstr-java-prefix "* "
+  (setq-local docstr-actionscript-prefix "* "
               docstr-format-var "%s"
               docstr-show-type-name nil))
 
