@@ -120,14 +120,18 @@ P.S. Prefix will matches the same as your document style selection."
            (insert "-- ")))
         (t (apply fnc args))))
 
-;;;###autoload
-(defun docstr-key-init ()
-  "Initailization for key functions."
+(defun docstr-key-enable ()
+  "Enable key functions."
   (when docstr-key-support
-    (docstr-load-all)
     (docstr-util-key-advice-add "*" :around #'docstr-key-javadoc-asterik)
     (docstr-util-key-advice-add "RET" :around #'docstr-key-c-like-return)
     (docstr-util-key-advice-add "RET" :around #'docstr-key-lua-return)))
+
+(defun docstr-key-disable ()
+  "Disable key functions."
+  (docstr-util-key-advice-remove "*" #'docstr-key-javadoc-asterik)
+  (docstr-util-key-advice-remove "RET" #'docstr-key-c-like-return)
+  (docstr-util-key-advice-remove "RET" #'docstr-key-lua-return))
 
 (provide 'docstr-key)
 ;;; docstr-key.el ends here
