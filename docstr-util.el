@@ -180,29 +180,40 @@ and GREEDY."
 
 (defun docstr-util-start-comment-symbol (&optional pt)
   "Return the starting comment symbol form the given PT."
-  (let (start-pt)
-    (save-excursion
-      (when pt (goto-char pt))
-      (docstr-util--goto-start-comment)
-      (setq start-pt (point))
-      (re-search-forward "[ \t\r\n]" (1+ (line-end-position)) t)
-      (if (= start-pt (point)) nil
-        (string-trim (buffer-substring start-pt (point)))))))
+  (when (docstr-util-comment-block-p)
+    (let (start-pt)
+      (save-excursion
+        (when pt (goto-char pt))
+        (docstr-util--goto-start-comment)
+        (progn  ; Make sure to go outside of symbol
+          (re-search-backward "[ \t\r\n]" nil t)
+          (forward-char 1))
+        (setq start-pt (point))
+        (re-search-forward "[ \t\r\n]" (1+ (line-end-position)) t)
+        (if (= start-pt (point)) nil
+          (string-trim (buffer-substring start-pt (point))))))))
 
 (defun docstr-util-end-comment-symbol (&optional pt)
   "Return the ending comment symbol form the given PT."
-  (let (end-pt)
-    (save-excursion
-      (when pt (goto-char pt))
-      (docstr-util--goto-end-comment)
-      (setq end-pt (point))
-      (re-search-backward "[ \t\r\n]" (1- (line-beginning-position)) t)
-      (if (= end-pt (point)) nil
-        (string-trim (buffer-substring (point) end-pt))))))
+  (when (docstr-util-comment-block-p)
+    (let (end-pt)
+      (save-excursion
+        (when pt (goto-char pt))
+        (docstr-util--goto-end-comment)
+        (setq end-pt (point))
+        (re-search-backward "[ \t\r\n]" (1- (line-beginning-position)) t)
+        (if (= end-pt (point)) nil
+          (string-trim (buffer-substring (point) end-pt)))))))
 
 (defun docstr-util-multiline-comment-p ()
   "Return non-nil, if current point inside multi-line comment block."
-  (string-match-p "/[*]" (docstr-util-start-comment-symbol)))
+  (ignore-errors (string-match-p "/[*]" (docstr-util-start-comment-symbol))))
+
+(defun docstr-util-comment-line-symbol (&optional n)
+  "Forward N line and return starting comment symbol."
+  (save-excursion
+    (when n (forward-line n)) (end-of-line)
+    (docstr-util-start-comment-symbol)))
 
 ;;
 ;; (@* "Key" )

@@ -28,6 +28,7 @@
 ;;; Code:
 
 (require 'cl-lib)
+(require 's)
 
 (defcustom docstr-key-support nil
   "If non-nil, use key support to fulfill document string triggerations' conditions."
@@ -55,6 +56,19 @@
   (insert (docstr-get-prefix))
   (indent-for-tab-command))
 
+(defun docstr-key-single-line-prefix-insertion ()
+  "Insertion for single line comment."
+  (let* ((prev-line-text (save-excursion (forward-line -1) (thing-at-point 'line)))
+         (prev-line-doc-symbol (docstr-util-comment-line-symbol -1))
+         (current-line-doc-symbol (docstr-util-comment-line-symbol))
+         (next-line-doc-symbol (docstr-util-comment-line-symbol 1))
+         (prev-line-content (string-trim (s-replace prev-line-doc-symbol "" prev-line-text))))
+    (when (or (string= prev-line-doc-symbol next-line-doc-symbol)
+              (and (not (string-empty-p prev-line-content))
+                   (string= current-line-doc-symbol next-line-doc-symbol)))
+      (insert (concat prev-line-doc-symbol " "))
+      (indent-for-tab-command))))
+
 (defun docstr-key-javadoc-asterik (fnc &rest args)
   "Asterik key for Javadoc like document string.
 
@@ -75,8 +89,9 @@ document string."
     (if (not (docstr-util-comment-block-p)) (apply fnc args)
       (let ((new-doc-p (docstr-util-between-pair-p "/*" "*/")))
         (apply fnc args)
-        (when (docstr-util-multiline-comment-p)
-          (docstr-key-insert-prefix))
+        (if (docstr-util-multiline-comment-p)
+            (docstr-key-insert-prefix)
+          (docstr-key-single-line-prefix-insertion))
         (when new-doc-p
           ;; We can't use `newline-and-indent' here, or else the space will be gone.
           (progn (insert "\n") (indent-for-tab-command))
