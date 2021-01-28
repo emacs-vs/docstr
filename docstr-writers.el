@@ -262,7 +262,9 @@ Argument START is the starting point ot the insertion.
 If optional argument IND-R is non-nil, indent region once.  If optional
 argument IND-L is non-nil, indent currnet line once.  If optional argument
 RESTORE-PT is non-nil, go back to starting position."
-  (when ind-r (indent-region start (point)))
+  (when ind-r
+    (indent-region (docstr-util-start-comment-point)
+                   (docstr-util-end-comment-point)))
   (when ind-l (indent-for-tab-command))
   (when restore-pt (goto-char start)))
 
