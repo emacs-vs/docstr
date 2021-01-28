@@ -354,8 +354,8 @@ See function `docstr--get-search-string' description for argument TYPE."
 
 (defun docstr-get-prefix ()
   "Return prefix from the corresponding mode."
+  (docstr-load-all)
   (let ((prefix (assoc major-mode docstr-prefix-alist)))
-    (docstr-load-all)
     (if prefix (symbol-value (cdr prefix)) "")))
 
 (provide 'docstr)
