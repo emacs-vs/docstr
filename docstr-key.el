@@ -32,8 +32,7 @@
 (declare-function docstr-load-all "ext:docstr.el")
 
 (defcustom docstr-key-support nil
-  "If non-nil, use key support to fulfill document string triggerations'
-conditions."
+  "If non-nil, use key support to fulfill document string triggerations' conditions."
   :type 'boolean
   :group 'docstr)
 
@@ -45,12 +44,12 @@ conditions."
           '(actionscript-mode typescript-mode)
           '(go-mode rust-mode scala-mode)
           '(css-mode ssass-mode scss-mode))
-  "List of major-mode that can be use Javadoc style."
+  "List of `major-mode' that can be use Javadoc style."
   :type 'list
   :group 'docstr)
 
 (defun docstr-javadoc-like-p ()
-  ""
+  "Return non-nil if current `major-mode' uses Javadoc style."
   (memq major-mode docstr-key-javadoc-like-modes))
 
 (defun docstr-key-insert-prefix ()
@@ -91,7 +90,24 @@ document string."
 (defun docstr-key-lua-return (fnc &rest args)
   "Return key for Lua document string.
 
-This function has two features."
+This function has two features.
+
+1. Extra indented newline with multi-line comment.
+
+```lua
+--[[
+  > Extra newline inserted <
+]]
+```
+
+2. Document prefix inserted with single line comment.
+
+```lua
+-- > Cursor is here, prepare for return <
+-- > The prefix inserted after hitting return <
+```
+
+P.S. Prefix will matches the same as your document style selection."
   (cond ((and (eq major-mode 'lua-mode) (jcs-inside-comment-block-p))
          (let ((new-doc-p
                 (and (save-excursion (search-backward "--[[" (line-beginning-position) t))
