@@ -54,7 +54,7 @@
 (defun docstr-writers-scala (search-string)
   "Insert document string for Scala using SEARCH-STRING."
   (docstr-scala-config)
-  (let* ((start (point)) (prefix docstr-rust-prefix)
+  (let* ((start (point)) (prefix docstr-scala-prefix)
          (paren-param-list (docstr-writers--paren-param-list-behind search-string ":" t))
          (param-types (nth 0 paren-param-list))
          (param-vars (nth 1 paren-param-list))
