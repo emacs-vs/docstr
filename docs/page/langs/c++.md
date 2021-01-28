@@ -9,3 +9,4 @@ You can customize variable `docstr-c++-style` for the following value.
 ## References
 
 * [Doxygen](https://www.doxygen.nl/manual/docblocks.html)
+* [C++ Documentation Style](https://doc.qt.io/qt-5/qtwritingstyle-cpp.html)
