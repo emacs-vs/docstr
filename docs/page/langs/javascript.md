@@ -2,7 +2,7 @@
 
 You can customize variable `docstr-js-style` for the following value.
 
-* `jsdoc` - Document String in Java (default)
+* `jsdoc` - JSdoc Style (default)
 * `google` - Google Style
 * `nil` - Respect to user's customization
 

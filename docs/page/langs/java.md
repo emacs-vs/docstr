@@ -2,7 +2,7 @@
 
 You can customize variable `docstr-java-style` for the following value.
 
-* `javadoc` - Document String in Java (default)
+* `javadoc` - Javadoc Style (default)
 * `nil` - Respect to user's customization
 
 ## References
