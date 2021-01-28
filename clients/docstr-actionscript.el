@@ -26,9 +26,10 @@
 
 (require 'docstr)
 
-(defcustom docstr-actionscript-style nil
+(defcustom docstr-actionscript-style 'asdoc
   "Style specification for document string in ActionScript."
-  :type '(choice (const :tag "No specify" nil))
+  :type '(choice (const :tag "No specify" nil)
+                 (const :tag "ASDoc Style" asdoc))
   :group 'docstr)
 
 (defcustom docstr-actionscript-prefix "* "
@@ -36,9 +37,17 @@
   :type 'string
   :group 'docstr)
 
+(defun docstr-actionscript-config-asdoc ()
+  "Configre for convention, ASDoc."
+  (docstr-util-default-format)
+  (setq-local docstr-java-prefix "* "
+              docstr-format-var "%s"
+              docstr-show-type-name nil))
+
 (defun docstr-actionscript-config ()
   "Automatically configure style according to variable `docstr-actionscript-style'."
   (cl-case docstr-actionscript-style
+    (asdoc (docstr-actionscript-config-asdoc))
     (t (docstr-util-default-format))))
 
 ;;;###autoload
