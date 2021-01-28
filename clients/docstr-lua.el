@@ -99,19 +99,20 @@
 (defun docstr-lua--before-insert (_search-string)
   "Before inserting parameters, etc."
   (cl-case docstr-lua-style
+    (luadoc (insert " "))
     (doxygen
      (backward-delete-char 3)
      (save-excursion
        (insert (format "%s\n" docstr-lua-splitter))
        (insert (format "%s\n" docstr-lua-prefix)))
      (forward-line 1)
-     (end-of-line))
-    (luadoc (insert " "))))
+     (end-of-line))))
 
 ;;;###autoload
 (defun docstr-trigger-lua (&rest _)
   "Trigger document string inside Lua."
-  (when (and (docstr--doc-valid-p) (docstr-util-looking-back "---" 3))
+  (when (and (docstr--doc-valid-p) (docstr-util-looking-back "---" 3)
+             (memq docstr-lua-style '(luadoc doxygen)))
     (add-hook 'docstr-before-insert-hook #'docstr-lua--before-insert nil t)
     (docstr--insert-doc-string (docstr--generic-search-string 1 ")"))))
 
@@ -121,7 +122,8 @@
   (when (docstr--doc-valid-p)
     (let ((ln-prev (docstr-util-line-relative -1 t))
           (ln-next (docstr-util-line-relative 1 t)))
-      (when (and (string-prefix-p "--[[" ln-prev) (string-suffix-p "]]" ln-next))
+      (when (and (string-prefix-p "--[[" ln-prev) (string-suffix-p "]]" ln-next)
+                 (memq docstr-lua-style '(scriptum)))
         (docstr--insert-doc-string (docstr--generic-search-string 2 ")"))))))
 
 (provide 'docstr-lua)
