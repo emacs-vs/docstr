@@ -28,6 +28,7 @@
 (require 'subr-x)
 
 (defvar docstr-format-type)
+(defvar docstr-format-var)
 (defvar docstr-key-type)
 (defvar docstr-key-var)
 (defvar docstr-key-desc)
