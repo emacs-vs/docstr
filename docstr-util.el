@@ -143,6 +143,51 @@ and GREEDY."
         (t nil)))
 
 ;;
+;; (@* "Comment" )
+;;
+
+(defun docstr-util--goto-start-comment ()
+  "Go to the start of the comment."
+  (when (docstr-util-comment-block-p)
+    (re-search-backward comment-start-skip nil t)))
+
+(defun docstr-util--goto-end-comment ()
+  "Go to the end of the comment."
+  (when (docstr-util-comment-block-p)
+    (forward-char 1)
+    (docstr-util--goto-end-comment)))
+
+(defun docstr-util-start-comment-point (&optional pt)
+  "Point at the start of the comment point relative to PT."
+  (save-excursion (when pt (goto-char pt)) (docstr-util--goto-start-comment) (point)))
+
+(defun docstr-util-end-comment-point (&optional pt)
+  "Point at the end of the comment point relative to PT."
+  (save-excursion (when pt (goto-char pt)) (docstr-util--goto-end-comment) (point)))
+
+(defun docstr-util-start-comment-symbol (&optional pt)
+  "Return the starting comment symbol form the given PT."
+  (let (start-pt)
+    (save-excursion
+      (when pt (goto-char pt))
+      (docstr-util--goto-start-comment)
+      (setq start-pt (point))
+      (re-search-forward "[ \t\r\n]" (1+ (line-end-position)) t)
+      (if (= start-pt (point)) nil
+        (string-trim (buffer-substring start-pt (point)))))))
+
+(defun docstr-util-end-comment-symbol (&optional pt)
+  "Return the ending comment symbol form the given PT."
+  (let (end-pt)
+    (save-excursion
+      (when pt (goto-char pt))
+      (docstr-util--goto-end-comment)
+      (setq end-pt (point))
+      (re-search-backward "[ \t\r\n]" (1- (line-beginning-position)) t)
+      (if (= end-pt (point)) nil
+        (string-trim (buffer-substring (point) end-pt))))))
+
+;;
 ;; (@* "Key" )
 ;;
 
