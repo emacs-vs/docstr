@@ -29,8 +29,6 @@
 
 (require 'cl-lib)
 
-(declare-function docstr-load-all "ext:docstr.el")
-
 (defcustom docstr-key-support nil
   "If non-nil, use key support to fulfill document string triggerations' conditions."
   :type 'boolean
