@@ -46,7 +46,7 @@ conditions."
   :group 'docstr)
 
 (defun docstr-key-javadoc-asterik (fnc &rest args)
-  "Asterik key for Javadoc/JSDoc like document string.
+  "Asterik key for Javadoc like document string.
 
 This fulfill condition, /* with */ into a pair."
   (apply fnc args)
@@ -55,12 +55,36 @@ This fulfill condition, /* with */ into a pair."
                (docstr-util-looking-back "/[*]" 2))
       (insert "*/"))))
 
+(defun docstr-key-javadoc-return (fnc &rest args)
+  "Return key for Javadoc like document string.
+
+This function will help insert the corresponding prefix."
+  (if (not (docstr-util-comment-block-p)) (apply fnc args)
+    (let (valid-doc-block-p)
+      (setq valid-doc-block-p
+            (save-excursion (search-backward "/*" (line-beginning-position) t))
+            (save-excursion (search-forward "*/" (line-end-position) t)))
+      (apply fnc args)
+
+      (if valid-doc-block-p
+          (progn
+            (insert "\n")
+            (insert (concat (docstr-get-prefix) " "))
+            (indent-for-tab-command))
+        (insert "\n* ") (indent-for-tab-command)
+        ;; We can't use `newline-and-indent' here, or else the space will
+        ;; be gone.
+        (progn (insert "\n") (indent-for-tab-command)))
+      (forward-line -1)
+      (end-of-line))))
+
 ;;;###autoload
 (defun docstr-key-init ()
   "Initailization for key functions."
   (when docstr-key-support
     (when (memq major-mode docstr-key-javadoc-like-modes)
-      (docstr-util-key-advice-add "*" :around #'docstr-key-javadoc-asterik))))
+      (docstr-util-key-advice-add "*" :around #'docstr-key-javadoc-asterik)
+      (docstr-util-key-advice-add "RET" :around #'docstr-key-javadoc-return))))
 
 (provide 'docstr-key)
 ;;; docstr-key.el ends here
