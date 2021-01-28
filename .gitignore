@@ -1,7 +1,6 @@
 # ignore these directories.
 /.git
 /recipes
-/test
 docstr-pkg.el
 
 # ignore generated files.
