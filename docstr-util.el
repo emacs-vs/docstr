@@ -27,6 +27,10 @@
 (require 'cl-lib)
 (require 'subr-x)
 
+(defvar docstr-key-type)
+(defvar docstr-key-var)
+(defvar docstr-key-desc)
+
 (defun docstr-util-line-relative (&optional n trim)
   "Return string of N line relatively.
 
