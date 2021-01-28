@@ -831,7 +831,7 @@ insertion. In this example, <code>(docstr--c-style-search-string 2)</code> is th
 <code>search-string</code> ready for document string writer to write a proper document
 string base on the <code>search-string</code> information. Then this is the result.</p>
 <p align="center">
-  <img src="./etc/csharp/csharp-vs-doc-demo.gif" width="450" height="172"/>
+<img src="./etc/csharp/csharp-vs-doc-demo.gif" width="450" height="172"/>
 </p>
 
 <h2 id="beforeafter-insertion">Before/After Insertion<a class="headerlink" href="#beforeafter-insertion" title="Permanent link">#</a></h2>
@@ -857,7 +857,7 @@ document style. Let's try apply to language <code>TypeScript</code> only within
 (add-hook &#39;typescript-mode-hook #&#39;my-typescript-mode-hook)
 </code></pre></div>
 <p align="center">
-  <img src="./etc/typescript/ts-doc-demo.gif" width="450" height="149"/>
+<img src="./etc/typescript/ts-doc-demo.gif" width="450" height="149"/>
 </p>
 
 <h2 id="advance-implementation">Advance Implementation<a class="headerlink" href="#advance-implementation" title="Permanent link">#</a></h2>
@@ -977,6 +977,10 @@ insertion from this package. For instance, you will need <code>/*</code> and <co
 hitting return. There are several packages that can help you achieve this.
 You can also enable variable <code>docstr-key-support</code> for the built-in support
 from this package.</p>
+<div class="highlight"><pre><span></span><code>;; This fixes auto paring for document string which fulfill conditions
+;; from the multiline document stirng triggeration.
+(setq docstr-key-support t)
+</code></pre></div>
 <h2 id="contribution">Contribution<a class="headerlink" href="#contribution" title="Permanent link">#</a></h2>
 <p>If you would like to contribute to this project, you may either
 clone and make pull requests to this repository. Or you can
