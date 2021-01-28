@@ -111,9 +111,8 @@ P.S. Prefix will matches the same as your document style selection."
                 (and (save-excursion (search-backward "--[[" (line-beginning-position) t))
                      (save-excursion (search-forward "]]" (line-end-position) t)))))
            (apply fnc args)
-           (when new-doc-p
-             (indent-for-tab-command)
-             (end-of-line)))
+           (indent-for-tab-command)
+           (when new-doc-p (end-of-line)))
          (unless (string= "--[[" (docstr-util-start-comment-symbol))
            (insert "-- ")))
         (t (apply fnc args))))
