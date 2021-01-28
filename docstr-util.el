@@ -192,6 +192,10 @@ and GREEDY."
       (if (= end-pt (point)) nil
         (string-trim (buffer-substring (point) end-pt))))))
 
+(defun docstr-util-multiline-comment-p ()
+  "Return non-nil, if current point inside multi-line comment block."
+  (string-match-p "/[*]" (docstr-util-start-comment-symbol)))
+
 ;;
 ;; (@* "Key" )
 ;;

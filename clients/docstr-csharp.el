@@ -55,7 +55,7 @@
          (return-type-str (docstr-writers--return-type search-string))
          docstring-type)
     ;; Determine the docstring type.
-    (if (string-match-p "/[*]" (docstr-util-start-comment-symbol))
+    (if (docstr-util-multiline-comment-p)
         (setq docstring-type 'javadoc prefix "* ")
       (setq docstring-type 'vsdoc prefix "/// "))
 
