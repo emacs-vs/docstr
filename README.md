@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.com/jcs-elpa/docstr.svg?branch=master)](https://travis-ci.com/jcs-elpa/docstr)
+![CI](https://github.com/jcs-elpa/docstr/workflows/CI/badge.svg)
 [![Release Tag](https://img.shields.io/github/tag/jcs-elpa/docstr.svg?label=release)](https://github.com/jcs-elpa/docstr/releases/latest)
 [![Emacs Ver.](https://img.shields.io/badge/Emacs-25.1+-7B59B0.svg)](https://www.gnu.org/software/emacs/)
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
