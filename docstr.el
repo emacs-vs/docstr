@@ -301,5 +301,34 @@ See function `docstr--get-search-string' description for argument TYPE."
         (when (string-empty-p ln-current) (insert "* "))
         (docstr--insert-doc-string (docstr--c-style-search-string 2))))))
 
+;;
+;; (@* "Prefix" )
+;;
+
+(defvar docstr-prefix-alist
+  '((actionscript-mode . docstr-actionscript-prefix)
+    (c-mode            . docstr-c-prefix)
+    (c++-mode          . docstr-c++-prefix)
+    (csharp-mode       . docstr-csharp-prefix)
+    (go-mode           . docstr-go-prefix)
+    (groovy-mode       . docstr-groovy-prefix)
+    (java-mode         . docstr-java-prefix)
+    (javascript-mode   . docstr-js-prefix)
+    (js-mode           . docstr-js-prefix)
+    (js2-mode          . docstr-js-prefix)
+    (js3-mode          . docstr-js-prefix)
+    (lua-mode          . docstr-lua-prefix)
+    (php-mode          . docstr-php-prefix)
+    (python-mode       . docstr-python-prefix)
+    (rust-mode         . docstr-rust-prefix)
+    (scala-mode        . docstr-scala-prefix)
+    (typescript-mode   . docstr-typescript-prefix))
+  "Assocaition list for (major-mode . prefix-name).")
+
+(defun docstr-get-prefix ()
+  "Return prefix from the corresponding mode."
+  (or (assoc (buffer-local-value 'major-mode (current-buffer)) docstr-prefix-alist)
+      ""))
+
 (provide 'docstr)
 ;;; docstr.el ends here
