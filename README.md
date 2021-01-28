@@ -89,7 +89,7 @@ insertion. In this example, `(docstr--c-style-search-string 2)` is the
 string base on the `search-string` information. Then this is the result.
 
 <p align="center">
-  <img src="./etc/csharp/csharp-vs-doc-demo.gif" width="450" height="172"/>
+<img src="./etc/csharp/csharp-vs-doc-demo.gif" width="450" height="172"/>
 </p>
 
 ## Before/After Insertion
@@ -122,7 +122,7 @@ document style. Let's try apply to language `TypeScript` only within
 ```
 
 <p align="center">
-  <img src="./etc/typescript/ts-doc-demo.gif" width="450" height="149"/>
+<img src="./etc/typescript/ts-doc-demo.gif" width="450" height="149"/>
 </p>
 
 ## Advance Implementation
@@ -222,6 +222,12 @@ insertion from this package. For instance, you will need `/*` and `*/` before
 hitting return. There are several packages that can help you achieve this.
 You can also enable variable `docstr-key-support` for the built-in support
 from this package.
+
+```el
+;; This fixes auto paring for document string which fulfill conditions
+;; from the multiline document stirng triggeration.
+(setq docstr-key-support t)
+```
 
 ## Contribution
 
