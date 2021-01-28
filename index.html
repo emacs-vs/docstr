@@ -307,13 +307,6 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#prerequisite" class="md-nav__link">
-    Prerequisite
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#usage" class="md-nav__link">
     Usage
   </a>
@@ -385,6 +378,13 @@
         <li class="md-nav__item">
   <a href="#configure-faces" class="md-nav__link">
     Configure Faces
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#multiline-docstring-keys" class="md-nav__link">
+    Multiline Docstring &amp; Keys
   </a>
   
 </li>
@@ -657,13 +657,6 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#prerequisite" class="md-nav__link">
-    Prerequisite
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#usage" class="md-nav__link">
     Usage
   </a>
@@ -740,6 +733,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#multiline-docstring-keys" class="md-nav__link">
+    Multiline Docstring &amp; Keys
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#contribution" class="md-nav__link">
     Contribution
   </a>
@@ -772,8 +772,6 @@
 <p>A document string minor mode.</p>
 </blockquote>
 <p>This package provides a simple solution to insert document string into the code.</p>
-<h2 id="prerequisite">Prerequisite<a class="headerlink" href="#prerequisite" title="Permanent link">#</a></h2>
-<p>N/A</p>
 <h2 id="usage">Usage<a class="headerlink" href="#usage" title="Permanent link">#</a></h2>
 <p>You can enable this package to a specific major mode, like</p>
 <div class="highlight"><pre><span></span><code>;; Enable `docstr&#39; inside these major modes.
@@ -973,6 +971,12 @@ feature, you can put the following code snippet into your configuration.</p>
 <li><code>docstr-faces-type-face</code> - Highlight the type name face.</li>
 <li><code>docstr-faces-value-face</code> - Highlight the variable name face.</li>
 </ul>
+<h2 id="multiline-docstring-keys">Multiline Docstring &amp; Keys<a class="headerlink" href="#multiline-docstring-keys" title="Permanent link">#</a></h2>
+<p>Make sure you have starting and ending comment before triggering document string
+insertion from this package. For instance, you will need <code>/*</code> and <code>*/</code> before
+hitting return. There are several packages that can help you achieve this.
+You can also enable variable <code>docstr-key-support</code> for the built-in support
+from this package.</p>
 <h2 id="contribution">Contribution<a class="headerlink" href="#contribution" title="Permanent link">#</a></h2>
 <p>If you would like to contribute to this project, you may either
 clone and make pull requests to this repository. Or you can
