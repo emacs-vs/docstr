@@ -191,7 +191,7 @@ You should customize this variable to add your own triggeration methods."
 
 (defun docstr--enable ()
   "Enable `docstr' in current buffer."
-  (docstr-key-init)
+  (docstr-key-init)  ; Be infront, in order to take effect
   (docstr-util-key-advice-add "RET" :after #'docstr--trigger-return)
   (docstr--enable-trigger t)
   (add-hook 'docstr-after-insert-hook #'docstr-insert-summary))
