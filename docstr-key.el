@@ -49,6 +49,10 @@ conditions."
   :type 'list
   :group 'docstr)
 
+(defun docstr-javadoc-like-p ()
+  ""
+  (memq major-mode docstr-key-javadoc-like-modes))
+
 (defun docstr-key-insert-prefix ()
   "Insert prefix."
   (insert (docstr-get-prefix))
@@ -59,55 +63,55 @@ conditions."
 
 This fulfill condition, /* with */ into a pair."
   (apply fnc args)
-  (save-excursion
-    (when (and (docstr-util-is-behind-last-char-at-line-p)
-               (docstr-util-looking-back "/[*]" 2))
-      (insert "*/"))))
+  (when (docstr-javadoc-like-p)
+    (save-excursion
+      (when (and (docstr-util-is-behind-last-char-at-line-p)
+                 (docstr-util-looking-back "/[*]" 2))
+        (insert "*/")))))
 
 (defun docstr-key-c-like-return (fnc &rest args)
   "Return key for C like programming languages.
 
 This function will help insert the corresponding prefix on every line of the
 document string."
-  (if (not (docstr-util-comment-block-p)) (apply fnc args)
-    (let ((new-doc-p
-           (and (save-excursion (search-backward "/*" (line-beginning-position) t))
-                (save-excursion (search-forward "*/" (line-end-position) t)))))
-      (apply fnc args)
-      (docstr-key-insert-prefix)
-      ;; We can't use `newline-and-indent' here, or else the space will
-      ;; be gone.
-      (when new-doc-p
-        (insert "\n") (indent-for-tab-command)
-        (forward-line -1))
-      (end-of-line))))
+  (if (not (docstr-javadoc-like-p)) (apply fnc args)
+    (if (not (docstr-util-comment-block-p)) (apply fnc args)
+      (let ((new-doc-p
+             (and (save-excursion (search-backward "/*" (line-beginning-position) t))
+                  (save-excursion (search-forward "*/" (line-end-position) t)))))
+        (apply fnc args)
+        (docstr-key-insert-prefix)
+        ;; We can't use `newline-and-indent' here, or else the space will
+        ;; be gone.
+        (when new-doc-p
+          (insert "\n") (indent-for-tab-command)
+          (forward-line -1))
+        (end-of-line)))))
 
 (defun docstr-key-lua-return (fnc &rest args)
   "Return key for Lua document string.
 
-This"
-  (if (not (jcs-inside-comment-block-p)) (apply fnc args)
-    (let ((new-doc-p
-           (and (save-excursion (search-backward "--[[" (line-beginning-position) t))
-                (save-excursion (search-forward "]]" (line-end-position) t)))))
-      (apply fnc args)
-      (when new-doc-p (end-of-line)))
-    (unless (string= "--[[" (jcs-start-comment-symbol))
-      (insert "-- ")
-      ))
-  )
+This function has two features."
+  (if (not (eq major-mode 'lua-mode)) (apply fnc args)
+    (if (not (jcs-inside-comment-block-p)) (apply fnc args)
+      (let ((new-doc-p
+             (and (save-excursion (search-backward "--[[" (line-beginning-position) t))
+                  (save-excursion (search-forward "]]" (line-end-position) t)))))
+        (apply fnc args)
+        (when new-doc-p
+          (indent-for-tab-command)
+          (end-of-line)))
+      (unless (string= "--[[" (docstr-util-start-comment-symbol))
+        (insert "-- ")))))
 
 ;;;###autoload
 (defun docstr-key-init ()
   "Initailization for key functions."
   (when docstr-key-support
     (docstr-load-all)
-    (when (memq major-mode docstr-key-javadoc-like-modes)
-      (docstr-util-key-advice-add "*" :around #'docstr-key-javadoc-asterik)
-      (docstr-util-key-advice-add "RET" :around #'docstr-key-c-like-return))
-    (cl-case major-mode
-      (lua-mode
-       (docstr-util-key-advice-add "RET" :around #'docstr-key-lua-return)))))
+    (docstr-util-key-advice-add "*" :around #'docstr-key-javadoc-asterik)
+    (docstr-util-key-advice-add "RET" :around #'docstr-key-c-like-return)
+    (docstr-util-key-advice-add "RET" :around #'docstr-key-lua-return)))
 
 (provide 'docstr-key)
 ;;; docstr-key.el ends here
