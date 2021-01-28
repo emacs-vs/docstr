@@ -27,6 +27,8 @@
 
 ;;; Code:
 
+(require 'cl-lib)
+
 (declare-function docstr-load-all "ext:docstr.el")
 
 (defcustom docstr-key-support nil
@@ -62,15 +64,15 @@ This fulfill condition, /* with */ into a pair."
                (docstr-util-looking-back "/[*]" 2))
       (insert "*/"))))
 
-(defun docstr-key-javadoc-return (fnc &rest args)
-  "Return key for Javadoc like document string.
+(defun docstr-key-c-like-return (fnc &rest args)
+  "Return key for C like programming languages.
 
-This function will help insert the corresponding prefix."
+This function will help insert the corresponding prefix on every line of the
+document string."
   (if (not (docstr-util-comment-block-p)) (apply fnc args)
-    (let (new-doc-p)
-      (setq new-doc-p
-            (and (save-excursion (search-backward "/*" (line-beginning-position) t))
-                 (save-excursion (search-forward "*/" (line-end-position) t))))
+    (let ((new-doc-p
+           (and (save-excursion (search-backward "/*" (line-beginning-position) t))
+                (save-excursion (search-forward "*/" (line-end-position) t)))))
       (apply fnc args)
       (docstr-key-insert-prefix)
       ;; We can't use `newline-and-indent' here, or else the space will
@@ -80,6 +82,21 @@ This function will help insert the corresponding prefix."
         (forward-line -1))
       (end-of-line))))
 
+(defun docstr-key-lua-return (fnc &rest args)
+  "Return key for Lua document string.
+
+This"
+  (if (not (jcs-inside-comment-block-p)) (apply fnc args)
+    (let ((new-doc-p
+           (and (save-excursion (search-backward "--[[" (line-beginning-position) t))
+                (save-excursion (search-forward "]]" (line-end-position) t)))))
+      (apply fnc args)
+      (when new-doc-p (end-of-line)))
+    (unless (string= "--[[" (jcs-start-comment-symbol))
+      (insert "-- ")
+      ))
+  )
+
 ;;;###autoload
 (defun docstr-key-init ()
   "Initailization for key functions."
@@ -87,7 +104,10 @@ This function will help insert the corresponding prefix."
     (docstr-load-all)
     (when (memq major-mode docstr-key-javadoc-like-modes)
       (docstr-util-key-advice-add "*" :around #'docstr-key-javadoc-asterik)
-      (docstr-util-key-advice-add "RET" :around #'docstr-key-javadoc-return))))
+      (docstr-util-key-advice-add "RET" :around #'docstr-key-c-like-return))
+    (cl-case major-mode
+      (lua-mode
+       (docstr-util-key-advice-add "RET" :around #'docstr-key-lua-return)))))
 
 (provide 'docstr-key)
 ;;; docstr-key.el ends here
