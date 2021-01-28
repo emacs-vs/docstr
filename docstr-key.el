@@ -27,6 +27,8 @@
 
 ;;; Code:
 
+(declare-function docstr-load-all "ext:docstr.el")
+
 (defcustom docstr-key-support nil
   "If non-nil, use key support to fulfill document string triggerations'
 conditions."
@@ -47,7 +49,7 @@ conditions."
 
 (defun docstr-key-insert-prefix ()
   "Insert prefix."
-  (insert (concat (docstr-get-prefix) " "))
+  (insert (docstr-get-prefix))
   (indent-for-tab-command))
 
 (defun docstr-key-javadoc-asterik (fnc &rest args)
@@ -70,16 +72,20 @@ This function will help insert the corresponding prefix."
             (and (save-excursion (search-backward "/*" (line-beginning-position) t))
                  (save-excursion (search-forward "*/" (line-end-position) t))))
       (apply fnc args)
+      (docstr-key-insert-prefix)
       ;; We can't use `newline-and-indent' here, or else the space will
       ;; be gone.
-      (when new-doc-p (insert "\n") (indent-for-tab-command))
-      (forward-line -1)
-      (end-of-line))))
+      (when new-doc-p
+        (insert "\n") (indent-for-tab-command)
+        (forward-line -1))
+      (end-of-line)))
+  (message "what?"))
 
 ;;;###autoload
 (defun docstr-key-init ()
   "Initailization for key functions."
   (when docstr-key-support
+    (docstr-load-all)
     (when (memq major-mode docstr-key-javadoc-like-modes)
       (docstr-util-key-advice-add "*" :around #'docstr-key-javadoc-asterik)
       (docstr-util-key-advice-add "RET" :around #'docstr-key-javadoc-return))))

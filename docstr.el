@@ -191,10 +191,10 @@ You should customize this variable to add your own triggeration methods."
 
 (defun docstr--enable ()
   "Enable `docstr' in current buffer."
+  (docstr-key-init)
   (docstr-util-key-advice-add "RET" :after #'docstr--trigger-return)
   (docstr--enable-trigger t)
-  (add-hook 'docstr-after-insert-hook #'docstr-insert-summary)
-  (docstr-key-init))
+  (add-hook 'docstr-after-insert-hook #'docstr-insert-summary))
 
 (defun docstr--disable ()
   "Disable `docstr' in current buffer."
@@ -239,7 +239,10 @@ You should customize this variable to add your own triggeration methods."
     (require mode-name)))
 
 (defun docstr-load-all ()
-  "Load all supported language modules."
+  "Load all supported language modules.
+
+Please do not call this at the start up; this will slow down user's
+configuration."
   (dolist (name docstr-support-langs) (docstr-load name)))
 
 ;;
@@ -323,7 +326,6 @@ See function `docstr--get-search-string' description for argument TYPE."
           (ln-current (docstr-util-line-relative 0 t))
           (ln-next (docstr-util-line-relative 1 t)))
       (when (and (string-prefix-p "/*" ln-prev) (string-suffix-p "*/" ln-next))
-        (when (string-empty-p ln-current) (insert "* "))
         (docstr--insert-doc-string (docstr--c-style-search-string 2))))))
 
 ;;
