@@ -33,7 +33,7 @@
   :type '(choice (const :tag "No specify" nil))
   :group 'docstr)
 
-(defcustom docstr-csharp-prefix "/// "
+(defcustom docstr-csharp-prefix "* "
   "Prefix you use on each newline."
   :type 'string
   :group 'docstr)
@@ -56,7 +56,7 @@
          docstring-type)
     ;; Determine the docstring type.
     (if (docstr-util-multiline-comment-p)
-        (setq docstring-type 'javadoc prefix "* ")
+        (setq docstring-type 'javadoc)
       (setq docstring-type 'vsdoc prefix "/// "))
 
     (cl-case docstring-type

@@ -26,11 +26,14 @@
 
 (require 'docstr)
 
-(declare-function docstr-writers-javascript "ext:docstr-js.el")
-
 (defcustom docstr-php-style nil
   "Style specification for document string in PHP."
   :type '(choice (const :tag "No specify" nil))
+  :group 'docstr)
+
+(defcustom docstr-php-prefix "* "
+  "Prefix you use on each newline."
+  :type 'string
   :group 'docstr)
 
 (defun docstr-php-config ()
@@ -42,7 +45,13 @@
 (defun docstr-writers-php (search-string)
   "Insert document string for PHP using SEARCH-STRING."
   (docstr-php-config)
-  (docstr-writers-javascript search-string))
+  (let* ((start (point)) (prefix docstr-php-prefix)
+         (paren-param-list (docstr-writers--paren-param-list search-string))
+         (param-types (nth 0 paren-param-list))
+         (param-vars (nth 1 paren-param-list)))
+    (docstr-writers--insert-param param-types param-vars prefix)
+    (docstr-writers--insert-return nil '("void") prefix)
+    (docstr-writers-after start  t t t)))
 
 (provide 'docstr-php)
 ;;; docstr-php.el ends here
