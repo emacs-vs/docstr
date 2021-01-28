@@ -153,7 +153,7 @@ and GREEDY."
 
 (defun docstr-util--goto-start-comment ()
   "Go to the start of the comment."
-  (when (docstr-util-comment-block-p)
+  (while (docstr-util-comment-block-p)
     (re-search-backward comment-start-skip nil t)))
 
 (defun docstr-util--goto-end-comment ()
