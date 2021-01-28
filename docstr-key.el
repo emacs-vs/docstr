@@ -47,8 +47,8 @@
   :type 'list
   :group 'docstr)
 
-(defun docstr-javadoc-like-p ()
-  "Return non-nil if current `major-mode' uses Javadoc style."
+(defun docstr-key-javadoc-like-p ()
+  "Return non-nil if current `major-mode' use Javadoc style."
   (memq major-mode docstr-key-javadoc-like-modes))
 
 (defun docstr-key-insert-prefix ()
@@ -74,7 +74,7 @@
 
 This fulfill condition, /* with */ into a pair."
   (apply fnc args)
-  (when (docstr-javadoc-like-p)
+  (when (docstr-key-javadoc-like-p)
     (save-excursion
       (when (and (docstr-util-is-behind-last-char-at-line-p)
                  (docstr-util-looking-back "/[*]" 2))
@@ -85,7 +85,7 @@ This fulfill condition, /* with */ into a pair."
 
 This function will help insert the corresponding prefix on every line of the
 document string."
-  (if (not (docstr-javadoc-like-p)) (apply fnc args)
+  (if (not (docstr-key-javadoc-like-p)) (apply fnc args)
     (if (not (docstr-util-comment-block-p)) (apply fnc args)
       (let ((new-doc-p (docstr-util-between-pair-p "/*" "*/")))
         (apply fnc args)
