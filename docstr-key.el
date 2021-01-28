@@ -45,6 +45,11 @@ conditions."
   :type 'list
   :group 'docstr)
 
+(defun docstr-key-insert-prefix ()
+  "Insert prefix."
+  (insert (concat (docstr-get-prefix) " "))
+  (indent-for-tab-command))
+
 (defun docstr-key-javadoc-asterik (fnc &rest args)
   "Asterik key for Javadoc like document string.
 
@@ -67,13 +72,11 @@ This function will help insert the corresponding prefix."
       (apply fnc args)
       (if new-doc-p
           (progn
-            (insert "\n* ") (indent-for-tab-command)
+            (docstr-key-insert-prefix)
             ;; We can't use `newline-and-indent' here, or else the space will
             ;; be gone.
             (progn (insert "\n") (indent-for-tab-command)))
-        (insert "\n")
-        (insert (concat (docstr-get-prefix) " "))
-        (indent-for-tab-command))
+        (docstr-key-insert-prefix))
       (forward-line -1)
       (end-of-line))))
 

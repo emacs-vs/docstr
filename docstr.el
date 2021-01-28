@@ -218,6 +218,31 @@ You should customize this variable to add your own triggeration methods."
   :require 'docstr)
 
 ;;
+;; (@* "Modules" )
+;;
+
+(defvar docstr-support-langs
+  (append '(actionscript)
+          '(c c++ csharp)
+          '(go groovy)
+          '(java js)
+          '(lua)
+          '(php python)
+          '(rust)
+          '(scala)
+          '(typescript))
+  "List of supported languages.")
+
+(defun docstr-load (name)
+  "Load docstr module by NAME."
+  (let ((mode-name (intern (format "docstr-%s" name))))
+    (require mode-name)))
+
+(defun docstr-load-all ()
+  "Load all supported language modules."
+  (dolist (name docstr-support-langs) (docstr-load name)))
+
+;;
 ;; (@* "Core" )
 ;;
 
@@ -320,15 +345,18 @@ See function `docstr--get-search-string' description for argument TYPE."
     (lua-mode          . docstr-lua-prefix)
     (php-mode          . docstr-php-prefix)
     (python-mode       . docstr-python-prefix)
+    (rjsx-mode         . docstr-js-prefix)
     (rust-mode         . docstr-rust-prefix)
     (scala-mode        . docstr-scala-prefix)
-    (typescript-mode   . docstr-typescript-prefix))
+    (typescript-mode   . docstr-typescript-prefix)
+    (web-mode          . docstr-php-prefix))
   "Assocaition list for (major-mode . prefix-name).")
 
 (defun docstr-get-prefix ()
   "Return prefix from the corresponding mode."
-  (or (assoc (buffer-local-value 'major-mode (current-buffer)) docstr-prefix-alist)
-      ""))
+  (let ((prefix (assoc major-mode docstr-prefix-alist)))
+    (docstr-load-all)
+    (if prefix (symbol-value (cdr prefix)) "")))
 
 (provide 'docstr)
 ;;; docstr.el ends here
