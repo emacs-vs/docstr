@@ -55,10 +55,9 @@
          (return-type-str (docstr-writers--return-type search-string))
          docstring-type)
     ;; Determine the docstring type.
-    (save-excursion
-      (backward-char 1)
-      (if (docstr-util-current-char-equal-p "*")
-          (setq docstring-type 'javadoc) (setq docstring-type 'vsdoc)))
+    (if (string-match-p "/[*]" (docstr-util-start-comment-symbol))
+        (setq docstring-type 'javadoc prefix "* ")
+      (setq docstring-type 'vsdoc prefix "/// "))
 
     (cl-case docstring-type
       (javadoc (docstr-writers-java search-string))
