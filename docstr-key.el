@@ -75,11 +75,11 @@ document string."
     (if (not (docstr-util-comment-block-p)) (apply fnc args)
       (let ((new-doc-p (docstr-util-between-pair-p "/*" "*/")))
         (apply fnc args)
-        (docstr-key-insert-prefix)
-        ;; We can't use `newline-and-indent' here, or else the space will
-        ;; be gone.
+        (when (docstr-util-multiline-comment-p)
+          (docstr-key-insert-prefix))
         (when new-doc-p
-          (insert "\n") (indent-for-tab-command)
+          ;; We can't use `newline-and-indent' here, or else the space will be gone.
+          (progn (insert "\n") (indent-for-tab-command))
           (forward-line -1))
         (end-of-line)))))
 
