@@ -323,7 +323,6 @@ See function `docstr--get-search-string' description for argument TYPE."
   "Trigger document string by pressing key return."
   (when (docstr--doc-valid-p)
     (let ((ln-prev (docstr-util-line-relative -1 t))
-          (ln-current (docstr-util-line-relative 0 t))
           (ln-next (docstr-util-line-relative 1 t)))
       (when (and (string-prefix-p "/*" ln-prev) (string-suffix-p "*/" ln-next))
         (docstr--insert-doc-string (docstr--c-style-search-string 2))))))
