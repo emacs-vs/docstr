@@ -92,17 +92,17 @@ document string."
   "Return key for Lua document string.
 
 This function has two features."
-  (if (not (eq major-mode 'lua-mode)) (apply fnc args)
-    (if (not (jcs-inside-comment-block-p)) (apply fnc args)
-      (let ((new-doc-p
-             (and (save-excursion (search-backward "--[[" (line-beginning-position) t))
-                  (save-excursion (search-forward "]]" (line-end-position) t)))))
-        (apply fnc args)
-        (when new-doc-p
-          (indent-for-tab-command)
-          (end-of-line)))
-      (unless (string= "--[[" (docstr-util-start-comment-symbol))
-        (insert "-- ")))))
+  (cond ((and (eq major-mode 'lua-mode) (jcs-inside-comment-block-p))
+         (let ((new-doc-p
+                (and (save-excursion (search-backward "--[[" (line-beginning-position) t))
+                     (save-excursion (search-forward "]]" (line-end-position) t)))))
+           (apply fnc args)
+           (when new-doc-p
+             (indent-for-tab-command)
+             (end-of-line)))
+         (unless (string= "--[[" (docstr-util-start-comment-symbol))
+           (insert "-- ")))
+        (t (apply fnc args))))
 
 ;;;###autoload
 (defun docstr-key-init ()
