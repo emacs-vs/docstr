@@ -78,8 +78,7 @@ This function will help insert the corresponding prefix."
       (when new-doc-p
         (insert "\n") (indent-for-tab-command)
         (forward-line -1))
-      (end-of-line)))
-  (message "what?"))
+      (end-of-line))))
 
 ;;;###autoload
 (defun docstr-key-init ()
