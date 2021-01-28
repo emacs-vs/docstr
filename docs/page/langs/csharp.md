@@ -6,11 +6,11 @@ You can customize variable `docstr-csharp-style` for the following value.
 
 C# currently uses mix of [Javadoc](https://en.wikipedia.org/wiki/Javadoc) and
 [XML documentation](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/xmldoc/)
-.
+. The style and prefix will be auto-detect inside the code.
 
 ## Triggerations
 
-Generally, you will need something around to parse to make document string work 
+Generally, you will need something around to parse to make document string work
 correctly.
 
 * `/*[*]*/` - hit return between `/*` and `*/` (Javadoc)
