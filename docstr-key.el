@@ -47,6 +47,12 @@
   :type 'list
   :group 'docstr)
 
+(defcustom docstr-key-inhibit-doc-symbol
+  '("//")
+  "List of document symbol that are inhibit to insert for prefix."
+  :type 'list
+  :group 'docstr)
+
 (defun docstr-key-javadoc-like-p ()
   "Return non-nil if current `major-mode' use Javadoc style."
   (memq major-mode docstr-key-javadoc-like-modes))
@@ -63,11 +69,12 @@
          (current-line-doc-symbol (docstr-util-comment-line-symbol))
          (next-line-doc-symbol (docstr-util-comment-line-symbol 1))
          (prev-line-content (string-trim (s-replace prev-line-doc-symbol "" prev-line-text))))
-    (when (or (string= prev-line-doc-symbol next-line-doc-symbol)
-              (and (not (string-empty-p prev-line-content))
-                   (string= current-line-doc-symbol next-line-doc-symbol)))
-      (insert (concat prev-line-doc-symbol " "))
-      (indent-for-tab-command))))
+    (unless (docstr-util-is-contain-list-string= docstr-key-inhibit-doc-symbol prev-line-doc-symbol)
+      (when (or (string= prev-line-doc-symbol next-line-doc-symbol)
+                (and (not (string-empty-p prev-line-content))
+                     (string= current-line-doc-symbol next-line-doc-symbol)))
+        (insert (concat prev-line-doc-symbol " "))
+        (indent-for-tab-command)))))
 
 (defun docstr-key-javadoc-asterik (fnc &rest args)
   "Asterik key for Javadoc like document string.

@@ -79,8 +79,14 @@ See function `forward-line' for argument N."
            do (setf start end next (+ seplen end))))
 
 (defun docstr-util-is-contain-list-string (in-list in-str)
-  "Check if IN-STR contain in any string in the IN-LIST."
+  "Return non-nil if IN-STR is listed in IN-LIST.
+
+This function wrapped IN-STR with function `regexp-quote'."
   (cl-some (lambda (str) (string-match-p (regexp-quote str) in-str)) in-list))
+
+(defun docstr-util-is-contain-list-string= (in-list in-str)
+  "Return non-nil if IN-STR is listed in IN-LIST."
+  (cl-some (lambda (str) (string= (regexp-quote str) in-str)) in-list))
 
 ;;
 ;; (@* "Insertion" )
@@ -220,7 +226,7 @@ and GREEDY."
 ;;
 
 (defun docstr-util-key-advice-add (key where fnc)
-  "Safe add advice KEY with FNC."
+  "Safe add advice KEY with FNC at WHERE."
   (let ((key-fnc (key-binding (kbd key))))
     (when (symbolp key-fnc) (advice-add key-fnc where fnc))))
 
