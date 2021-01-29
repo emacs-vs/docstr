@@ -81,11 +81,15 @@ See function `forward-line' for argument N."
 (defun docstr-util-is-contain-list-string (in-list in-str)
   "Return non-nil if IN-STR is listed in IN-LIST.
 
+This function uses `string-match-p'.
 This function wrapped IN-STR with function `regexp-quote'."
   (cl-some (lambda (str) (string-match-p (regexp-quote str) in-str)) in-list))
 
 (defun docstr-util-is-contain-list-string= (in-list in-str)
-  "Return non-nil if IN-STR is listed in IN-LIST."
+  "Return non-nil if IN-STR is listed in IN-LIST.
+
+This function uses `string='.
+This function wrapped IN-STR with function `regexp-quote'."
   (cl-some (lambda (str) (string= (regexp-quote str) in-str)) in-list))
 
 ;;
