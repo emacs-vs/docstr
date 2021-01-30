@@ -30,6 +30,8 @@
 (require 'cl-lib)
 (require 's)
 
+(require 'docstr-util)
+
 (declare-function docstr-get-prefix "ext:docstr.el")
 
 (defcustom docstr-key-support nil
