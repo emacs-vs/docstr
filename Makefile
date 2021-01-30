@@ -19,7 +19,7 @@ ci: compile clean
 
 compile:
 	@echo "Compiling..."
-	@$(CASK) $(EMACS) -Q --batch \
+	$(EMACS) -Q --batch \
 		-l test/bootstrap.el -L . -L clients \
 		--eval '(setq byte-compile-error-on-warn t)' \
 		-f batch-byte-compile $(DOCSTR-FILES)
