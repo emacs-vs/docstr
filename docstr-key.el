@@ -126,7 +126,7 @@ This function has two features.
 ```
 
 P.S. Prefix will matches the same as your document style selection."
-  (cond ((and (eq major-mode 'lua-mode) (jcs-inside-comment-block-p))
+  (cond ((and (eq major-mode 'lua-mode) (docstr-util-comment-block-p))
          (let ((new-doc-p (docstr-util-between-pair-p "--[[" "]]")))
            (apply fnc args)
            (indent-for-tab-command)
