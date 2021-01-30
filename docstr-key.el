@@ -35,7 +35,8 @@
 (declare-function docstr-get-prefix "ext:docstr.el")
 
 (defcustom docstr-key-support nil
-  "If non-nil, use key support to fulfill document string triggerations' conditions."
+  "If non-nil, use key support to fulfill document string triggerations'
+conditions."
   :type 'boolean
   :group 'docstr)
 
