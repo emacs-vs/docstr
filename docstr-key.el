@@ -74,7 +74,9 @@ conditions."
          (current-line-doc-symbol (docstr-util-comment-line-symbol))
          (next-line-doc-symbol (docstr-util-comment-line-symbol 1))
          (prev-line-content (string-trim (s-replace prev-line-doc-symbol "" prev-line-text))))
-    (unless (docstr-util-is-contain-list-string= docstr-key-inhibit-doc-symbol prev-line-doc-symbol)
+    (unless (docstr-util-contain-list-type-str docstr-key-inhibit-doc-symbol
+                                               prev-line-doc-symbol
+                                               'strict)
       (when (or (string= prev-line-doc-symbol next-line-doc-symbol)
                 (and (not (string-empty-p prev-line-content))
                      (string= current-line-doc-symbol next-line-doc-symbol)))
