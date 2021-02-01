@@ -78,19 +78,40 @@ See function `forward-line' for argument N."
            while (< end len)
            do (setf start end next (+ seplen end))))
 
-(defun docstr-util-is-contain-list-string (in-list in-str)
+(defun docstr-util-contain-list-string (in-list in-str)
   "Return non-nil if IN-STR is listed in IN-LIST.
 
 This function uses `string-match-p'.
 This function wrapped IN-STR with function `regexp-quote'."
   (cl-some (lambda (str) (string-match-p (regexp-quote str) in-str)) in-list))
 
-(defun docstr-util-is-contain-list-string= (in-list in-str)
+(defun docstr-util-contain-list-type-str (in-list in-str type)
   "Return non-nil if IN-STR is listed in IN-LIST.
 
-This function uses `string='.
-This function wrapped IN-STR with function `regexp-quote'."
-  (cl-some (lambda (str) (string= (regexp-quote str) in-str)) in-list))
+Argument TYPE see function `docstr-util-string-compare-p' for more information."
+  (cl-some (lambda (elm) (docstr-util-string-compare-p elm in-str type)) in-list))
+
+;;
+;; (@* "String" )
+;;
+
+(defun docstr-util-string-compare-p (regexp str type &optional ignore-case)
+  "Compare STR with REGEXP by TYPE.
+
+Argument TYPE can be on of the following symbol.
+
+  * regex - uses function `string-match-p'.  (default)
+  * strict - uses function `string='.
+  * prefix - uses function `string-prefix-p'.
+  * suffix - uses function `string-suffix-p'.
+
+Optional argument IGNORE-CASE is only uses when TYPE is either symbol `prefix'
+or `suffix'."
+  (cl-case type
+    (strict (string= regexp str))
+    (prefix (string-prefix-p regexp str ignore-case))
+    (suffix (string-suffix-p regexp str ignore-case))
+    (t (string-match-p regexp str))))
 
 ;;
 ;; (@* "Insertion" )
@@ -157,7 +178,7 @@ and GREEDY."
               (stringp (docstr-util--get-current-char-string)))
          (string= (docstr-util--get-current-char-string) c))
         ((listp c)
-         (docstr-util-is-contain-list-string c (docstr-util--get-current-char-string)))
+         (docstr-util-contain-list-string c (docstr-util--get-current-char-string)))
         (t nil)))
 
 ;;
@@ -199,7 +220,7 @@ and GREEDY."
           (re-search-backward "[ \t\r\n]" nil t)
           (forward-char 1))
         (setq start-pt (point))
-        (re-search-forward "[ \t\r\n]" (1+ (line-end-position)) t)
+        (re-search-forward comment-start-skip (1+ (line-end-position)) t)
         (if (= start-pt (point)) nil
           (string-trim (buffer-substring start-pt (point))))))))
 
