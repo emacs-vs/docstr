@@ -24,7 +24,7 @@ nav:
     - Scala: page/langs/scala.md
     - TypeScript: page/langs/typescript.md
   - Changelog:
-    - page/CHANGELOG.md
+    - CHANGELOG.md
 
 extra_css:
   - stylesheets/extra.css
