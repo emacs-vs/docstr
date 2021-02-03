@@ -53,7 +53,7 @@ conditions."
   :group 'docstr)
 
 (defcustom docstr-key-inhibit-doc-symbol
-  '("//")
+  '("//" "--")
   "List of document symbol that are inhibit to insert for prefix."
   :type 'list
   :group 'docstr)
@@ -74,14 +74,14 @@ conditions."
          (current-line-doc-symbol (docstr-util-comment-line-symbol))
          (next-line-doc-symbol (docstr-util-comment-line-symbol 1))
          (prev-line-content (string-trim (s-replace prev-line-doc-symbol "" prev-line-text))))
-    (unless (docstr-util-contain-list-type-str docstr-key-inhibit-doc-symbol
-                                               prev-line-doc-symbol
-                                               'strict)
-      (when (or (string= prev-line-doc-symbol next-line-doc-symbol)
-                (and (not (string-empty-p prev-line-content))
-                     (string= current-line-doc-symbol next-line-doc-symbol)))
-        (insert (concat prev-line-doc-symbol " "))
-        (indent-for-tab-command)))))
+    (when (or (string-match-p prev-line-doc-symbol next-line-doc-symbol)
+              (string-match-p next-line-doc-symbol prev-line-doc-symbol)
+              (and (not (string-empty-p prev-line-content))
+                   (not (docstr-util-contain-list-type-str
+                         docstr-key-inhibit-doc-symbol prev-line-doc-symbol 'strict))
+                   (string= current-line-doc-symbol next-line-doc-symbol)))
+      (insert (concat (docstr-util--min-str prev-line-doc-symbol next-line-doc-symbol) " "))
+      (indent-for-tab-command))))
 
 (defun docstr-key-javadoc-asterik (fnc &rest args)
   "Asterik key for Javadoc like document string.
@@ -139,7 +139,7 @@ P.S. Prefix will matches the same as your document style selection."
            (indent-for-tab-command)
            (when new-doc-p (end-of-line)))
          (unless (string= "--[[" (docstr-util-start-comment-symbol))
-           (insert "-- ")))
+           (docstr-key-single-line-prefix-insertion)))
         (t (apply fnc args))))
 
 (defun docstr-key-enable ()
