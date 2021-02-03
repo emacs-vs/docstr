@@ -4,7 +4,7 @@ EMACS ?= emacs
 CASK ?= cask
 
 DOCSTR-FILES := $(wildcard ./docstr-*.el) \
-				$(wildcard clients/*.el)
+				$(wildcard langs/*.el)
 
 TEST-FILES := test/bootstrap.el $(shell ls test/docstr-*.el)
 LOAD-FILE = -l $(test-file)
@@ -22,7 +22,7 @@ compile:
 	@echo "Compiling..."
 	@$(CASK) $(EMACS) -Q --batch \
 		-l test/bootstrap.el \
-		-L . -L clients \
+		-L . -L langs \
 		--eval '(setq byte-compile-error-on-warn t)' \
 		-f batch-byte-compile $(DOCSTR-FILES)
 
