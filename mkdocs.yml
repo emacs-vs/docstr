@@ -23,6 +23,8 @@ nav:
     - Rust: page/langs/rust.md
     - Scala: page/langs/scala.md
     - TypeScript: page/langs/typescript.md
+  - Changelog:
+    - page/CHANGELOG.md
 
 extra_css:
   - stylesheets/extra.css
