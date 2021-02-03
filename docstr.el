@@ -349,6 +349,7 @@ See function `docstr--get-search-string' description for argument TYPE."
     (php-mode          . docstr-php-prefix)
     (python-mode       . docstr-python-prefix)
     (rjsx-mode         . docstr-js-prefix)
+    (ruby-mode         . docstr-ruby-prefix)
     (rust-mode         . docstr-rust-prefix)
     (scala-mode        . docstr-scala-prefix)
     (typescript-mode   . docstr-typescript-prefix)
