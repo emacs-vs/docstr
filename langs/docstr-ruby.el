@@ -84,6 +84,7 @@
 (defun docstr-trigger-ruby (&rest _)
   "Trigger document string inside Ruby."
   (when (and (docstr--doc-valid-p) (docstr-util-looking-back "##" 2))
+    (indent-for-tab-command)
     (insert "\n# ")
     (indent-for-tab-command) (end-of-line)
     (docstr--insert-doc-string (docstr--generic-search-string 1 ")"))))
