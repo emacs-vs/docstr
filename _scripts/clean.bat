@@ -12,6 +12,6 @@ cd ..
 
 del /s *.elc
 
-cd ./clients
+cd ./langs
 
 del /s *.elc
