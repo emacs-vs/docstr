@@ -37,9 +37,9 @@
 
 (defun docstr-ruby-config-rdoc ()
   "Configure for convention, RDoc."
-  (docstr-util-default-format :param "*" :ret "")
-  (setq-local docstr-ruby-prefix "/// "
-              docstr-format-var "`%s` -"
+  (docstr-util-default-format :param "" :ret "")
+  (setq-local docstr-ruby-prefix "# "
+              docstr-format-var "+%s+"
               docstr-show-type-name nil))
 
 (defun docstr-ruby-config ()
@@ -48,17 +48,34 @@
     (rdoc (docstr-ruby-config-rdoc))
     (t (docstr-util-default-format))))
 
+(defun docstr-ruby--param-list (search-string)
+  "Parse SEARCH-STRING without parenthesis."
+  (let* ((fnc-split (split-string search-string "end"))
+         (fnc-str (nth 0 fnc-split))
+         (token-lst (split-string fnc-str " " t))
+         lst-type lst-var (token (pop token-lst)))
+    (while (not (string= "def" token)) (setq token (pop token-lst)))
+    (pop token-lst)  ; Pop the function name
+    (dolist (tkn token-lst)
+      (setq lst-var (append lst-var (split-string tkn "," t))))
+    (list lst-type lst-var)))
+
 ;;;###autoload
 (defun docstr-writers-ruby (search-string)
   "Insert document string for Ruby using SEARCH-STRING."
   (docstr-ruby-config)
   (let* ((start (point)) (prefix docstr-ruby-prefix)
-         (paren-param-list (docstr-writers--paren-param-list-behind search-string))
+         (paren-param-list
+          (if (string-match-p "(" search-string)
+              (docstr-writers--paren-param-list-behind search-string)
+            (docstr-ruby--param-list search-string)))
          (param-types (nth 0 paren-param-list))
          (param-vars (nth 1 paren-param-list))
          (param-var-len (length param-vars))
          ;; Get the return data type.
          (return-type-str "void"))
+    (unless (= 0 param-var-len)
+      (insert "\n" docstr-ruby-prefix))
     (docstr-writers--insert-param param-types param-vars prefix)
     (docstr-writers--insert-return return-type-str '("void") prefix)
     (docstr-writers-after start t t t)))
@@ -67,8 +84,9 @@
 (defun docstr-trigger-ruby (&rest _)
   "Trigger document string inside Ruby."
   (when (and (docstr--doc-valid-p) (docstr-util-looking-back "##" 2))
-    (insert " ")
-    (docstr--insert-doc-string (docstr--c-style-search-string 2))))
+    (insert "\n# ")
+    (indent-for-tab-command) (end-of-line)
+    (docstr--insert-doc-string (docstr--generic-search-string 1 ")"))))
 
 (provide 'docstr-ruby)
 ;;; docstr-ruby.el ends here
