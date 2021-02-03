@@ -95,9 +95,14 @@ Argument TYPE see function `docstr-util-string-compare-p' for more information."
 ;; (@* "String" )
 ;;
 
-(defun docstr-util--min-str (str1 str2)
+(defun docstr-util-min-str (str1 str2)
   "Return minimum string by comparing the lenght of STR1 and STR2."
   (if (< (length str1) (length str2)) str1 str2))
+
+(defun docstr-util-string-match-mut-p (str1 str2)
+  "Mutual way to check STR1 and STR2 with function `string-match-p'."
+  (and (stringp str1) (stringp str2)
+       (or (string-match-p str1 str2) (string-match-p str2 str1))))
 
 (defun docstr-util-string-compare-p (regexp str type &optional ignore-case)
   "Compare STR with REGEXP by TYPE.
@@ -222,7 +227,7 @@ and GREEDY."
         (docstr-util--goto-start-comment)
         (progn  ; Make sure to go outside of symbol
           (re-search-backward "[ \t\r\n]" nil t)
-          (forward-char 1))
+          (unless (= (point) (point-min)) (forward-char 1)))
         (setq start-pt (point))
         (re-search-forward comment-start-skip (1+ (line-end-position)) t)
         (if (= start-pt (point)) nil
