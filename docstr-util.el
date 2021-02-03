@@ -130,7 +130,7 @@ or `suffix'."
   "First newline and indent then insert ARGS."
   (insert "\n")
   (indent-for-tab-command)
-  (apply 'insert args))
+  (apply #'insert args))
 
 (defun docstr-util-insert-list (lst)
   "Insert list (LST) of strings with indnetation."
@@ -146,7 +146,7 @@ or `suffix'."
   (let ((split (split-string (car args) "\n")))
     (docstr-util-insert-list split))
   (when (cdr args)
-    (apply 'docstr-util-insert-args (cdr args))))
+    (apply #'docstr-util-insert-args (cdr args))))
 
 (defun docstr-util-delete-current-line ()
   "Delete current line without consuming the newline."
