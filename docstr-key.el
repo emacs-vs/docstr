@@ -53,8 +53,14 @@ conditions."
   :group 'docstr)
 
 (defcustom docstr-key-inhibit-doc-symbol
-  '("//" "--")
+  '("//" "--" "#")
   "List of document symbol that are inhibit to insert for prefix."
+  :type 'list
+  :group 'docstr)
+
+(defcustom docstr-key-sharp-doc-modes
+  '(python-mode ruby-mode sh-mode)
+  "List of `major-mode' that use # as document string prefix."
   :type 'list
   :group 'docstr)
 
@@ -74,13 +80,12 @@ conditions."
          (current-line-doc-symbol (docstr-util-comment-line-symbol))
          (next-line-doc-symbol (docstr-util-comment-line-symbol 1))
          (prev-line-content (string-trim (s-replace prev-line-doc-symbol "" prev-line-text))))
-    (when (or (string-match-p prev-line-doc-symbol next-line-doc-symbol)
-              (string-match-p next-line-doc-symbol prev-line-doc-symbol)
+    (when (or (docstr-util-string-match-mut-p prev-line-doc-symbol next-line-doc-symbol)
               (and (not (string-empty-p prev-line-content))
                    (not (docstr-util-contain-list-type-str
                          docstr-key-inhibit-doc-symbol prev-line-doc-symbol 'strict))
                    (string= current-line-doc-symbol next-line-doc-symbol)))
-      (insert (concat (docstr-util--min-str prev-line-doc-symbol next-line-doc-symbol) " "))
+      (insert (concat (docstr-util-min-str prev-line-doc-symbol next-line-doc-symbol) " "))
       (indent-for-tab-command))))
 
 (defun docstr-key-javadoc-asterik (fnc &rest args)
@@ -136,10 +141,18 @@ P.S. Prefix will matches the same as your document style selection."
   (cond ((and (eq major-mode 'lua-mode) (docstr-util-comment-block-p))
          (let ((new-doc-p (docstr-util-between-pair-p "--[[" "]]")))
            (apply fnc args)
-           (indent-for-tab-command)
            (when new-doc-p (end-of-line)))
          (unless (string= "--[[" (docstr-util-start-comment-symbol))
            (docstr-key-single-line-prefix-insertion)))
+        (t (apply fnc args))))
+
+(defun docstr-key-sharp-return (fnc &rest args)
+  "Return key for programming languages that can use # as document."
+  (cond ((and (memq major-mode docstr-key-sharp-doc-modes) (docstr-util-comment-block-p))
+         (let ((start-comment (docstr-util-start-comment-symbol)))
+           (apply fnc args)
+           (when (string-match-p "#" start-comment)
+             (docstr-key-single-line-prefix-insertion))))
         (t (apply fnc args))))
 
 (defun docstr-key-enable ()
@@ -147,13 +160,15 @@ P.S. Prefix will matches the same as your document style selection."
   (when docstr-key-support
     (docstr-util-key-advice-add "*" :around #'docstr-key-javadoc-asterik)
     (docstr-util-key-advice-add "RET" :around #'docstr-key-c-like-return)
-    (docstr-util-key-advice-add "RET" :around #'docstr-key-lua-return)))
+    (docstr-util-key-advice-add "RET" :around #'docstr-key-lua-return)
+    (docstr-util-key-advice-add "RET" :around #'docstr-key-sharp-return)))
 
 (defun docstr-key-disable ()
   "Disable key functions."
   (docstr-util-key-advice-remove "*" #'docstr-key-javadoc-asterik)
   (docstr-util-key-advice-remove "RET" #'docstr-key-c-like-return)
-  (docstr-util-key-advice-remove "RET" #'docstr-key-lua-return))
+  (docstr-util-key-advice-remove "RET" #'docstr-key-lua-return)
+  (docstr-util-key-advice-remove "RET" #'docstr-key-sharp-return))
 
 (provide 'docstr-key)
 ;;; docstr-key.el ends here
