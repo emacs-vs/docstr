@@ -43,7 +43,7 @@ Here is a list of all languages that support by this package.
 * Java / JavaScript / JSX
 * Lua
 * PHP / Python
-* Rust
+* Ruby / Rust
 * Scala
 * TypeScript
 
