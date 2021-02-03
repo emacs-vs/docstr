@@ -19,6 +19,7 @@ nav:
     - Lua: page/langs/lua.md
     - PHP: page/langs/php.md
     - Python: page/langs/python.md
+    - Ruby: page/langs/ruby.md
     - Rust: page/langs/rust.md
     - Scala: page/langs/scala.md
     - TypeScript: page/langs/typescript.md
