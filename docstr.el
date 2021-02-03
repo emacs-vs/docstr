@@ -166,6 +166,7 @@ variable.  Argument DESC is the description of VAR."
     (lua-mode    . ("-" docstr-trigger-lua))
     (lua-mode    . ("RET" docstr-trigger-lua-return))
     (python-mode . ("\"" docstr-trigger-python))
+    (ruby-mode   . ("#" docstr-trigger-ruby))
     (rust-mode   . ("/" docstr-trigger-rust)))
   "List of trigger to each `major-mode'.
 
@@ -229,7 +230,7 @@ You should customize this variable to add your own triggeration methods."
           '(java js)
           '(lua)
           '(php python)
-          '(rust)
+          '(ruby rust)
           '(scala)
           '(typescript))
   "List of supported languages.")

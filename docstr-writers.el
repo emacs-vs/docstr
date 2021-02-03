@@ -289,6 +289,7 @@ RESTORE-PT is non-nil, go back to starting position."
     (php-mode          . docstr-writers-php)
     (python-mode       . docstr-writers-python)
     (rjsx-mode         . docstr-writers-javascript)
+    (ruby-mode         . docstr-writers-ruby)
     (rust-mode         . docstr-writers-rust)
     (scala-mode        . docstr-writers-scala)
     (typescript-mode   . docstr-writers-typescript)
