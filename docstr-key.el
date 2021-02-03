@@ -133,8 +133,9 @@ This function has two features.
 2. Document prefix inserted with single line comment.
 
 ```lua
--- > Cursor is here, prepare for return <
--- > The prefix inserted after hitting return <
+-- !Document line must presented before inserting a new prefix line!
+-- !Cursor is here, prepare for return!
+-- !The prefix inserted after hitting retun!
 ```
 
 P.S. Prefix will matches the same as your document style selection."
@@ -147,7 +148,10 @@ P.S. Prefix will matches the same as your document style selection."
         (t (apply fnc args))))
 
 (defun docstr-key-sharp-return (fnc &rest args)
-  "Return key for programming languages that can use # as document."
+  "Return key for programming languages that can use # as document.
+
+This is the same as function `docstr-key-lua-return' feature Pt. 2
+but instead of inserting two `-`, this will insert a `#` instead."
   (cond ((and (memq major-mode docstr-key-sharp-doc-modes) (docstr-util-comment-block-p))
          (let ((start-comment (docstr-util-start-comment-symbol)))
            (apply fnc args)
