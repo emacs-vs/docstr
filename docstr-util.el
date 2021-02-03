@@ -95,6 +95,10 @@ Argument TYPE see function `docstr-util-string-compare-p' for more information."
 ;; (@* "String" )
 ;;
 
+(defun docstr-util--min-str (str1 str2)
+  "Return minimum string by comparing the lenght of STR1 and STR2."
+  (if (< (length str1) (length str2)) str1 str2))
+
 (defun docstr-util-string-compare-p (regexp str type &optional ignore-case)
   "Compare STR with REGEXP by TYPE.
 
