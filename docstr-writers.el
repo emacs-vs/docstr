@@ -286,6 +286,7 @@ RESTORE-PT is non-nil, go back to starting position."
     (js2-mode          . docstr-writers-javascript)
     (js3-mode          . docstr-writers-javascript)
     (lua-mode          . docstr-writers-lua)
+    (objc-mode         . docstr-writers-objc)
     (php-mode          . docstr-writers-php)
     (python-mode       . docstr-writers-python)
     (rjsx-mode         . docstr-writers-javascript)
