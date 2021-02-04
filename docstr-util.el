@@ -270,6 +270,16 @@ and GREEDY."
     (when (symbolp key-fnc) (advice-remove key-fnc fnc))))
 
 ;;
+;; (@* "Kill" )
+;;
+
+(defun docstr-util-kill-line (&optional pos)
+  "Delete line from POS."
+  (save-excursion
+    (when pos (goto-char pos))
+    (delete-region (1- (line-beginning-position)) (line-end-position))))
+
+;;
 ;; (@* "Default" )
 ;;
 
