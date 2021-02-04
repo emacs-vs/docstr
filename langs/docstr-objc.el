@@ -26,6 +26,8 @@
 
 (require 'docstr)
 
+(declare-function docstr-writers-c++ "ext:docstr-c.el")
+
 (defcustom docstr-objc-style nil
   "Style specification for document string in Objective-C."
   :type '(choice (const :tag "No specify" nil))
@@ -36,10 +38,42 @@
   :type 'string
   :group 'docstr)
 
+(defun docstr-objc-config ()
+  "Automatically configure style according to variable `docstr-objc-style'."
+  (cl-case docstr-objc-style
+    (t (docstr-util-default-format))))
+
+(defun docstr-objc--param-list (search-string)
+  "Parse SEARCH-STRING for Objective-C."
+  (let (lst-type lst-var)
+    (list lst-type lst-var)))
+
+(defun docstr-objc--return-type (search-string)
+  "Return the return type from SEARCH-STRING."
+  (let ((return-type-str "void")
+        (front-split (nth 0 (split-string search-string ":"))))
+    (when (string-match "[(]\\([^)]*\\)[)]" front-split)
+      (setq return-type-str (match-string 0 front-split)
+            return-type-str (s-replace "(" "" return-type-str)
+            return-type-str (s-replace ")" "" return-type-str)))
+    return-type-str))
+
 ;;;###autoload
 (defun docstr-writers-objc (search-string)
   "Insert document string for Objective-C using SEARCH-STRING."
-  )
+  (docstr-objc-config)
+  (let* ((start (point)) (prefix docstr-ruby-prefix)
+         (paren-param-list (docstr-objc--param-list search-string))
+         (param-types (nth 0 paren-param-list))
+         (param-vars (nth 1 paren-param-list))
+         (param-var-len (length param-vars))
+         ;; Get the return data type.
+         (return-type-str (docstr-objc--return-type search-string)))
+    (unless (= 0 param-var-len)
+      (insert "\n" docstr-ruby-prefix))
+    (docstr-writers--insert-param param-types param-vars prefix)
+    (docstr-writers--insert-return return-type-str '("void") prefix)
+    (docstr-writers-after start t t t)))
 
 (provide 'docstr-objc)
 ;;; docstr-objc.el ends here
