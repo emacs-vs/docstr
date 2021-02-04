@@ -119,7 +119,8 @@
 ;;;###autoload
 (defun docstr-trigger-lua-return (&rest _)
   "Trigger document string inside Lua multiline comment."
-  (when (docstr--doc-valid-p)
+  (when (and (memq major-mode '(lua-mode))
+             (docstr--doc-valid-p))
     (let ((ln-prev (docstr-util-line-relative -1 t))
           (ln-next (docstr-util-line-relative 1 t)))
       (when (and (string-prefix-p "--[[" ln-prev) (string-suffix-p "]]" ln-next)

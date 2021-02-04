@@ -83,7 +83,8 @@
 ;;;###autoload
 (defun docstr-trigger-ruby (&rest _)
   "Trigger document string inside Ruby."
-  (when (and (docstr--doc-valid-p) (docstr-util-looking-back "##" 2))
+  (when (and (memq major-mode '(ruby-mode))
+             (docstr--doc-valid-p) (docstr-util-looking-back "##" 2))
     (indent-for-tab-command)
     (insert "\n# ")
     (indent-for-tab-command) (end-of-line)

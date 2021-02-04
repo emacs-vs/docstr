@@ -82,7 +82,8 @@
 ;;;###autoload
 (defun docstr-trigger-golang (&rest _)
   "Trigger document string inside Golang."
-  (when (and (docstr--doc-valid-p) (docstr-util-looking-back "//" 2))
+  (when (and (memq major-mode '(go-mode))
+             (docstr--doc-valid-p) (docstr-util-looking-back "//" 2))
     (insert " ")
     (docstr--insert-doc-string (docstr--c-style-search-string 1))))
 

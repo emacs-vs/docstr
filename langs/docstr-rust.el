@@ -82,7 +82,8 @@
 ;;;###autoload
 (defun docstr-trigger-rust (&rest _)
   "Trigger document string inside Rust."
-  (when (and (docstr--doc-valid-p) (docstr-util-looking-back "///" 3))
+  (when (and (memq major-mode '(rust-mode))
+             (docstr--doc-valid-p) (docstr-util-looking-back "///" 3))
     (insert " ")
     (docstr--insert-doc-string (docstr--c-style-search-string 2))))
 

@@ -105,8 +105,10 @@
 ;;;###autoload
 (defun docstr-trigger-python (&rest _)
   "Trigger document string inside Python."
-  ;; TODO: For some reason, '(nth 4 (syntax-ppss))' doesn't work.
-  (when (and docstr-mode (docstr-util-looking-back "\"\"\"" 3))
+  (when (and (memq major-mode '(python-mode))
+             ;; TODO: For some reason, '(nth 4 (syntax-ppss))' doesn't work.
+             docstr-mode
+             (docstr-util-looking-back "\"\"\"" 3))
     (if (looking-at-p "\"\"\"")
         (delete-char 3)
       (save-excursion (insert "\"\"\""))

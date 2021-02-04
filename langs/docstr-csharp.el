@@ -74,7 +74,9 @@
 ;;;###autoload
 (defun docstr-trigger-csharp (&rest _)
   "Trigger document string inside C#."
-  (when (and (docstr--doc-valid-p) (docstr-util-looking-back "///" 3))
+  (when (and (memq major-mode '(csharp-mode))
+             (docstr--doc-valid-p)
+             (docstr-util-looking-back "///" 3))
     (save-excursion
       (insert " <summary>\n")
       (insert "/// \n")
