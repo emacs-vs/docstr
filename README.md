@@ -44,7 +44,7 @@ Here is a list of all languages that support by this package.
 * Lua
 * PHP / Python
 * Ruby / Rust
-* Scala
+* Scala / Swift
 * TypeScript
 
 You can customize `docstr-writers-alist` variable to add your own document
