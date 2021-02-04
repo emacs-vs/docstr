@@ -70,8 +70,8 @@ conditions."
 
 (defun docstr-key-insert-prefix ()
   "Insert prefix."
-  (insert (docstr-get-prefix))
-  (indent-for-tab-command))
+  (let ((prefix (docstr-get-prefix)))
+    (when prefix (insert prefix) (indent-for-tab-command))))
 
 (defun docstr-key-single-line-prefix-insertion ()
   "Insertion for single line comment."
