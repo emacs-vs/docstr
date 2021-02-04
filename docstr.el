@@ -167,7 +167,8 @@ variable.  Argument DESC is the description of VAR."
     (lua-mode    . ("RET" docstr-trigger-lua-return))
     (python-mode . ("\"" docstr-trigger-python))
     (ruby-mode   . ("#" docstr-trigger-ruby))
-    (rust-mode   . ("/" docstr-trigger-rust)))
+    (rust-mode   . ("/" docstr-trigger-rust))
+    (swift-mode  . ("/" docstr-trigger-swift)))
   "List of trigger to each `major-mode'.
 
 The data is a cons cell form by (mode-name . (key function)).  The first
@@ -186,9 +187,8 @@ You should customize this variable to add your own triggeration methods."
   (dolist (tri docstr-trigger-alist)
     (let* ((mode (car tri)) (data (cdr tri))
            (key (nth 0 data)) (fnc (nth 1 data)))
-      (when (eq major-mode mode)
-        (if act (docstr-util-key-advice-add key :after fnc)
-          (docstr-util-key-advice-remove key fnc))))))
+      (if act (docstr-util-key-advice-add key :after fnc)
+        (docstr-util-key-advice-remove key fnc)))))
 
 (defun docstr--enable ()
   "Enable `docstr' in current buffer."
@@ -231,7 +231,7 @@ You should customize this variable to add your own triggeration methods."
           '(lua)
           '(php python)
           '(ruby rust)
-          '(scala)
+          '(scala swift)
           '(typescript))
   "List of supported languages.")
 
@@ -352,6 +352,7 @@ See function `docstr--get-search-string' description for argument TYPE."
     (ruby-mode         . docstr-ruby-prefix)
     (rust-mode         . docstr-rust-prefix)
     (scala-mode        . docstr-scala-prefix)
+    (swift-mode        . docstr-swift-prefix)
     (typescript-mode   . docstr-typescript-prefix)
     (web-mode          . docstr-php-prefix))
   "Assocaition list for (major-mode . name).

@@ -111,7 +111,9 @@ document string."
         (if (docstr-util-multiline-comment-p)
             (docstr-key-insert-prefix)
           (docstr-key-single-line-prefix-insertion))
-        (when new-doc-p
+        (when (and new-doc-p
+                   ;; Make sure end symbol */ still at the back
+                   (not (docstr-util-current-line-empty-p)))
           ;; We can't use `newline-and-indent' here, or else the space will be gone.
           (progn (insert "\n") (indent-for-tab-command))
           (forward-line -1))

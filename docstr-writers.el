@@ -292,6 +292,7 @@ RESTORE-PT is non-nil, go back to starting position."
     (ruby-mode         . docstr-writers-ruby)
     (rust-mode         . docstr-writers-rust)
     (scala-mode        . docstr-writers-scala)
+    (swift-mode        . docstr-writers-swift)
     (typescript-mode   . docstr-writers-typescript)
     (web-mode          . docstr-writers-php))
   "List of writers to each `major-mode'."
