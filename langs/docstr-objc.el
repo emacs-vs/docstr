@@ -26,11 +26,11 @@
 
 (require 'docstr)
 
-
 (defcustom docstr-objc-style 'header-doc
   "Style specification for document string in Objective-C."
-  :type '(choice (const :tag "No specify" nil)
-                 (const :tag "HeaderDoc" header-doc))
+  :type '(choice
+          (const :tag "No specify" nil)
+          (const :tag "HeaderDoc documentation generator developed by Apple Inc" header-doc))
   :group 'docstr)
 
 (defcustom docstr-objc-prefix "* "
@@ -52,17 +52,32 @@
 
 (defun docstr-objc--param-list (search-string)
   "Parse SEARCH-STRING for Objective-C."
-  (let (lst-type lst-var)
-    (list lst-type lst-var)))
+  (let ((param-split (split-string search-string ":"))
+        lst-type lst-var)
+    (pop param-split)  ; Remove function name section
+    (dolist (param param-split)
+      (let (tokens type var)
+        (when (string-match "[(]\\([^)]*\\)[)]" param)
+          (setq type (match-string 0 param))
+          (setq param (s-replace type "" param))
+          (setq type (s-replace "(" "" type)
+                type (s-replace ")" "" type)
+                type (string-trim type))
+          (push type lst-type))
+        (setq tokens (split-string param " " t)
+              var (nth 0 tokens))
+        (push var lst-var)))
+    (list (reverse lst-type) (reverse lst-var))))
 
 (defun docstr-objc--return-type (search-string)
   "Return the return type from SEARCH-STRING."
   (let ((return-type-str "void")
-        (front-split (nth 0 (split-string search-string ":"))))
+        (front-split (nth 0 (split-string search-string ":" t))))
     (when (string-match "[(]\\([^)]*\\)[)]" front-split)
       (setq return-type-str (match-string 0 front-split)
             return-type-str (s-replace "(" "" return-type-str)
-            return-type-str (s-replace ")" "" return-type-str)))
+            return-type-str (s-replace ")" "" return-type-str)
+            return-type-str (string-trim return-type-str)))
     return-type-str))
 
 ;;;###autoload
