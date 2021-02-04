@@ -347,7 +347,7 @@ See function `docstr--get-search-string' description for argument TYPE."
     (js2-mode          . docstr-js-prefix)
     (js3-mode          . docstr-js-prefix)
     (lua-mode          . docstr-lua-prefix)
-    (objc-mode         . doctor-objc-prefix)
+    (objc-mode         . docstr-objc-prefix)
     (php-mode          . docstr-php-prefix)
     (python-mode       . docstr-python-prefix)
     (rjsx-mode         . docstr-js-prefix)
