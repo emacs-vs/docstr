@@ -42,6 +42,7 @@ Here is a list of all languages that support by this package.
 * Golang / Groovy
 * Java / JavaScript / JSX
 * Lua
+* Objective-C
 * PHP / Python
 * Ruby / Rust
 * Scala / Swift
