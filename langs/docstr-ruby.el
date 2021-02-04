@@ -24,6 +24,8 @@
 
 ;;; Code:
 
+(require 'docstr)
+
 (defcustom docstr-ruby-style 'rdoc
   "Style specification for document string in Ruby."
   :type '(choice (const :tag "No specify" nil)

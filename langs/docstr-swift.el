@@ -24,6 +24,8 @@
 
 ;;; Code:
 
+(require 'docstr)
+
 (defcustom docstr-swift-style 'swift-doc
   "Style specification for document string in Swift."
   :type '(choice (const :tag "No specify" nil)

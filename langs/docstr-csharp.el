@@ -26,8 +26,6 @@
 
 (require 'docstr)
 
-(declare-function docstr-writers-java "ext:docstr-java.el")
-
 (defcustom docstr-csharp-style nil
   "Style specification for document string in C#."
   :type '(choice (const :tag "No specify" nil))
@@ -64,6 +62,7 @@
             (docstr-format-param (format "<param name=\"%s\"></param>" docstr-key-var))
             (docstr-format-return "<returns></returns>")
             (docstr-concat-var nil))
+        (forward-line 1) (end-of-line)
         (docstr-writers--insert-param param-types param-vars prefix)
         (docstr-writers--insert-return return-type-str '("void") prefix)))
     (docstr-writers-after start t t t)))
