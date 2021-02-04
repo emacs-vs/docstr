@@ -185,7 +185,7 @@ You should customize this variable to add your own triggeration methods."
 (defun docstr--enable-trigger (act)
   "Enable/Disable trigger base on boolean ACT."
   (dolist (tri docstr-trigger-alist)
-    (let* ((mode (car tri)) (data (cdr tri))
+    (let* ((_mode (car tri)) (data (cdr tri))
            (key (nth 0 data)) (fnc (nth 1 data)))
       (if act (docstr-util-key-advice-add key :after fnc)
         (docstr-util-key-advice-remove key fnc)))))
