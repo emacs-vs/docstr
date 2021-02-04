@@ -52,24 +52,21 @@
          (param-types (nth 0 paren-param-list))
          (param-vars (nth 1 paren-param-list))
          ;; Get the return data type.
-         (return-type-str (docstr-writers--return-type search-string))
-         docstring-type)
+         (return-type-str (docstr-writers--return-type search-string)))
     ;; Determine the docstring type.
     (if (docstr-util-multiline-comment-p)
-        (setq docstring-type 'javadoc)
-      (setq docstring-type 'vsdoc prefix "/// "))
-
-    (cl-case docstring-type
-      (javadoc (docstr-writers-java search-string))
-      (vsdoc
-       (forward-line 1) (end-of-line)
-       (let ((docstr-format-var "%s")
-             (docstr-format-param (format "<param name=\"%s\"></param>" docstr-key-var))
-             (docstr-format-return "<returns></returns>")
-             (docstr-concat-var nil))
-         (docstr-writers--insert-param param-types param-vars prefix)
-         (docstr-writers--insert-return return-type-str '("void") prefix))
-       (docstr-writers-after start t t t)))))
+        (progn
+          (setq prefix "* ")
+          (docstr-writers--insert-param param-types param-vars prefix)
+          (docstr-writers--insert-return return-type-str '("void") prefix))
+      (setq prefix "/// ")
+      (let ((docstr-format-var "%s")
+            (docstr-format-param (format "<param name=\"%s\"></param>" docstr-key-var))
+            (docstr-format-return "<returns></returns>")
+            (docstr-concat-var nil))
+        (docstr-writers--insert-param param-types param-vars prefix)
+        (docstr-writers--insert-return return-type-str '("void") prefix)))
+    (docstr-writers-after start t t t)))
 
 ;;;###autoload
 (defun docstr-trigger-csharp (&rest _)
