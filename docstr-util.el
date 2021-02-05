@@ -97,7 +97,10 @@ Argument TYPE see function `docstr-util-string-compare-p' for more information."
 
 (defun docstr-util-min-str (str1 str2)
   "Return minimum string by comparing the lenght of STR1 and STR2."
-  (if (< (length str1) (length str2)) str1 str2))
+  (cond ((and (null str1) (null str2)) "")
+        ((null str1) str2)
+        ((null str2) str1)
+        (t (if (< (length str1) (length str2)) str1 str2))))
 
 (defun docstr-util-string-match-mut-p (str1 str2)
   "Mutual way to check STR1 and STR2 with function `string-match-p'."
