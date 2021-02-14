@@ -161,14 +161,14 @@ variable.  Argument DESC is the description of VAR."
 ;;
 
 (defcustom docstr-trigger-alist
-  `((csharp-mode . ("/" docstr-trigger-csharp))
-    (go-mode     . ("/" docstr-trigger-golang))
-    (lua-mode    . ("-" docstr-trigger-lua))
-    (lua-mode    . ("RET" docstr-trigger-lua-return))
-    (python-mode . ("\"" docstr-trigger-python))
-    (ruby-mode   . ("#" docstr-trigger-ruby))
-    (rust-mode   . ("/" docstr-trigger-rust))
-    (swift-mode  . ("/" docstr-trigger-swift)))
+  `(("/"   . docstr-trigger-csharp)
+    ("/"   . docstr-trigger-golang)
+    ("-"   . docstr-trigger-lua)
+    ("RET" . docstr-trigger-lua-return)
+    ("\""  . docstr-trigger-python)
+    ("#"   . docstr-trigger-ruby)
+    ("/"   . docstr-trigger-rust)
+    ("/"   . docstr-trigger-swift))
   "List of trigger to each `major-mode'.
 
 The data is a cons cell form by (mode-name . (key function)).  The first
@@ -185,8 +185,7 @@ You should customize this variable to add your own triggeration methods."
 (defun docstr--enable-trigger (act)
   "Enable/Disable trigger base on boolean ACT."
   (dolist (tri docstr-trigger-alist)
-    (let* ((_mode (car tri)) (data (cdr tri))
-           (key (nth 0 data)) (fnc (nth 1 data)))
+    (let ((key (car tri)) (fnc (cdr tri)))
       (if act (docstr-util-key-advice-add key :after fnc)
         (docstr-util-key-advice-remove key fnc)))))
 
