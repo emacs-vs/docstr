@@ -65,7 +65,7 @@ See variable `docstr-trigger-alist` for more information. For instance,
 a `C#` trigger data is like this
 
 ```el
-(csharp-mode . ("/" docstr-trigger-csharp))
+("/" . docstr-trigger-csharp)
 ```
 
 And the triggeration function will look like this
