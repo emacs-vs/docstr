@@ -8,6 +8,7 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 ### 2021-02-14
 
 * Fix issue for triggering lua has active everywhere.
+* Clean up trigger alist by removing major-mode identifier.
 
 ### 2021-02-06
 
