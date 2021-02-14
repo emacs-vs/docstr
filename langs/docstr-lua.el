@@ -111,7 +111,7 @@
 ;;;###autoload
 (defun docstr-trigger-lua (&rest _)
   "Trigger document string inside Lua."
-  (when (and (docstr--doc-valid-p) (memq major-mode '(lua-mode))
+  (when (and (memq major-mode '(lua-mode)) (docstr--doc-valid-p)
              (docstr-util-looking-back "---" 3)
              (memq docstr-lua-style '(luadoc doxygen)))
     (add-hook 'docstr-before-insert-hook #'docstr-lua--before-insert nil t)
