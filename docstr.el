@@ -171,12 +171,8 @@ variable.  Argument DESC is the description of VAR."
     ("/"   . docstr-trigger-swift))
   "List of trigger to each `major-mode'.
 
-The data is a cons cell form by (mode-name . (key function)).  The first
-data is the symbol of the `major-mode' and the second data is a list form
-by the following order.
-
-  <1> Key string
-  <2> Trigger function name
+The data is a cons cell form by (key . function).  The first string of the
+key binding and the second data is a function name for triggeration.
 
 You should customize this variable to add your own triggeration methods."
   :type 'hook
