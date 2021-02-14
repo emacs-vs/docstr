@@ -909,7 +909,7 @@ that takes in one argument. For instance,</p>
 <p>Argument <code>search-string</code> will be populated by the triggeration associated list.
 See variable <code>docstr-trigger-alist</code> for more information. For instance,
 a <code>C#</code> trigger data is like this</p>
-<div class="highlight"><pre><span></span><code>(csharp-mode . (&quot;/&quot; docstr-trigger-csharp))
+<div class="highlight"><pre><span></span><code>(&quot;/&quot; . docstr-trigger-csharp)
 </code></pre></div>
 <p>And the triggeration function will look like this</p>
 <div class="highlight"><pre><span></span><code>(defun docstr-trigger-csharp (&amp;rest _)
