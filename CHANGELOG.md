@@ -5,6 +5,10 @@ All notable changes to this project will be documented in this file.
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
 
+### 2021-02-15
+
+* Clean up all autoload entries and just load all modules for better code quality.
+
 ### 2021-02-14
 
 * Fix issue for triggering lua has active everywhere.
