@@ -75,7 +75,7 @@ conditions."
 
 (defun docstr-key-single-line-prefix-insertion ()
   "Insertion for single line comment."
-  (when (docstr-util-current-line-empty-p)
+  (when (docstr-util-current-line-empty-p)  ; Ensure on newline
     (let* ((prev-line-text (save-excursion (forward-line -1) (thing-at-point 'line)))
            (prev-line-doc-symbol (docstr-util-comment-line-symbol -1))
            (current-line-doc-symbol (docstr-util-comment-line-symbol))
