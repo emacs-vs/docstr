@@ -157,6 +157,35 @@ variable.  Argument DESC is the description of VAR."
     new))
 
 ;;
+;; (@* "Modules" )
+;;
+
+(defvar docstr-support-langs
+  (append '(actionscript)
+          '(c c++ csharp)
+          '(go groovy)
+          '(java js)
+          '(lua)
+          '(objc)
+          '(php python)
+          '(ruby rust)
+          '(scala swift)
+          '(typescript))
+  "List of supported languages.")
+
+(defun docstr-load (name)
+  "Load docstr module by NAME."
+  (let ((mode-name (intern (format "docstr-%s" name))))
+    (require mode-name)))
+
+(defun docstr-load-all ()
+  "Load all supported language modules.
+
+Please do not call this at the start up; this will slow down user's
+configuration."
+  (dolist (name docstr-support-langs) (docstr-load name)))
+
+;;
 ;; (@* "Entry" )
 ;;
 
@@ -187,6 +216,7 @@ You should customize this variable to add your own triggeration methods."
 
 (defun docstr--enable ()
   "Enable `docstr' in current buffer."
+  (docstr-load-all)
   (docstr-key-enable)  ; Be infront, in order to take effect
   (docstr-util-key-advice-add "RET" :after #'docstr--trigger-return)
   (docstr--enable-trigger t)
@@ -213,35 +243,6 @@ You should customize this variable to add your own triggeration methods."
 (define-globalized-minor-mode global-docstr-mode
   docstr-mode docstr--turn-on-docstr-mode
   :require 'docstr)
-
-;;
-;; (@* "Modules" )
-;;
-
-(defvar docstr-support-langs
-  (append '(actionscript)
-          '(c c++ csharp)
-          '(go groovy)
-          '(java js)
-          '(lua)
-          '(objc)
-          '(php python)
-          '(ruby rust)
-          '(scala swift)
-          '(typescript))
-  "List of supported languages.")
-
-(defun docstr-load (name)
-  "Load docstr module by NAME."
-  (let ((mode-name (intern (format "docstr-%s" name))))
-    (require mode-name)))
-
-(defun docstr-load-all ()
-  "Load all supported language modules.
-
-Please do not call this at the start up; this will slow down user's
-configuration."
-  (dolist (name docstr-support-langs) (docstr-load name)))
 
 ;;
 ;; (@* "Core" )
@@ -358,7 +359,6 @@ See function `docstr--get-search-string' description for argument TYPE."
 
 (defun docstr-get-prefix ()
   "Return prefix from the corresponding mode."
-  (docstr-load-all)
   (let* ((prefix-cons (assoc major-mode docstr-prefix-alist))
          (prefix (cdr prefix-cons)))
     (cond ((functionp prefix) (funcall prefix))
