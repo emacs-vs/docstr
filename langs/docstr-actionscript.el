@@ -50,7 +50,8 @@
     (asdoc (docstr-actionscript-config-asdoc))
     (t (docstr-util-default-format))))
 
-;;;###autoload
+;;; Writer
+
 (defun docstr-writers-actionscript (search-string)
   "Insert document string for ActionScript using SEARCH-STRING."
   (docstr-actionscript-config)

@@ -61,7 +61,8 @@
     (google (docstr-js-config-google))
     (t (docstr-util-default-format))))
 
-;;;###autoload
+;;; Writer
+
 (defun docstr-writers-javascript (search-string)
   "Insert document string for JavaScript using SEARCH-STRING."
   (docstr-js-config)

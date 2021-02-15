@@ -50,7 +50,8 @@
     (javadoc (docstr-java-config-javadoc))
     (t (docstr-util-default-format))))
 
-;;;###autoload
+;;; Writer
+
 (defun docstr-writers-java (search-string)
   "Insert document string for Java using SEARCH-STRING."
   (docstr-java-config)

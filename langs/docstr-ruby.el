@@ -62,7 +62,8 @@
       (setq lst-var (append lst-var (split-string tkn "," t))))
     (list lst-type lst-var)))
 
-;;;###autoload
+;;; Writer
+
 (defun docstr-writers-ruby (search-string)
   "Insert document string for Ruby using SEARCH-STRING."
   (docstr-ruby-config)
@@ -82,7 +83,8 @@
     (docstr-writers--insert-return return-type-str '("void") prefix)
     (docstr-writers-after start t t t)))
 
-;;;###autoload
+;;; Trigger
+
 (defun docstr-trigger-ruby (&rest _)
   "Trigger document string inside Ruby."
   (when (and (memq major-mode '(ruby-mode))

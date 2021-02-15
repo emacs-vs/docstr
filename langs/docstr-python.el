@@ -77,7 +77,8 @@
     (numpy (docstr-python-config-numpy))
     (t (docstr-util-default-format))))
 
-;;;###autoload
+;;; Writer
+
 (defun docstr-writers-python (search-string)
   "Insert document string for Python using SEARCH-STRING."
   (docstr-python-config)
@@ -102,7 +103,8 @@
     (docstr-writers--insert-return return-type-str '("void") prefix)
     (docstr-writers-after start t t t)))
 
-;;;###autoload
+;; Trigger
+
 (defun docstr-trigger-python (&rest _)
   "Trigger document string inside Python."
   (when (and (memq major-mode '(python-mode))

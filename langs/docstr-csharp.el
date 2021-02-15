@@ -41,7 +41,8 @@
   (cl-case docstr-csharp-style
     (t (docstr-util-default-format))))
 
-;;;###autoload
+;;; Writer
+
 (defun docstr-writers-csharp (search-string)
   "Insert document string for C# using SEARCH-STRING."
   (docstr-csharp-config)
@@ -67,7 +68,8 @@
         (docstr-writers--insert-return return-type-str '("void") prefix)))
     (docstr-writers-after start t t t)))
 
-;;;###autoload
+;;; Trigger
+
 (defun docstr-trigger-csharp (&rest _)
   "Trigger document string inside C#."
   (when (and (memq major-mode '(csharp-mode))

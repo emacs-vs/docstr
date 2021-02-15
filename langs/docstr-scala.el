@@ -50,7 +50,8 @@
     (scaladoc (docstr-scala-config-scaladoc))
     (t (docstr-util-default-format))))
 
-;;;###autoload
+;;; Writer
+
 (defun docstr-writers-scala (search-string)
   "Insert document string for Scala using SEARCH-STRING."
   (docstr-scala-config)

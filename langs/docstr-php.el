@@ -50,7 +50,8 @@
     (phpdoc (docstr-php-config-phpdoc))
     (t (docstr-util-default-format))))
 
-;;;###autoload
+;;; Writer
+
 (defun docstr-writers-php (search-string)
   "Insert document string for PHP using SEARCH-STRING."
   (docstr-php-config)

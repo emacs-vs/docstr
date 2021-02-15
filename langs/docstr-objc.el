@@ -80,7 +80,8 @@
             return-type-str (string-trim return-type-str)))
     return-type-str))
 
-;;;###autoload
+;;; Writer
+
 (defun docstr-writers-objc (search-string)
   "Insert document string for Objective-C using SEARCH-STRING."
   (docstr-objc-config)

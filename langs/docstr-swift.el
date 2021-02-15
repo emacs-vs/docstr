@@ -50,7 +50,8 @@
     (swift-doc (docstr-swift-config-swift-doc))
     (t (docstr-util-default-format))))
 
-;;;###autoload
+;;; Writer
+
 (defun docstr-writers-swift (search-string)
   "Insert document string for Swift using SEARCH-STRING."
   (docstr-swift-config)
@@ -69,7 +70,8 @@
     (docstr-writers--insert-return return-type-str '("void") prefix)
     (docstr-writers-after start t t t)))
 
-;;;###autoload
+;;; Trigger
+
 (defun docstr-trigger-swift (&rest _)
   "Trigger document string inside Swift."
   (when (and (memq major-mode '(swift-mode))

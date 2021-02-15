@@ -59,7 +59,8 @@
     (tsdoc (docstr-typescript-config-tsdoc))
     (t (docstr-util-default-format))))
 
-;;;###autoload
+;;; Writer
+
 (defun docstr-writers-typescript (search-string)
   "Insert document string for TypesSript using SEARCH-STRING."
   (docstr-typescript-config)

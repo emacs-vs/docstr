@@ -76,7 +76,8 @@
     (scriptum (docstr-lua-config-scriptum))
     (t (docstr-util-default-format))))
 
-;;;###autoload
+;;; Writer
+
 (defun docstr-writers-lua (search-string)
   "Insert document string for Lua using SEARCH-STRING."
   (docstr-lua-config)
@@ -96,6 +97,8 @@
     (docstr-writers--insert-return return-type-str '("void") prefix)
     (docstr-writers-after start t t t)))
 
+;;; Trigger
+
 (defun docstr-lua--before-insert (_search-string)
   "Before inserting parameters, etc."
   (cl-case docstr-lua-style
@@ -108,7 +111,6 @@
      (forward-line 1)
      (end-of-line))))
 
-;;;###autoload
 (defun docstr-trigger-lua (&rest _)
   "Trigger document string inside Lua."
   (when (and (memq major-mode '(lua-mode)) (docstr--doc-valid-p)
@@ -117,7 +119,6 @@
     (add-hook 'docstr-before-insert-hook #'docstr-lua--before-insert nil t)
     (docstr--insert-doc-string (docstr--generic-search-string 1 ")"))))
 
-;;;###autoload
 (defun docstr-trigger-lua-return (&rest _)
   "Trigger document string inside Lua multiline comment."
   (when (and (memq major-mode '(lua-mode))

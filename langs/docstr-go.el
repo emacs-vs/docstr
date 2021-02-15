@@ -50,7 +50,8 @@
     (godoc (docstr-go-config-godoc))
     (t (docstr-util-default-format))))
 
-;;;###autoload
+;;; Writer
+
 (defun docstr-writers-golang (search-string)
   "Insert document string for Golang using SEARCH-STRING."
   (docstr-go-config)
@@ -67,7 +68,8 @@
     (docstr-writers--insert-return return-type-str nil prefix)
     (docstr-writers-after start t t t)))
 
-;;;###autoload
+;;; Trigger
+
 (defun docstr-trigger-golang (&rest _)
   "Trigger document string inside Golang."
   (when (and (memq major-mode '(go-mode))

@@ -50,7 +50,8 @@
     (groovydoc (docstr-groovy-config-groovydoc))
     (t (docstr-util-default-format))))
 
-;;;###autoload
+;;; Writer
+
 (defun docstr-writers-groovy (search-string)
   "Insert document string for Groovy using SEARCH-STRING."
   (docstr-groovy-config)

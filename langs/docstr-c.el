@@ -43,7 +43,8 @@
   (cl-case docstr-c-style
     (t (docstr-util-default-format))))
 
-;;;###autoload
+;;; Writer
+
 (defun docstr-writers-c (search-string)
   "Insert document string for C using SEARCH-STRING."
   (docstr-c-config)

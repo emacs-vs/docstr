@@ -56,7 +56,8 @@
     (rfc-430 (docstr-rust-config-rfc-430))
     (t (docstr-util-default-format))))
 
-;;;###autoload
+;;; Writer
+
 (defun docstr-writers-rust (search-string)
   "Insert document string for Rust using SEARCH-STRING."
   (docstr-rust-config)
@@ -79,7 +80,8 @@
     (docstr-writers--insert-return return-type-str '("void") prefix)
     (docstr-writers-after start t t t)))
 
-;;;###autoload
+;;; Trigger
+
 (defun docstr-trigger-rust (&rest _)
   "Trigger document string inside Rust."
   (when (and (memq major-mode '(rust-mode))
