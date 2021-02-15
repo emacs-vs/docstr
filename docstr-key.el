@@ -75,18 +75,19 @@ conditions."
 
 (defun docstr-key-single-line-prefix-insertion ()
   "Insertion for single line comment."
-  (let* ((prev-line-text (save-excursion (forward-line -1) (thing-at-point 'line)))
-         (prev-line-doc-symbol (docstr-util-comment-line-symbol -1))
-         (current-line-doc-symbol (docstr-util-comment-line-symbol))
-         (next-line-doc-symbol (docstr-util-comment-line-symbol 1))
-         (prev-line-content (string-trim (s-replace prev-line-doc-symbol "" prev-line-text))))
-    (when (or (docstr-util-string-match-mut-p prev-line-doc-symbol next-line-doc-symbol)
-              (and (not (string-empty-p prev-line-content))
-                   (not (docstr-util-contain-list-type-str
-                         docstr-key-inhibit-doc-symbol prev-line-doc-symbol 'strict))
-                   (string= current-line-doc-symbol next-line-doc-symbol)))
-      (insert (concat (docstr-util-min-str prev-line-doc-symbol next-line-doc-symbol) " "))
-      (indent-for-tab-command))))
+  (when (docstr-util-current-line-empty-p)
+    (let* ((prev-line-text (save-excursion (forward-line -1) (thing-at-point 'line)))
+           (prev-line-doc-symbol (docstr-util-comment-line-symbol -1))
+           (current-line-doc-symbol (docstr-util-comment-line-symbol))
+           (next-line-doc-symbol (docstr-util-comment-line-symbol 1))
+           (prev-line-content (string-trim (s-replace prev-line-doc-symbol "" prev-line-text))))
+      (when (or (docstr-util-string-match-mut-p prev-line-doc-symbol next-line-doc-symbol)
+                (and (not (string-empty-p prev-line-content))
+                     (not (docstr-util-contain-list-type-str
+                           docstr-key-inhibit-doc-symbol prev-line-doc-symbol 'strict))
+                     (string= current-line-doc-symbol next-line-doc-symbol)))
+        (insert (concat (docstr-util-min-str prev-line-doc-symbol next-line-doc-symbol) " "))
+        (indent-for-tab-command)))))
 
 (defun docstr-key-javadoc-asterik (fnc &rest args)
   "Asterik key for Javadoc like document string.
