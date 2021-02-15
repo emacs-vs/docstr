@@ -8,6 +8,7 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 ### 2021-02-15
 
 * Clean up all autoload entries and just load all modules for better code quality.
+* Fix single line prefix insertion when isn't on the newline.
 
 ### 2021-02-14
 
