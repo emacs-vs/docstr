@@ -35,8 +35,7 @@
 (declare-function docstr-get-prefix "ext:docstr.el")
 
 (defcustom docstr-key-support nil
-  "If non-nil, use key support to fulfill document string triggerations'
-conditions."
+  "If non-nil, use key support to fulfill document triggerations' conditions."
   :type 'boolean
   :group 'docstr)
 
@@ -92,7 +91,9 @@ conditions."
 (defun docstr-key-javadoc-asterik (fnc &rest args)
   "Asterik key for Javadoc like document string.
 
-This fulfill condition, /* with */ into a pair."
+This fulfill condition, /* with */ into a pair.
+
+Arugments FNC and ARGS are for advice around."
   (apply fnc args)
   (when (docstr-key-javadoc-like-p)
     (save-excursion
@@ -104,7 +105,9 @@ This fulfill condition, /* with */ into a pair."
   "Return key for C like programming languages.
 
 This function will help insert the corresponding prefix on every line of the
-document string."
+document string.
+
+Arugments FNC and ARGS are for advice around."
   (if (not (docstr-key-javadoc-like-p)) (apply fnc args)
     (if (not (docstr-util-comment-block-p)) (apply fnc args)
       (let ((new-doc-p (docstr-util-between-pair-p "/*" "*/")))
@@ -141,7 +144,9 @@ This function has two features.
 -- !The prefix inserted after hitting retun!
 ```
 
-P.S. Prefix will matches the same as your document style selection."
+P.S. Prefix will matches the same as your document style selection.
+
+Arugments FNC and ARGS are for advice around."
   (cond ((and (eq major-mode 'lua-mode) (docstr-util-comment-block-p))
          (let ((new-doc-p (docstr-util-between-pair-p "--[[" "]]")))
            (apply fnc args)
@@ -153,8 +158,10 @@ P.S. Prefix will matches the same as your document style selection."
 (defun docstr-key-sharp-return (fnc &rest args)
   "Return key for programming languages that can use # as document.
 
-This is the same as function `docstr-key-lua-return' feature Pt. 2
-but instead of inserting two `-`, this will insert a `#` instead."
+This is the same as function `docstr-key-lua-return' feature Pt 2
+but instead of inserting two `-`, this will insert a `#` instead.
+
+Arugments FNC and ARGS are for advice around."
   (cond ((and (memq major-mode docstr-key-sharp-doc-modes) (docstr-util-comment-block-p))
          (let ((start-comment (docstr-util-start-comment-symbol)))
            (apply fnc args)
