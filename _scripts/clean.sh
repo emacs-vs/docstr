@@ -9,9 +9,7 @@
 # ========================================================================
 
 cd ..
-
 find . -name "*.elc" -type f -delete
 
 cd ./langs
-
 find . -name "*.elc" -type f -delete
