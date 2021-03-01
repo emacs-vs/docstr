@@ -44,6 +44,11 @@
   :type 'string
   :group 'docstr)
 
+(defcustom docstr-python-header-return ""
+  "Header string before inserting returns document string."
+  :type 'string
+  :group 'docstr)
+
 (defun docstr-python-config-pep-257 ()
   "Configre for convention, PEP 257."
   (docstr-util-default-format :param "")
@@ -54,20 +59,31 @@
 
 (defun docstr-python-config-google ()
   "Configre for convention, Google."
-  (docstr-util-default-format :param "")
+  (docstr-util-default-format
+   :fmt-type "%s" :fmt-var "%s" :param "" :ret "" :con-type nil :con-var nil)
   (setq-local docstr-python-prefix "    "
               docstr-python-header-param "Args:"
-              docstr-format-var (format "%%s (%s):" docstr-default-typename)
-              docstr-show-type-name nil))
+              docstr-python-header-return "Returns:"
+              docstr-format-param (format "%s (%s): %s"
+                                          docstr-key-var
+                                          docstr-key-type
+                                          docstr-key-desc)
+              docstr-format-return (format "%s: %s" docstr-key-type docstr-key-desc)
+              docstr-show-type-name t))
 
 (defun docstr-python-config-numpy ()
   "Configre for convention, NumPy."
-  (docstr-util-default-format :param "")
+  (docstr-util-default-format
+   :fmt-type "%s" :fmt-var "%s" :param "" :ret "" :con-type nil :con-var nil)
   (setq-local docstr-python-prefix ""
               docstr-python-header-param "Parameters\n----------"
-              docstr-format-param (format "%s\n    %s" docstr-key-var docstr-key-desc)
-              docstr-format-var (format "%%s : %s" docstr-default-typename)
-              docstr-show-type-name nil))
+              docstr-python-header-return "Returns\n----------"
+              docstr-format-param (format "%s : %s\n    %s"
+                                          docstr-key-var
+                                          docstr-key-type
+                                          docstr-key-desc)
+              docstr-format-return (format "%s\n    %s" docstr-key-type docstr-key-desc)
+              docstr-show-type-name t))
 
 (defun docstr-python-config ()
   "Automatically configure style according to variable `docstr-python-style'."
@@ -79,16 +95,22 @@
 
 ;;; Writer
 
+(defun docstr-python--return-type (search-string)
+  "Return return type from SEARCH-STRING."
+  (let ((ret (docstr-writers--return-type-behind search-string "->")))
+    (if (stringp ret) (s-replace ":" "" ret) nil)))
+
 (defun docstr-writers-python (search-string)
   "Insert document string for Python using SEARCH-STRING."
   (docstr-python-config)
   (let* ((start (point)) (prefix docstr-python-prefix)
-         (paren-param-list (docstr-writers--paren-param-list-behind search-string))
+         (paren-param-list (docstr-writers--paren-param-list-behind search-string ":"))
          (param-types (nth 0 paren-param-list))
          (param-vars (nth 1 paren-param-list))
          (param-var-len (length param-vars))
          ;; Get the return data type.
-         (return-type-str "void"))
+         (return-type-str (docstr-python--return-type search-string)))
+    (jcs-log-list param-types)
     ;; Remove `self' from list.
     (setq param-vars (remove "self" param-vars)
           param-var-len (length param-vars))
@@ -100,10 +122,22 @@
       (unless (string-empty-p docstr-python-header-param)
         (docstr-util-insert docstr-python-header-param)))
     (docstr-writers--insert-param param-types param-vars prefix)
+    (when (and return-type-str (not (string-empty-p docstr-python-header-return)))
+      (insert "\n")
+      (docstr-util-insert docstr-python-header-return))
     (docstr-writers--insert-return return-type-str '("void") prefix)
     (docstr-writers-after start t t t)))
 
 ;; Trigger
+
+(defun docstr-python--parse ()
+  "Parse for search string."
+  (let (beg)
+    (save-excursion
+      (search-backward "(") (setq beg (point))
+      (search-forward ")")
+      (search-forward ":")
+      (buffer-substring beg (point)))))
 
 (defun docstr-trigger-python (&rest _)
   "Trigger document string inside Python."
@@ -114,7 +148,7 @@
     (if (looking-at-p "\"\"\"")
         (delete-char 3)
       (save-excursion (insert "\"\"\""))
-      (docstr--insert-doc-string (docstr--generic-search-string -1 ":")))))
+      (docstr--insert-doc-string (docstr-python--parse)))))
 
 (provide 'docstr-python)
 ;;; docstr-python.el ends here
