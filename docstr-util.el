@@ -55,16 +55,22 @@ See function `forward-line' for argument N."
 
 (defun docstr-util-last-regex-in-string (reg str)
   "Find the position in STR using REG from th end."
-  (let ((pos -1) (run-it t))
-    (while run-it
-      (setq run-it (string-match-p reg str (1+ pos)))
-      (when run-it (setq pos run-it)))
-    (if (= pos -1) nil pos)))
+  (when (stringp str)
+    (let ((pos -1) (run-it t))
+      (while run-it
+        (setq run-it (string-match-p reg str (1+ pos)))
+        (when run-it (setq pos run-it)))
+      (if (= pos -1) nil pos))))
 
 (defun docstr-util-comment-block-p (&optional pos)
   "Return non-nil if POS is inside a comment block."
   (unless pos (setq pos (point)))
   (save-excursion (goto-char pos) (nth 4 (syntax-ppss))))
+
+(defun docstr-util-previous-blank-line ()
+  "Move to the previous line containing nothing but whitespaces or tabs."
+  (let ((sr-pt (save-excursion (re-search-backward "^[ \t]*\n" nil t))))
+    (goto-char (if sr-pt sr-pt (point-min)))))
 
 ;;
 ;; (@* "List" )
