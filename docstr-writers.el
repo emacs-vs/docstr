@@ -35,6 +35,7 @@
 (defvar docstr-default-typename)
 (defvar docstr-desc-param)
 (defvar docstr-desc-return)
+(defvar docstr-show-return)
 
 ;;
 ;; (@* "Analyzer" )
@@ -221,7 +222,8 @@ the last word only."
 
 (defun docstr-writers--valid-return-type-p (return-type-str ignore-lst)
   "Return non-nil if RETURN-TYPE-STR is valid compare to IGNORE-LST."
-  (and (stringp return-type-str)
+  (and docstr-show-return
+       (not (string-empty-p return-type-str))
        (not (docstr-util-contain-list-string ignore-lst return-type-str))))
 
 (defun docstr-writers--insert-param (param-types param-vars prefix &optional postfix)
