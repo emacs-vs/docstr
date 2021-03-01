@@ -109,10 +109,9 @@ This will works with programming language that define function like this
 or with default value
 
   `(type-name var-name = default-val, type-name var-name = default-val)`."
-  (let ((param-string "") (param-lst '())
-        (param-type-str-lst '()) (param-var-str-lst '())
-        param-types param-vars
-        (result-datas '()))
+  (let ((param-string "") param-lst
+        param-type-str-lst param-var-str-lst
+        param-types param-vars result-datas)
     (setq param-string
           (ignore-errors (docstr-writers--analyze-param-string search-string)))
 
@@ -140,7 +139,7 @@ or with default value
         ;; Data type name should be the rest except the last element.
         (let ((index 0) (sep ""))
           (while (< index param-split-str-lst-len-1)
-            (if (string= param-type-str "") (setq sep "") (setq sep " "))
+            (setq sep (if (string= param-type-str "") "" " "))
             (setq param-type-str (concat param-type-str sep (string-trim (nth index param-split-str-lst))))
             (setq index (1+ index))))
 
@@ -178,10 +177,9 @@ cases, this symbol often will be a 'colon'.
 
 If optional argument LAST-WORD is non-nil; then limit the variable name to
 the last word only."
-  (let ((param-string "") (param-lst '())
-        (param-type-str-lst '()) (param-var-str-lst '())
-        param-types param-vars
-        (result-datas '()))
+  (let ((param-string "") param-lst
+        param-type-str-lst param-var-str-lst
+        param-types param-vars result-datas)
     (setq param-string
           (ignore-errors (docstr-writers--analyze-param-string search-string)))
 
