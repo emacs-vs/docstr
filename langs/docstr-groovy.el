@@ -39,10 +39,9 @@
 
 (defun docstr-groovy-config-groovydoc ()
   "Configre for convention, Groovydoc."
-  (docstr-util-default-format)
+  (docstr-util-default-format :show-tn nil)
   (setq-local docstr-groovy-prefix "* "
-              docstr-format-var "%s"
-              docstr-show-type-name nil))
+              docstr-format-var "%s"))
 
 (defun docstr-groovy-config ()
   "Automatically configure style according to variable `docstr-groovy-style'."

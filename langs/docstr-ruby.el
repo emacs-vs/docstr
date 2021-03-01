@@ -39,10 +39,9 @@
 
 (defun docstr-ruby-config-rdoc ()
   "Configure for convention, RDoc."
-  (docstr-util-default-format :param "" :ret "")
+  (docstr-util-default-format :param "" :ret "" :show-tn nil)
   (setq-local docstr-ruby-prefix "# "
-              docstr-format-var "+%s+"
-              docstr-show-type-name nil))
+              docstr-format-var "+%s+"))
 
 (defun docstr-ruby-config ()
   "Automatically configure style according to variable `docstr-ruby-style'."

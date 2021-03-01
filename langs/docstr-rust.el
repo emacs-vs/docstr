@@ -44,11 +44,10 @@
 
 (defun docstr-rust-config-rfc-430 ()
   "Configure for convention, RFC 430."
-  (docstr-util-default-format :param "*" :ret "")
+  (docstr-util-default-format :param "*" :ret "" :show-tn nil)
   (setq-local docstr-rust-prefix "/// "
               docstr-rust-header-param "# Arguments"
-              docstr-format-var "`%s` -"
-              docstr-show-type-name nil))
+              docstr-format-var "`%s` -"))
 
 (defun docstr-rust-config ()
   "Automatically configure style according to variable `docstr-rust-style'."

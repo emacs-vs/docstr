@@ -39,10 +39,9 @@
 
 (defun docstr-swift-config-swift-doc ()
   "Configure for convention, SwiftDoc."
-  (docstr-util-default-format :param "" :ret "")
+  (docstr-util-default-format :param "" :ret "" :show-tn nil)
   (setq-local docstr-format-var "- %s:"
-              docstr-format-return (format "- returns: %s" docstr-key-desc)
-              docstr-show-type-name nil))
+              docstr-format-return (format "- returns: %s" docstr-key-desc)))
 
 (defun docstr-swift-config ()
   "Automatically configure style according to variable `docstr-swift-style'."

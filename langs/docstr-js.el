@@ -43,16 +43,14 @@
   (docstr-util-default-format)
   (setq-local docstr-js-prefix "* "
               docstr-format-type "{%s}"
-              docstr-format-var "%s -"
-              docstr-show-type-name t))
+              docstr-format-var "%s -"))
 
 (defun docstr-js-config-google ()
   "Configre for convention, Google."
   (docstr-util-default-format)
   (setq-local docstr-js-prefix "* "
               docstr-format-type "{%s}"
-              docstr-format-var "%s"
-              docstr-show-type-name t))
+              docstr-format-var "%s"))
 
 (defun docstr-js-config ()
   "Automatically configure style according to variable `docstr-js-style'."

@@ -51,16 +51,16 @@
 
 (defun docstr-python-config-pep-257 ()
   "Configre for convention, PEP 257."
-  (docstr-util-default-format :param "")
+  (docstr-util-default-format :param "" :show-tn nil :show-ret nil)
   (setq-local docstr-python-prefix ""
               docstr-python-header-param "Keyword arguments:"
-              docstr-format-var "%s --"
-              docstr-show-type-name nil))
+              docstr-format-var "%s --"))
 
 (defun docstr-python-config-google ()
   "Configre for convention, Google."
   (docstr-util-default-format
-   :fmt-type "%s" :fmt-var "%s" :param "" :ret "" :con-type nil :con-var nil)
+   :fmt-type "%s" :fmt-var "%s" :param "" :ret "" :con-type nil :con-var nil
+   :show-tn t)
   (setq-local docstr-python-prefix "    "
               docstr-python-header-param "Args:"
               docstr-python-header-return "Returns:"
@@ -68,13 +68,13 @@
                                           docstr-key-var
                                           docstr-key-type
                                           docstr-key-desc)
-              docstr-format-return (format "%s: %s" docstr-key-type docstr-key-desc)
-              docstr-show-type-name t))
+              docstr-format-return (format "%s: %s" docstr-key-type docstr-key-desc)))
 
 (defun docstr-python-config-numpy ()
   "Configre for convention, NumPy."
   (docstr-util-default-format
-   :fmt-type "%s" :fmt-var "%s" :param "" :ret "" :con-type nil :con-var nil)
+   :fmt-type "%s" :fmt-var "%s" :param "" :ret "" :con-type nil :con-var nil
+   :show-tn t)
   (setq-local docstr-python-prefix ""
               docstr-python-header-param "Parameters\n----------"
               docstr-python-header-return "Returns\n----------"
@@ -82,8 +82,7 @@
                                           docstr-key-var
                                           docstr-key-type
                                           docstr-key-desc)
-              docstr-format-return (format "%s\n    %s" docstr-key-type docstr-key-desc)
-              docstr-show-type-name t))
+              docstr-format-return (format "%s\n    %s" docstr-key-type docstr-key-desc)))
 
 (defun docstr-python-config ()
   "Automatically configure style according to variable `docstr-python-style'."

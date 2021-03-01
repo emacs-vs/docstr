@@ -39,10 +39,9 @@
 
 (defun docstr-php-config-phpdoc ()
   "Configre for convention, PHPDoc."
-  (docstr-util-default-format)
+  (docstr-util-default-format :show-tn nil)
   (setq-local docstr-php-prefix "* "
-              docstr-format-var "%s"
-              docstr-show-type-name nil))
+              docstr-format-var "%s"))
 
 (defun docstr-php-config ()
   "Automatically configure style according to variable `docstr-php-style'."

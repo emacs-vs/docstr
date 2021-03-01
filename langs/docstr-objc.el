@@ -40,9 +40,8 @@
 
 (defun docstr-objc-config-header-doc ()
   "Configure for convention, HeaderDoc."
-  (docstr-util-default-format)
-  (setq-local docstr-format-var "%s"
-              docstr-show-type-name nil))
+  (docstr-util-default-format :show-tn nil)
+  (setq-local docstr-format-var "%s"))
 
 (defun docstr-objc-config ()
   "Automatically configure style according to variable `docstr-objc-style'."

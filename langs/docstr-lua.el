@@ -47,16 +47,14 @@
 
 (defun docstr-lua-config-doxygen ()
   "Configre for convention, doxygen/Javadoc-like style."
-  (docstr-util-default-format)
+  (docstr-util-default-format :show-tn nil)
   (setq-local docstr-lua-prefix "-- "
-              docstr-format-var "%s"
-              docstr-show-type-name nil))
+              docstr-format-var "%s"))
 
 (defun docstr-lua-config-luadoc ()
   "Configre for convention, LuaDoc."
-  (docstr-util-default-format)
-  (setq-local docstr-lua-prefix "-- "
-              docstr-show-type-name nil))
+  (docstr-util-default-format :show-tn nil)
+  (setq-local docstr-lua-prefix "-- "))
 
 (defun docstr-lua-config-scriptum ()
   "Configre for convention, lua-scriptum."
@@ -65,8 +63,7 @@
               docstr-format-param (format "@param %s%s%s"  docstr-key-var
                                           docstr-key-type docstr-key-desc)
               docstr-format-var "%s"
-              docstr-format-type "(%s)"
-              docstr-show-type-name t))
+              docstr-format-type "(%s)"))
 
 (defun docstr-lua-config ()
   "Automatically configure style according to variable `docstr-lua-style'."

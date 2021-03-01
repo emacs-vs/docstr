@@ -40,17 +40,15 @@
 
 (defun docstr-typescript-config-typedoc ()
   "Configre for convention, TypeDoc."
-  (docstr-util-default-format)
+  (docstr-util-default-format :show-tn nil)
   (setq-local docstr-typescript-prefix "* "
-              docstr-format-var "%s"
-              docstr-show-type-name nil))
+              docstr-format-var "%s"))
 
 (defun docstr-typescript-config-tsdoc ()
   "Configre for convention, TSDoc."
-  (docstr-util-default-format)
+  (docstr-util-default-format :show-tn nil)
   (setq-local docstr-typescript-prefix "* "
-              docstr-format-var "%s -"
-              docstr-show-type-name nil))
+              docstr-format-var "%s -"))
 
 (defun docstr-typescript-config ()
   "Automatically configure style according to variable `docstr-typescript-style'."

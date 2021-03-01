@@ -39,10 +39,9 @@
 
 (defun docstr-scala-config-scaladoc ()
   "Configure for convention, Scaladoc."
-  (docstr-util-default-format)
+  (docstr-util-default-format :show-tn nil)
   (setq-local docstr-scala-prefix "* "
-              docstr-format-var "%s"
-              docstr-show-type-name nil))
+              docstr-format-var "%s"))
 
 (defun docstr-scala-config ()
   "Automatically configure style according to variable `docstr-scala-style'."

@@ -39,10 +39,9 @@
 
 (defun docstr-java-config-javadoc ()
   "Configre for convention, Javadoc."
-  (docstr-util-default-format)
+  (docstr-util-default-format :show-tn nil)
   (setq-local docstr-java-prefix "* "
-              docstr-format-var "%s"
-              docstr-show-type-name nil))
+              docstr-format-var "%s"))
 
 (defun docstr-java-config ()
   "Automatically configure style according to variable `docstr-java-style'."

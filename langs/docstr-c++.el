@@ -40,17 +40,15 @@
 
 (defun docstr-c++-config-javadoc ()
   "Configre for convention, Javadoc Style."
-  (docstr-util-default-format)
+  (docstr-util-default-format :show-tn nil)
   (setq-local docstr-c++-prefix "* "
-              docstr-format-var "%s"
-              docstr-show-type-name nil))
+              docstr-format-var "%s"))
 
 (defun docstr-c++-config-qt ()
   "Configre for convention, Qt Style."
-  (docstr-util-default-format :param "\\param" :ret "\\return")
+  (docstr-util-default-format :param "\\param" :ret "\\return" :show-tn nil)
   (setq-local docstr-c++-prefix "    "
-              docstr-format-var "%s"
-              docstr-show-type-name nil))
+              docstr-format-var "%s"))
 
 (defun docstr-c++-config ()
   "Automatically configure style according to variable `docstr-c++-style'."

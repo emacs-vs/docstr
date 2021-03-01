@@ -39,10 +39,9 @@
 
 (defun docstr-go-config-godoc ()
   "Configre for convention, GoDoc."
-  (docstr-util-default-format)
+  (docstr-util-default-format :show-tn nil)
   (setq-local docstr-format-type "{%s}"
-              docstr-format-var "%s -"
-              docstr-show-type-name nil))
+              docstr-format-var "%s -"))
 
 (defun docstr-go-config ()
   "Automatically configure style according to variable `docstr-go-style'."
