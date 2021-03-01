@@ -36,6 +36,8 @@
 (defvar docstr-key-desc)
 (defvar docstr-concat-type)
 (defvar docstr-concat-var)
+(defvar docstr-show-type-name)
+(defvar docstr-show-return)
 
 (defun docstr-util-line-relative (&optional n trim)
   "Return string of N line relatively.
@@ -290,16 +292,19 @@ and GREEDY."
 
 (cl-defun docstr-util-default-format
     (&key (fmt-type "{ %s }") (fmt-var "%s :") (param "@param") (ret "@return")
-          (con-type t) (con-var t))
+          (con-type t) (con-var t) (show-tn t) (show-ret t))
   "Set default format for document string."
   (unless (string-empty-p param) (setq param (concat param " ")))
   (unless (string-empty-p ret) (setq ret (concat ret " ")))
-  (setq docstr-concat-type con-type docstr-concat-var con-var)
   (setq-local
    docstr-format-type fmt-type
    docstr-format-var fmt-var
    docstr-format-param (format "%s%s%s%s" param docstr-key-type docstr-key-var docstr-key-desc)
-   docstr-format-return (format "%s%s%s%s" ret docstr-key-type docstr-key-var docstr-key-desc)))
+   docstr-format-return (format "%s%s%s%s" ret docstr-key-type docstr-key-var docstr-key-desc)
+   docstr-concat-type con-type
+   docstr-concat-var con-var
+   docstr-show-type-name show-tn
+   docstr-show-return show-ret))
 
 (provide 'docstr-util)
 ;;; docstr-util.el ends here
