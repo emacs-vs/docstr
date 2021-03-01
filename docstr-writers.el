@@ -224,7 +224,8 @@ the last word only."
   "Return non-nil if RETURN-TYPE-STR is valid compare to IGNORE-LST."
   (and docstr-show-return
        (not (string-empty-p return-type-str))
-       (not (docstr-util-contain-list-string ignore-lst return-type-str))))
+       ;;(not (docstr-util-contain-list-string ignore-lst return-type-str))
+       ))
 
 (defun docstr-writers--insert-param (param-types param-vars prefix &optional postfix)
   "Insert parameter section.
