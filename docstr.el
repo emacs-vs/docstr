@@ -103,6 +103,11 @@
   :type 'boolean
   :group 'docstr)
 
+(defcustom docstr-show-return t
+  "If non-nil, write display document string."
+  :type 'boolean
+  :group 'docstr)
+
 (defcustom docstr-before-insert-hook nil
   "Hooks run before inserting document string."
   :type 'hook
