@@ -191,8 +191,7 @@ the last word only."
       (setq param-lst '()))
 
     (dolist (param-sec-string param-lst)
-      (let ((param-split-str-lst '())
-            (param-var-str "") (param-type-str ""))
+      (let ((param-split-str-lst '()) (param-var-str "") (param-type-str ""))
         ;; First remove the possible default value.
         (setq param-sec-string (nth 0 (split-string param-sec-string "=[^>]"))
               param-split-str-lst (split-string param-sec-string spi-sym)
