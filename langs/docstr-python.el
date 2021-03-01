@@ -130,12 +130,14 @@
 
 (defun docstr-python--parse ()
   "Parse for search string."
-  (let (beg)
+  (let (empty-pt beg)
     (save-excursion
+      (setq empty-pt (save-excursion (docstr-util-previous-blank-line) (line-beginning-position)))
       (search-backward "(") (setq beg (point))
-      (search-forward ")")
-      (search-forward ":")
-      (buffer-substring beg (point)))))
+      (when (< empty-pt beg)
+        (search-forward ")")
+        (search-forward ":")
+        (buffer-substring beg (point))))))
 
 (defun docstr-trigger-python (&rest _)
   "Trigger document string inside Python."
