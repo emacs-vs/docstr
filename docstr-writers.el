@@ -115,6 +115,8 @@ or with default value
     (setq param-string
           (ignore-errors (docstr-writers--analyze-param-string search-string)))
 
+    
+
     (when (stringp param-string)
       (setq param-lst (split-string param-string ",")))
     (when (docstr-writers--param-empty-p param-lst)
