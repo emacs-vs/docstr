@@ -110,7 +110,6 @@
          (param-var-len (length param-vars))
          ;; Get the return data type.
          (return-type-str (docstr-python--return-type search-string)))
-    (jcs-log-list param-types)
     ;; Remove `self' from list.
     (setq param-vars (remove "self" param-vars)
           param-var-len (length param-vars))
