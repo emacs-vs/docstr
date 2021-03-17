@@ -81,9 +81,14 @@
 
 ;;; Trigger
 
+(defcustom dosctr-rust-modes '(rust-mode rustic-mode)
+  "Rust major modes for document string insertion."
+  :type 'list
+  :group 'docstr)
+
 (defun docstr-trigger-rust (&rest _)
   "Trigger document string inside Rust."
-  (when (and (memq major-mode '(rust-mode))
+  (when (and (memq major-mode dosctr-rust-modes)
              (docstr--doc-valid-p) (docstr-util-looking-back "///" 3))
     (insert " ")
     (docstr--insert-doc-string (docstr--c-style-search-string 2))))
