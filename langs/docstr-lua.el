@@ -96,6 +96,11 @@
 
 ;;; Trigger
 
+(defcustom docstr-lua-modes '(lua-mode)
+  "Lua major modes for document string insertion."
+  :type 'list
+  :group 'docstr)
+
 (defun docstr-lua--before-insert (_search-string)
   "Before inserting parameters, etc."
   (cl-case docstr-lua-style
@@ -118,7 +123,7 @@
 
 (defun docstr-trigger-lua-return (&rest _)
   "Trigger document string inside Lua multiline comment."
-  (when (and (memq major-mode '(lua-mode))
+  (when (and (memq major-mode docstr-lua-modes)
              (docstr--doc-valid-p))
     (let ((ln-prev (docstr-util-line-relative -1 t))
           (ln-next (docstr-util-line-relative 1 t)))

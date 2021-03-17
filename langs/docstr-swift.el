@@ -71,9 +71,14 @@
 
 ;;; Trigger
 
+(defcustom docstr-swift-modes '(swift-mode)
+  "Swift major modes for document string insertion."
+  :type 'list
+  :group 'docstr)
+
 (defun docstr-trigger-swift (&rest _)
   "Trigger document string inside Swift."
-  (when (and (memq major-mode '(swift-mode))
+  (when (and (memq major-mode docstr-swift-modes)
              (docstr--doc-valid-p)
              (docstr-util-looking-back "///" 3))
     (insert " ")

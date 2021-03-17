@@ -70,9 +70,14 @@
 
 ;;; Trigger
 
+(defcustom docstr-csharp-modes '(csharp-mode)
+  "C# major modes for document string insertion."
+  :type 'list
+  :group 'docstr)
+
 (defun docstr-trigger-csharp (&rest _)
   "Trigger document string inside C#."
-  (when (and (memq major-mode '(csharp-mode))
+  (when (and (memq major-mode docstr-csharp-modes)
              (docstr--doc-valid-p)
              (docstr-util-looking-back "///" 3))
     (save-excursion

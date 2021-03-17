@@ -84,9 +84,14 @@
 
 ;;; Trigger
 
+(defcustom docstr-ruby-modes '(ruby-mode)
+  "Ruby major modes for document string insertion."
+  :type 'list
+  :group 'docstr)
+
 (defun docstr-trigger-ruby (&rest _)
   "Trigger document string inside Ruby."
-  (when (and (memq major-mode '(ruby-mode))
+  (when (and (memq major-mode docstr-ruby-modes)
              (docstr--doc-valid-p) (docstr-util-looking-back "##" 2))
     (indent-for-tab-command)
     (insert "\n# ")
