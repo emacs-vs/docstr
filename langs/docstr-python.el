@@ -128,6 +128,11 @@
 
 ;; Trigger
 
+(defcustom docstr-python-modes '(python-mode)
+  "Python major modes for document string insertion."
+  :type 'list
+  :group 'docstr)
+
 (defun docstr-python--parse ()
   "Parse for search string."
   (let (empty-pt beg)
@@ -141,7 +146,7 @@
 
 (defun docstr-trigger-python (&rest _)
   "Trigger document string inside Python."
-  (when (and (memq major-mode '(python-mode))
+  (when (and (memq major-mode docstr-python-modes)
              ;; TODO: For some reason, '(nth 4 (syntax-ppss))' doesn't work.
              docstr-mode
              (docstr-util-looking-back "\"\"\"" 3))
