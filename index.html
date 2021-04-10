@@ -344,18 +344,18 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#advance-implementation" class="md-nav__link">
-    Advance Implementation
+  <a href="#advanced-implementation" class="md-nav__link">
+    Advanced Implementation
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#document-string" class="md-nav__link">
-    Document String
+  <a href="#documentation-strings" class="md-nav__link">
+    Documentation Strings
   </a>
   
-    <nav class="md-nav" aria-label="Document String">
+    <nav class="md-nav" aria-label="Documentation Strings">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -381,7 +381,7 @@
         
           <li class="md-nav__item">
   <a href="#default-descriptions" class="md-nav__link">
-    Default descriptions
+    Default Descriptions
   </a>
   
 </li>
@@ -392,15 +392,15 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#configure-faces" class="md-nav__link">
-    Configure Faces
+  <a href="#faces-configuration" class="md-nav__link">
+    Faces Configuration
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#multiline-docstring-keys" class="md-nav__link">
-    Multiline Docstring &amp; Keys
+  <a href="#multiline-docstrings-keys" class="md-nav__link">
+    Multiline Docstrings &amp; Keys
   </a>
   
 </li>
@@ -775,18 +775,18 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#advance-implementation" class="md-nav__link">
-    Advance Implementation
+  <a href="#advanced-implementation" class="md-nav__link">
+    Advanced Implementation
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#document-string" class="md-nav__link">
-    Document String
+  <a href="#documentation-strings" class="md-nav__link">
+    Documentation Strings
   </a>
   
-    <nav class="md-nav" aria-label="Document String">
+    <nav class="md-nav" aria-label="Documentation Strings">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -812,7 +812,7 @@
         
           <li class="md-nav__item">
   <a href="#default-descriptions" class="md-nav__link">
-    Default descriptions
+    Default Descriptions
   </a>
   
 </li>
@@ -823,15 +823,15 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#configure-faces" class="md-nav__link">
-    Configure Faces
+  <a href="#faces-configuration" class="md-nav__link">
+    Faces Configuration
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#multiline-docstring-keys" class="md-nav__link">
-    Multiline Docstring &amp; Keys
+  <a href="#multiline-docstrings-keys" class="md-nav__link">
+    Multiline Docstrings &amp; Keys
   </a>
   
 </li>
@@ -870,24 +870,21 @@
 <blockquote>
 <p>A document string minor mode.</p>
 </blockquote>
-<p>This package provides a simple solution to insert document string into the code.</p>
+<p>This package provides a simple solution for the insertion of documentation strings into code.</p>
 <h2 id="usage">Usage<a class="headerlink" href="#usage" title="Permanent link">#</a></h2>
-<p>You can enable this package to a specific major mode, like</p>
+<p>You can enable this package for a specific major mode:</p>
 <div class="highlight"><pre><span></span><code>;; Enable `docstr&#39; inside these major modes.
 (add-hook &#39;actionscript-mode-hook (lambda () (docstr-mode 1)))
 (add-hook &#39;java-mode-hook (lambda () (docstr-mode 1)))
 </code></pre></div>
-<p>If you just want to enable it inside a specific buffer just call <code>docstr-mode</code>
-as a command throught minibuffer.</p>
+<p>Or if you just want to enable it inside a specific buffer just call <code>docstr-mode</code> as a command through the minibuffer:</p>
 <div class="highlight"><pre><span></span><code>M-x docstr-mode
 </code></pre></div>
-<p>To enable this package through out all the buffers by default. Call global
-version of the minor mode; then just put the following code snippet to your
-configuration.</p>
+<p>You can also enable this package in all buffers via:</p>
 <div class="highlight"><pre><span></span><code>(global-docstr-mode 1)
 </code></pre></div>
 <h2 id="supported-langauges">Supported Langauges<a class="headerlink" href="#supported-langauges" title="Permanent link">#</a></h2>
-<p>Here is a list of all languages that support by this package.</p>
+<p>Here is a list of all languages that are supported by this package:</p>
 <ul>
 <li>ActionScript</li>
 <li>C / C++ / C#</li>
@@ -900,20 +897,16 @@ configuration.</p>
 <li>Scala / Swift</li>
 <li>TypeScript</li>
 </ul>
-<p>You can customize <code>docstr-writers-alist</code> variable to add your own document
-string support for your favourite language. Just add a cons cell like <code>(mode-name . docstr-writer-name)</code>.</p>
-<p>To create your own document string writer, you would need to create a function
-that takes in one argument. For instance,</p>
+<p>You can customize the <code>docstr-writers-alist</code> variable to add your own documentation string support for your favourite language. Just add a cons cell like <code>(mode-name . docstr-writer-name)</code>.</p>
+<p>To create your own documentation string writer, you need to create a function that takes in one argument. For instance:</p>
 <div class="highlight"><pre><span></span><code>(defun my-docstr-writer (search-string)
-  ;; Insert document stirng here.
+  ;; Insert documentation string here.
   )
 </code></pre></div>
-<p>Argument <code>search-string</code> will be populated by the triggeration associated list.
-See variable <code>docstr-trigger-alist</code> for more information. For instance,
-a <code>C#</code> trigger data is like this</p>
+<p>The argument <code>search-string</code> will then be populated by the appropriate trigger function in <code>docstr-trigger-alist</code>. See the variable <code>docstr-trigger-alist</code> for more information. For instance, a <code>C#</code> trigger could look like this:</p>
 <div class="highlight"><pre><span></span><code>(&quot;/&quot; . docstr-trigger-csharp)
 </code></pre></div>
-<p>And the triggeration function will look like this</p>
+<p>And the trigger function could look like this:</p>
 <div class="highlight"><pre><span></span><code>(defun docstr-trigger-csharp (&amp;rest _)
   &quot;Trigger document string inside C#.&quot;
   (when (and (docstr--doc-valid-p) (looking-back &quot;///&quot; 3))
@@ -925,30 +918,22 @@ a <code>C#</code> trigger data is like this</p>
     (end-of-line)
     (docstr--insert-doc-string (docstr--c-style-search-string 2))))
 </code></pre></div>
-<p>The document string is triggered by certain conditions are met; and it will
-finally calls the function <code>docstr--insert-doc-string</code> for document string
-insertion. In this example, <code>(docstr--c-style-search-string 2)</code> is the
-<code>search-string</code> ready for document string writer to write a proper document
-string base on the <code>search-string</code> information. Then this is the result.</p>
+<p>In this example, docstring insertion is triggered only when certain conditions are met; the function <code>docstr--insert-doc-string</code> will be called last of all to insert the actual docstring content. <code>(docstr--c-style-search-string 2)</code> is the <code>search-string</code> passed on to the documentation string writer which writes a proper documentation string based on its information.</p>
 <p align="center">
 <img src="./etc/csharp/csharp-vs-doc-demo.gif" width="450" height="172"/>
 </p>
 
 <h2 id="beforeafter-insertion">Before/After Insertion<a class="headerlink" href="#beforeafter-insertion" title="Permanent link">#</a></h2>
-<p>You can customize document before or after the document string insertion.
-There are total two hooks you can customize.</p>
+<p>You can customize documentation before or after the docstring insertion.</p>
+<p>There are two hooks you can customize:</p>
 <ul>
 <li><code>docstr-before-insert-hook</code></li>
 <li><code>docstr-after-insert-hook</code></li>
 </ul>
-<p>The usage of this is to customize the document string with set up. For instance,
-some programming languages would add <code>@desc</code> before an actual description. Do
-the following can implement this.</p>
+<p>The use case of this is to provide some kind of set up. For instance, some programming languages would add <code>@desc</code> before an actual description. The following would implement this:</p>
 <div class="highlight"><pre><span></span><code>(add-hook &#39;docstr-before-insert-hook (lambda (search-string) (insert &quot;@desc &quot;)))
 </code></pre></div>
-<p>Of course, I would recommend you add it locally so it is language specific
-document style. Let's try apply to language <code>TypeScript</code> only within
-<code>typescript-mode</code>.</p>
+<p>Of course, I would recommend you add it locally so it is language specific. Let's try to apply only to <code>TypeScript</code> and only within <code>typescript-mode</code>:</p>
 <div class="highlight"><pre><span></span><code>(defun my-typescript-mode-hook ()
   (add-hook &#39;docstr-before-insert-hook
             (lambda (search-string) (insert &quot;@desc &quot;))
@@ -960,9 +945,8 @@ document style. Let's try apply to language <code>TypeScript</code> only within
 <img src="./etc/typescript/ts-doc-demo.gif" width="450" height="149"/>
 </p>
 
-<h2 id="advance-implementation">Advance Implementation<a class="headerlink" href="#advance-implementation" title="Permanent link">#</a></h2>
-<p>You are able to customize document string by running <code>before</code>/<code>after</code> hooks.
-The following are advance examples for document string in <code>C++</code>.</p>
+<h2 id="advanced-implementation">Advanced Implementation<a class="headerlink" href="#advanced-implementation" title="Permanent link">#</a></h2>
+<p>You can also customize documentation strings by running <code>before</code>/<code>after</code> hooks. The following are advanced examples for documentation strings in <code>C++</code>:</p>
 <table>
 <thead>
 <tr>
@@ -991,41 +975,34 @@ The following are advance examples for document string in <code>C++</code>.</p>
 </tr>
 </tbody>
 </table>
-<h2 id="document-string">Document String<a class="headerlink" href="#document-string" title="Permanent link">#</a></h2>
-<p>You are able to customize default document string by tweaking these variables.</p>
+<h2 id="documentation-strings">Documentation Strings<a class="headerlink" href="#documentation-strings" title="Permanent link">#</a></h2>
+<p>You can customize default documentation strings by tweaking these variables.</p>
 <h3 id="type-name">Type Name<a class="headerlink" href="#type-name" title="Permanent link">#</a></h3>
 <ul>
-<li><code>docstr-format-type</code> - default to <code>"{ %s }"</code></li>
+<li><code>docstr-format-type</code> - default: <code>"{ %s }"</code></li>
 </ul>
-<p>The default is wrap around curly brackets. It only takes one <code>%s</code> for type name
-to plug in.</p>
+<p>The default is wrap around curly brackets. It only takes one <code>%s</code> for the type name.</p>
 <ul>
-<li><code>docstr-show-type-name</code> - default to <code>t</code></li>
+<li><code>docstr-show-type-name</code> - default: <code>t</code></li>
 </ul>
-<p>If you don't want the type name to be shown; then set <code>docstr-show-type-name</code>
-to <code>nil</code> will make the trick. For instance, if you don't want the type name
-to be shown in <code>java-mode</code>; do the following.</p>
+<p>If you don't want the type name to be shown; then setting <code>docstr-show-type-name</code> to <code>nil</code> will do the trick. For instance, if you don't want the type name to be shown in <code>java-mode</code> do the following.</p>
 <div class="highlight"><pre><span></span><code>(add-hook &#39;java-mode-hook (lambda () (setq-local docstr-show-type-name nil)))
 </code></pre></div>
 <ul>
-<li><code>docstr-default-typename</code> - default to <code>typename</code></li>
+<li><code>docstr-default-typename</code> - default: <code>typename</code></li>
 </ul>
-<p>You can change this value if you don't like the default type name. This
-variable is generally use for programming languages that aren't strong type.
-Like <code>Python</code>, <code>JavaScript</code>, <code>PHP</code>, etc.</p>
+<p>You can change this value if you don't like the default type name. This variable is generally used for programming languages that aren't statically typed like <code>Python</code>, <code>JavaScript</code>, <code>PHP</code>, etc.</p>
 <h3 id="variable-name">Variable Name<a class="headerlink" href="#variable-name" title="Permanent link">#</a></h3>
 <ul>
-<li><code>docstr-format-var</code> - default to <code>"%s :"</code></li>
+<li><code>docstr-format-var</code> - default: <code>"%s :"</code></li>
 </ul>
-<p>The default is having colon <code>:</code> at the back of the variable name. It only takes one
-<code>%s</code> for variable name to plug in.</p>
+<p>The default is having a colon <code>:</code> at the back of the variable name. It only takes one <code>%s</code> for the variable name.</p>
 <h3 id="parameter-return">Parameter &amp; Return<a class="headerlink" href="#parameter-return" title="Permanent link">#</a></h3>
 <ul>
-<li><code>docstr-format-param</code> - default to <code>@param #T##V##D#</code></li>
-<li><code>docstr-format-return</code> - default to <code>@return #T##V##D#</code></li>
+<li><code>docstr-format-param</code> - default: <code>@param #T##V##D#</code></li>
+<li><code>docstr-format-return</code> - default: <code>@return #T##V##D#</code></li>
 </ul>
-<p>You can customize these variables for different document style. See the
-following talbe for desciption of key <code>#T#</code>, <code>#V#</code> and <code>#D#</code>.</p>
+<p>You can customize these variables for different documentation styles. See the following table for the desciption of the keys <code>#T#</code>, <code>#V#</code> and <code>#D#</code>:</p>
 <table>
 <thead>
 <tr>
@@ -1048,44 +1025,33 @@ following talbe for desciption of key <code>#T#</code>, <code>#V#</code> and <co
 </tr>
 </tbody>
 </table>
-<p><em>P.S. These variables are constant value.</em></p>
-<h3 id="default-descriptions">Default descriptions<a class="headerlink" href="#default-descriptions" title="Permanent link">#</a></h3>
-<p>Here is a list of default description strings that you are allow to customize.
-These strings are placeholder before you actually replace these strings with
-realy content description.</p>
+<p><em>P.S. These variables are constant.</em></p>
+<h3 id="default-descriptions">Default Descriptions<a class="headerlink" href="#default-descriptions" title="Permanent link">#</a></h3>
+<p>Here is a list of default description strings that you can customize. These strings are placeholders to remind you to replace these strings with content descriptions.</p>
 <ul>
 <li><code>docstr-desc-summary</code> - default to <code>"[summary]"</code>.</li>
 <li><code>docstr-desc-param</code> - default to <code>"[description]"</code>.</li>
 <li><code>docstr-desc-return</code> - default to <code>"[description]"</code>.</li>
 <li><code>docstr-desc-typename</code> - default to <code>"[type]"</code>.</li>
 </ul>
-<h2 id="configure-faces">Configure Faces<a class="headerlink" href="#configure-faces" title="Permanent link">#</a></h2>
-<p>This package provides a way to customize the document string faces in a
-consistent way yet this is just an optional choice. To enable this
-feature, you can put the following code snippet into your configuration.</p>
+<h2 id="faces-configuration">Faces Configuration<a class="headerlink" href="#faces-configuration" title="Permanent link">#</a></h2>
+<p>This package provides a way to customize the document string faces in a consistent way, though this is an optional choice. To enable this feature, you can put the following code snippet into your configuration:</p>
 <div class="highlight"><pre><span></span><code>(docstr-faces-apply)
 </code></pre></div>
-<p>There are three faces that you can customize for document string.</p>
+<p>There are three faces that you can customize for documentation strings:</p>
 <ul>
 <li><code>docstr-faces-tag-face</code> - Highlight the tag face; like <code>@param</code>, <code>@return</code>, etc.</li>
 <li><code>docstr-faces-type-face</code> - Highlight the type name face.</li>
 <li><code>docstr-faces-value-face</code> - Highlight the variable name face.</li>
 </ul>
-<h2 id="multiline-docstring-keys">Multiline Docstring &amp; Keys<a class="headerlink" href="#multiline-docstring-keys" title="Permanent link">#</a></h2>
-<p>Make sure you have starting and ending comment before triggering document string
-insertion from this package. For instance, you will need <code>/*</code> and <code>*/</code> before
-hitting return. There are several packages that can help you achieve this.
-You can also enable variable <code>docstr-key-support</code> for the built-in support
-from this package.</p>
-<div class="highlight"><pre><span></span><code>;; This fixes auto paring for document string which fulfill conditions
-;; from the multiline document stirng triggeration.
+<h2 id="multiline-docstrings-keys">Multiline Docstrings &amp; Keys<a class="headerlink" href="#multiline-docstrings-keys" title="Permanent link">#</a></h2>
+<p>Make sure you have starting and ending comments before triggering documentation string insertion using this package. For instance, you will need <code>/*</code> and <code>*/</code> before hitting return. There are several packages that can help you achieve this. You can also enable variable <code>docstr-key-support</code> for the built-in support from this package.</p>
+<div class="highlight"><pre><span></span><code>;; This fixes auto pairing for documentation strings which fulfill conditions
+;; from the multiline documentation string trigger.
 (setq docstr-key-support t)
 </code></pre></div>
 <h2 id="contribution">Contribution<a class="headerlink" href="#contribution" title="Permanent link">#</a></h2>
-<p>If you would like to contribute to this project, you may either
-clone and make pull requests to this repository. Or you can
-clone the project and establish your own branch of this tool.
-Any methods are welcome!</p>
+<p>If you would like to contribute to this project, you can either clone and make pull requests to this repository. Or you can clone the project and establish your own branch of this tool. All methods are welcome!</p>
                 
                   
                     
