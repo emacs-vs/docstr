@@ -54,7 +54,7 @@
   (let* ((fnc-split (split-string search-string "end"))
          (fnc-str (nth 0 fnc-split))
          (token-lst (split-string fnc-str " " t))
-         lst-type lst-var (token (pop token-lst)))
+         (lst-type nil) lst-var (token (pop token-lst)))
     (while (not (string= "def" token)) (setq token (pop token-lst)))
     (pop token-lst)  ; Pop the function name
     (dolist (tkn token-lst)
