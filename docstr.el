@@ -276,7 +276,6 @@ You should customize this variable to add your own triggeration methods."
         (progn
           (run-hook-with-args 'docstr-before-insert-hook search-string)
           (save-excursion (funcall (cdr writer) search-string))
-          (end-of-line)
           (run-hook-with-args 'docstr-after-insert-hook search-string))
       (user-error "[WARNING] No document string support for %s" major-mode))))
 
