@@ -109,7 +109,7 @@
      (backward-delete-char 3)
      (save-excursion
        (insert (format "%s\n" docstr-lua-splitter))
-       (insert (format "%s\n" docstr-lua-prefix)))
+       (insert (format "%s" docstr-lua-prefix)))
      (forward-line 1)
      (end-of-line))))
 
