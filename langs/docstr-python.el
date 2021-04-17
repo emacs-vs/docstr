@@ -149,11 +149,9 @@
   (when (and (memq major-mode docstr-python-modes)
              ;; TODO: For some reason, '(nth 4 (syntax-ppss))' doesn't work.
              docstr-mode
-             (docstr-util-looking-back "\"\"\"" 3))
-    (if (looking-at-p "\"\"\"")
-        (delete-char 3)
-      (save-excursion (insert "\"\"\""))
-      (docstr--insert-doc-string (docstr-python--parse)))))
+             (docstr-util-looking-back "\"\"\"" 3)
+             (looking-at-p "\"\"\""))
+    (docstr--insert-doc-string (docstr-python--parse))))
 
 (provide 'docstr-python)
 ;;; docstr-python.el ends here
