@@ -147,7 +147,6 @@
 (defun docstr-trigger-python (&rest _)
   "Trigger document string inside Python."
   (when (and (memq major-mode docstr-python-modes)
-             ;; TODO: For some reason, '(nth 4 (syntax-ppss))' doesn't work.
              docstr-mode
              (docstr-util-looking-back "\"\"\"" 3))
     (when (looking-at-p "\"\"\"")
