@@ -147,10 +147,16 @@
 (defun docstr-trigger-python (&rest _)
   "Trigger document string inside Python."
   (when (and (memq major-mode docstr-python-modes)
-             ;; TODO: For some reason, '(nth 4 (syntax-ppss))' doesn't work.
              docstr-mode
              (docstr-util-looking-back "\"\"\"" 3)
-             (looking-at-p "\"\"\""))
+             ;; This should avoid pairing plugins inserting document string
+             ;; twice by accident. e.g. `electric-pair-mode', `smartparens',
+             ;; etc.
+             ;;
+             ;; See #5.
+             (not (docstr-util-looking-back "\"\"\"\"" 4)))
+    ;; If no pairing, help complete it!
+    (unless (looking-at-p "\"\"\"") (save-excursion (insert "\"\"\"")))
     (docstr--insert-doc-string (docstr-python--parse))))
 
 (provide 'docstr-python)
