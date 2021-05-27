@@ -2,7 +2,7 @@
 [![MELPA](https://melpa.org/packages/docstr-badge.svg)](https://melpa.org/#/docstr)
 [![MELPA Stable](https://stable.melpa.org/packages/docstr-badge.svg)](https://stable.melpa.org/#/docstr)
 [![Release Tag](https://img.shields.io/github/tag/jcs-elpa/docstr.svg?label=release)](https://github.com/jcs-elpa/docstr/releases/latest)
-[![Emacs Ver.](https://img.shields.io/badge/Emacs-25.1+-7B59B0.svg)](https://www.gnu.org/software/emacs/)
+[![Emacs Ver.](https://img.shields.io/badge/Emacs-27.1+-7F5AB6.svg?logo=gnu%20emacs)](https://www.gnu.org/software/emacs/)
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
 # docstr
