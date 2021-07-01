@@ -32,7 +32,7 @@ You can also enable this package in all buffers via:
 (global-docstr-mode 1)
 ```
 
-## Supported Langauges
+## Supported Languages
 
 Here is a list of all languages that are supported by this package:
 
