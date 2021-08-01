@@ -42,10 +42,11 @@
 (defcustom docstr-key-javadoc-like-modes
   (append '(c-mode c++-mode objc-mode csharp-mode swift-mode)
           '(java-mode groovy-mode processing-mode)
-          '(javascript-mode js-mode js2-mode js3-mode json-mode)
+          '(javascript-mode js-mode js2-mode js3-mode json-mode rjsx-mode)
           '(web-mode php-mode)
           '(actionscript-mode typescript-mode)
-          '(go-mode rust-mode scala-mode)
+          '(go-mode scala-mode)
+          '(rust-mode rustic-mode)
           '(css-mode ssass-mode scss-mode))
   "List of `major-mode' that can be use Javadoc style."
   :type 'list
