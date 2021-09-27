@@ -1,10 +1,11 @@
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![MELPA](https://melpa.org/packages/docstr-badge.svg)](https://melpa.org/#/docstr)
 [![MELPA Stable](https://stable.melpa.org/packages/docstr-badge.svg)](https://stable.melpa.org/#/docstr)
-![CI](https://github.com/jcs-elpa/docstr/workflows/CI/badge.svg)
 
 # docstr
 > A document string minor mode.
+
+![CI](https://github.com/jcs-elpa/docstr/workflows/CI/badge.svg)
 
 This package provides a simple solution for the insertion of documentation strings into code.
 
