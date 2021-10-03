@@ -22,15 +22,12 @@ TEST-FILES := test/bootstrap.el $(shell ls test/docstr-*.el)
 LOAD-FILE = -l $(test-file)
 LOAD-TEST-FILES := $(foreach test-file, $(TEST-FILES), $(LOAD-FILE))
 
+# TODO: Add `checkdoc` and `lint` here when they pass
+ci: clean build compile
+
 build:
 	@$(CASK) install
 	@$(CASK) build
-
-# TODO: Add `checkdoc` and `lint` here when they pass
-ci: clean install compile
-
-install:
-	@$(CASK) install
 
 compile:
 	@echo "Compiling..."
