@@ -22,16 +22,19 @@ TEST-FILES := test/bootstrap.el $(shell ls test/docstr-*.el)
 LOAD-FILE = -l $(test-file)
 LOAD-TEST-FILES := $(foreach test-file, $(TEST-FILES), $(LOAD-FILE))
 
-# TODO: Add `checkdoc` and `lint` here when they pass
-ci: clean build compile
-
 build:
-	@$(CASK) install
-	@$(CASK) build
+	EMACS=$(EMACS) cask install
+	EMACS=$(EMACS) cask build
+	EMACS=$(EMACS) cask clean-elc
+
+# TODO: Add `checkdoc` and `lint` here when they pass
+ci: CASK=
+ci: clean compile
 
 compile:
 	@echo "Compiling..."
 	@$(CASK) $(EMACS) -Q --batch \
+		-l test/bootstrap.el \
 		-L . -L langs \
 		--eval '(setq byte-compile-error-on-warn t)' \
 		-f batch-byte-compile $(DOCSTR-FILES)
