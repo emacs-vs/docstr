@@ -34,7 +34,6 @@ ci: clean compile
 compile:
 	@echo "Compiling..."
 	@$(CASK) $(EMACS) -Q --batch \
-		-l test/bootstrap.el \
 		-L . -L langs \
 		--eval '(setq byte-compile-error-on-warn t)' \
 		-f batch-byte-compile $(DOCSTR-FILES)
