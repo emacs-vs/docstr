@@ -1,4 +1,4 @@
-1;;; docstr.el --- A document string minor mode  -*- lexical-binding: t; -*-
+;;; docstr.el --- A document string minor mode  -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2020-2021  Shen, Jen-Chieh
 ;; Created date 2020-11-05 20:33:49
