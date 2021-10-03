@@ -23,17 +23,21 @@ LOAD-FILE = -l $(test-file)
 LOAD-TEST-FILES := $(foreach test-file, $(TEST-FILES), $(LOAD-FILE))
 
 build:
-	EMACS=$(EMACS) cask install
-	EMACS=$(EMACS) cask build
-	EMACS=$(EMACS) cask clean-elc
+	@$(CASK) install
+	@$(CASK) build
 
 # TODO: Add `checkdoc` and `lint` here when they pass
-ci: CASK=
-ci: clean compile
+ci: clean install compile
+
+install:
+	@$(CASK) install
 
 compile:
 	@echo "Compiling..."
-	@$(CASK) install
+	@$(CASK) $(EMACS) -Q --batch \
+		-L . -L langs \
+		--eval '(setq byte-compile-error-on-warn t)' \
+		-f batch-byte-compile $(DOCSTR-FILES)
 
 lint:
 	@echo "package linting..."
