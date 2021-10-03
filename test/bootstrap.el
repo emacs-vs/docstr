@@ -23,6 +23,8 @@
 
 (require 'package)
 
+(setq network-security-level 'low)
+
 (setq user-emacs-directory (expand-file-name (make-temp-name ".emacs.d")
                                              "~")
       package-user-dir (expand-file-name (make-temp-name "tmp-elpa")
