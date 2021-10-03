@@ -37,8 +37,6 @@
 (require 's)
 (require 'subr-x)
 
-okay
-
 (require 'docstr-util)
 (require 'docstr-writers)
 (require 'docstr-faces)
