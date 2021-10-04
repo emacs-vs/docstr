@@ -109,20 +109,20 @@ This function will help insert the corresponding prefix on every line of the
 document string.
 
 Arugments FNC and ARGS are for advice around."
-  (if (not (docstr-key-javadoc-like-p)) (apply fnc args)
-    (if (not (docstr-util-comment-block-p)) (apply fnc args)
-      (let ((new-doc-p (docstr-util-between-pair-p "/*" "*/")))
-        (apply fnc args)
-        (if (docstr-util-multiline-comment-p)
-            (docstr-key-insert-prefix)
-          (docstr-key-single-line-prefix-insertion))
-        (when (and new-doc-p
-                   ;; Make sure end symbol */ still at the back
-                   (not (docstr-util-current-line-empty-p)))
-          ;; We can't use `newline-and-indent' here, or else the space will be gone.
-          (progn (insert "\n") (indent-for-tab-command))
-          (forward-line -1))
-        (end-of-line)))))
+  (if (or (not (docstr-key-javadoc-like-p)) (not (docstr-util-comment-block-p)))
+      (apply fnc args)
+    (let ((new-doc-p (docstr-util-between-pair-p "/*" "*/")))
+      (apply fnc args)
+      (if (docstr-util-multiline-comment-p)
+          (docstr-key-insert-prefix)
+        (docstr-key-single-line-prefix-insertion))
+      (when (and new-doc-p
+                 ;; Make sure end symbol */ still at the back
+                 (not (docstr-util-current-line-empty-p)))
+        ;; We can't use `newline-and-indent' here, or else the space will be gone.
+        (progn (insert "\n") (indent-for-tab-command))
+        (forward-line -1))
+      (end-of-line))))
 
 (defun docstr-key-lua-return (fnc &rest args)
   "Return key for Lua document string.
