@@ -10,6 +10,7 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 * Extract triggeration's major modes to each languages.
 * Fix support for multiline document string in Python.
+* Fix bleeding edge cases for `docstr-key` support.
 
 ## 5.7.0
 > Released Feb 22, 2021
