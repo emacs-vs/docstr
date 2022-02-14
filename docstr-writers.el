@@ -159,7 +159,7 @@ or with default value
     result-datas))
 
 (defun docstr-writers--paren-param-list-behind (search-string &optional spi-sym last-word)
-  "Like `docstr-writers--paren-param-list' but handle programming languages \
+  "Like `docstr-writers--paren-param-list' but handle programming languages
 that use colon to separate the type.
 
 Support format like
