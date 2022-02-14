@@ -5,45 +5,32 @@ on:
     branches:
       - master
   pull_request:
-    branches:
-      - master
 
 jobs:
-  unix-test:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-latest, macos-latest]
-        emacs_version:
-          - 27.1
-          - 27.2
-          - snapshot
+    unix-test:
+        runs-on: ubuntu-latest
+        strategy:
+            matrix:
+                emacs-version:
+                    - 27.2
+                    - snapshot
 
-    steps:
-      - uses: actions/checkout@v2
+        steps:
+            - uses: actions/checkout@v2
 
-      - uses: purcell/setup-emacs@master
-        with:
-          version: ${{ matrix.emacs_version }}
+            - uses: actions/setup-python@v2
+              with:
+                  python-version: "3.6"
+                  architecture: "x64"
 
-      - name: Run tests
-        run: 'make ci'
+            - uses: purcell/setup-emacs@master
+              with:
+                  version: ${{ matrix.emacs-version }}
 
-  windows-test:
-    runs-on: windows-latest
-    strategy:
-      matrix:
-        emacs-version:
-          - 27.1
-          - 27.2
-          - snapshot
+            - uses: cask/setup-cask@master
+              with:
+                  version: 'snapshot'
 
-    steps:
-      - uses: actions/checkout@v2
-
-      - uses: jcs090218/setup-emacs-windows@master
-        with:
-          version: ${{ matrix.emacs-version }}
-
-      - name: Run tests
-        run: 'make ci'
+            - name: Run tests
+              run:
+                make unix-ci

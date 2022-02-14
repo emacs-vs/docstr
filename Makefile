@@ -3,51 +3,27 @@ SHELL := /usr/bin/env bash
 EMACS ?= emacs
 CASK ?= cask
 
-INIT="(progn \
-(require 'package) \
-(push '(\"melpa\" . \"https://melpa.org/packages/\") package-archives) \
-(package-initialize) \
-(package-refresh-contents))"
+PKG-FILES := $(shell ls docstr-*.el)
 
-LINT="(progn \
-(unless (package-installed-p 'package-lint) \
-(package-install 'package-lint)) \
-(require 'package-lint) \
-(package-lint-batch-and-exit))"
+TEST-FILES := $(shell ls test/docstr-*.el)
 
-DOCSTR-FILES := $(wildcard ./docstr-*.el) \
-				$(wildcard langs/*.el)
+.PHONY: clean checkdoc lint unix-build unix-compile	unix-test
 
-TEST-FILES := test/bootstrap.el $(shell ls test/docstr-*.el)
-LOAD-FILE = -l $(test-file)
-LOAD-TEST-FILES := $(foreach test-file, $(TEST-FILES), $(LOAD-FILE))
+unix-ci: clean unix-build unix-compile
 
-build:
-	EMACS=$(EMACS) cask install
-	EMACS=$(EMACS) cask build
-	EMACS=$(EMACS) cask clean-elc
+unix-build:
+	$(CASK) install
 
-# TODO: Add `checkdoc` and `lint` here when they pass
-ci: CASK=
-ci: clean compile
-
-compile:
+unix-compile:
 	@echo "Compiling..."
 	@$(CASK) $(EMACS) -Q --batch \
-		-l test/bootstrap.el \
-		-L . -L langs \
-		--eval '(setq byte-compile-error-on-warn t)' \
-		-f batch-byte-compile $(DOCSTR-FILES)
-
-lint:
-	@echo "package linting..."
-	@$(CASK) $(EMACS) -Q --batch \
 		-L . \
-		--eval $(INIT) \
-		--eval $(LINT) \
-		$(DOCSTR-FILES)
+		--eval '(setq byte-compile-error-on-warn t)' \
+		-f batch-byte-compile $(PKG-FILES)
+
+unix-test:
+	@echo "Testing..."
+	$(CASK) exec ert-runner -L . $(LOAD-TEST-FILES) -t '!no-win' -t '!org'
 
 clean:
 	rm -rf .cask *.elc
-
-.PHONY: build ci compile lint clean
