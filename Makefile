@@ -3,18 +3,18 @@ SHELL := /usr/bin/env bash
 EMACS ?= emacs
 CASK ?= cask
 
-PKG-FILES := $(shell ls docstr-*.el)
+PKG-FILES := docstr.el
 
 TEST-FILES := $(shell ls test/docstr-*.el)
 
-.PHONY: clean checkdoc lint unix-build unix-compile	unix-test
+.PHONY: clean checkdoc lint build compile unix-test
 
-unix-ci: clean unix-build unix-compile
+ci: clean build compile
 
-unix-build:
+build:
 	$(CASK) install
 
-unix-compile:
+compile:
 	@echo "Compiling..."
 	@$(CASK) $(EMACS) -Q --batch \
 		-L . \
