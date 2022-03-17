@@ -4,11 +4,8 @@
 (package-file "docstr.el")
 
 (files
- "docstr-faces.el"
- "docstr-key.el"
- "docstr-util.el"
- "docstr-writers.el"
- "langs/[^.]+.el$")
+ "docstr-[^.]+.el$"
+ "langs/docstr-[^.]+.el$")
 
 (depends-on "s")
 
