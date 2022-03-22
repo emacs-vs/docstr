@@ -3,9 +3,7 @@
 
 (package-file "docstr.el")
 
-(files
- "docstr-[^.]+.el$"
- "langs/docstr-[^.]+.el$")
+(files "*el" "langs/*.el")
 
 (depends-on "s")
 
