@@ -1,4 +1,7 @@
-(package "docstr" "5.7.0" "A document string minor mode")
+(package "docstr"
+         "5.7.0"
+         "A document string minor mode")
+
 (package-file "docstr.el")
 (files "*el" "langs/*.el")
 
