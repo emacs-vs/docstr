@@ -7,7 +7,7 @@
 ;; Description: A document string minor mode.
 ;; Keyword: document string
 ;; Version: 5.7.0
-;; Package-Requires: ((emacs "24.4") (s "1.9.0"))
+;; Package-Requires: ((emacs "27.1") (s "1.9.0"))
 ;; URL: https://github.com/jcs-elpa/docstr
 
 ;; This file is NOT part of GNU Emacs.
