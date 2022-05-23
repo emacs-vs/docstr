@@ -37,7 +37,7 @@ extra_css:
   - stylesheets/extra.css
 
 theme:
-  name: 'rtd-dropdown'
+  name: 'material'
   logo: etc/logo.png
   favicon: etc/logo.png
   icon:
