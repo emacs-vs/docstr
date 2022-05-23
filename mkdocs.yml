@@ -11,7 +11,7 @@ edit_uri: edit/master/docs/
 copyright: (c) 2017-2022 jcs-elpa. All rights reserved. 
 
 nav:
-  - docstr: page/index.md
+  - Overview: page/index.md
   - Languages:
     - ActionScript: page/langs/actionscript.md
     - C: page/langs/c.md
