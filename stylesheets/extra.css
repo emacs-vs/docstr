@@ -21,6 +21,14 @@ td, th {
   color: #ADBAC7;
 }
 
+.wy-menu-vertical li.current {
+  background-color: #212529;  
+}
+
+.wy-menu-vertical li.on a, .wy-menu-vertical li.current>a {
+  background-color: #212529;  
+}
+
 .wy-menu-vertical .navtree li.toctree-l2.current, .wy-menu-vertical .navtree li.toctree-l2.current > a {
   background-color: #212529;
   color: #ADBAC7;
