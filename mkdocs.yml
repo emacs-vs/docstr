@@ -1,7 +1,7 @@
 site_name: docstr - A document string minor mode
 site_description: Document String tool for Emacs
 site_url: https://jcs-elpa.github.io/docstr
-site_author: jcs090218@gmail.com
+site_author: 'jcs-elpa'
 site_favicon: etc/favicon.ico
 
 repo_name: GitHub
