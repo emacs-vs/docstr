@@ -11,6 +11,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://jcs-elpa.github.io/docstr/page/</loc>
+         <lastmod>2022-05-23</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://jcs-elpa.github.io/docstr/page/langs/actionscript/</loc>
          <lastmod>2022-05-23</lastmod>
          <changefreq>daily</changefreq>

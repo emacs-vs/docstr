@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <meta name="author" content="jcs-elpa">
+  <link rel="shortcut icon" href="../etc/favicon.ico">
+  
+  <title>docstr - docstr - A document string minor mode</title>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+  <link href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+  <link href="../stylesheets/extra.css" rel="stylesheet">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "docstr";
+    var mkdocs_page_input_path = "page/index.md";
+    var mkdocs_page_url = "/docstr/page/";
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+  <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-165661257-1', 'auto');
+      ga('send', 'pageview');
+  </script>
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> docstr - A document string minor mode</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+	<ul class="tocbase current">
+    
+    
+      
+
+
+  
+    
+    <li class="navtree toctree-l1 page current">
+      <a class="current" href="./">
+        docstr
+      </a>
+    </li>
+    
+      
+
+  <li class="toctree-l1 current with-children">
+    <a href="#overview">
+      Overview
+      <span class="toctree-expand"></span>
+    </a>
+  </li>
+
+
+
+  <li class="toctree-l1 current">
+    <ul class="subnav-l1 current">
+    
+      
+        <li class="toctree-l2">
+          <a class="toctree-l3" href="#usage">Usage</a>
+        </li>
+    
+      
+        <li class="toctree-l2">
+          <a class="toctree-l3" href="#supported-languages">Supported Languages</a>
+        </li>
+    
+      
+        <li class="toctree-l2">
+          <a class="toctree-l3" href="#beforeafter-insertion">Before/After Insertion</a>
+        </li>
+    
+      
+        <li class="toctree-l2">
+          <a class="toctree-l3" href="#advanced-implementation">Advanced Implementation</a>
+        </li>
+    
+      
+          
+
+  <li class="toctree-l2">
+    <a href="#documentation-strings">
+      Documentation Strings
+      <span class="toctree-expand"></span>
+    </a>
+  </li>
+
+
+
+  <li class="toctree-l2">
+    <ul class="subnav-l2 toc-hidden">
+    
+      
+        <li class="toctree-l3">
+          <a class="toctree-l4" href="#type-name">Type Name</a>
+        </li>
+    
+      
+        <li class="toctree-l3">
+          <a class="toctree-l4" href="#variable-name">Variable Name</a>
+        </li>
+    
+      
+        <li class="toctree-l3">
+          <a class="toctree-l4" href="#parameter-return">Parameter &amp; Return</a>
+        </li>
+    
+      
+        <li class="toctree-l3">
+          <a class="toctree-l4" href="#default-descriptions">Default Descriptions</a>
+        </li>
+    
+    </ul>
+  </li>
+
+      
+    
+      
+        <li class="toctree-l2">
+          <a class="toctree-l3" href="#faces-configuration">Faces Configuration</a>
+        </li>
+    
+      
+        <li class="toctree-l2">
+          <a class="toctree-l3" href="#multiline-docstrings-keys">Multiline Docstrings &amp; Keys</a>
+        </li>
+    
+    </ul>
+  </li>
+
+
+  
+    
+      
+  <li class="navtree toctree-l1 label">
+    <p class="caption">Languages</p>
+  </li>
+
+
+  
+
+  
+    <li class="navtree toctree-l1 group">
+      <ul class="navtree subnav-l1 current">
+          
+
+
+  <li class="navtree toctree-l2 inactive">
+    <a class="" href="langs/actionscript/">ActionScript</a>
+  </li>
+        
+          
+
+
+  <li class="navtree toctree-l2 inactive">
+    <a class="" href="langs/c/">C</a>
+  </li>
+        
+          
+
+
+  <li class="navtree toctree-l2 inactive">
+    <a class="" href="langs/c%2B%2B/">C++</a>
+  </li>
+        
+          
+
+
+  <li class="navtree toctree-l2 inactive">
+    <a class="" href="langs/csharp/">C#</a>
+  </li>
+        
+          
+
+
+  <li class="navtree toctree-l2 inactive">
+    <a class="" href="langs/go/">Go</a>
+  </li>
+        
+          
+
+
+  <li class="navtree toctree-l2 inactive">
+    <a class="" href="langs/groovy/">Groovy</a>
+  </li>
+        
+          
+
+
+  <li class="navtree toctree-l2 inactive">
+    <a class="" href="langs/java/">Java</a>
+  </li>
+        
+          
+
+
+  <li class="navtree toctree-l2 inactive">
+    <a class="" href="langs/javascript/">JavaScript</a>
+  </li>
+        
+          
+
+
+  <li class="navtree toctree-l2 inactive">
+    <a class="" href="langs/lua/">Lua</a>
+  </li>
+        
+          
+
+
+  <li class="navtree toctree-l2 inactive">
+    <a class="" href="langs/objc/">Objective-C</a>
+  </li>
+        
+          
+
+
+  <li class="navtree toctree-l2 inactive">
+    <a class="" href="langs/php/">PHP</a>
+  </li>
+        
+          
+
+
+  <li class="navtree toctree-l2 inactive">
+    <a class="" href="langs/python/">Python</a>
+  </li>
+        
+          
+
+
+  <li class="navtree toctree-l2 inactive">
+    <a class="" href="langs/ruby/">Ruby</a>
+  </li>
+        
+          
+
+
+  <li class="navtree toctree-l2 inactive">
+    <a class="" href="langs/rust/">Rust</a>
+  </li>
+        
+          
+
+
+  <li class="navtree toctree-l2 inactive">
+    <a class="" href="langs/scala/">Scala</a>
+  </li>
+        
+          
+
+
+  <li class="navtree toctree-l2 inactive">
+    <a class="" href="langs/swift/">Swift</a>
+  </li>
+        
+          
+
+
+  <li class="navtree toctree-l2 inactive">
+    <a class="" href="langs/typescript/">TypeScript</a>
+  </li>
+        
+      </ul>
+    </li>
+    
+      
+
+
+  <li class="navtree toctree-l1 inactive">
+    <a class="" href="../CHANGELOG/">Change log</a>
+  </li>
+    
+  </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">docstr - A document string minor mode</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>docstr</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        <a href="https://github.com/jcs-elpa/docstr/edit/master/docs/page/index.md"
+          class="icon icon-github"> Edit on GitHub</a>
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">#</a></h1>
+<blockquote>
+<p>A document string minor mode.</p>
+</blockquote>
+<p>This package provides a simple solution for the insertion of documentation strings into code.</p>
+<h2 id="usage">Usage<a class="headerlink" href="#usage" title="Permanent link">#</a></h2>
+<p>You can enable this package for a specific major mode:</p>
+<div class="highlight"><pre><span></span><code>;; Enable `docstr&#39; inside these major modes.
+(add-hook &#39;actionscript-mode-hook (lambda () (docstr-mode 1)))
+(add-hook &#39;java-mode-hook (lambda () (docstr-mode 1)))
+</code></pre></div>
+<p>Or if you just want to enable it inside a specific buffer just call <code>docstr-mode</code> as a command through the minibuffer:</p>
+<div class="highlight"><pre><span></span><code>M-x docstr-mode
+</code></pre></div>
+<p>You can also enable this package in all buffers via:</p>
+<div class="highlight"><pre><span></span><code>(global-docstr-mode 1)
+</code></pre></div>
+<h2 id="supported-languages">Supported Languages<a class="headerlink" href="#supported-languages" title="Permanent link">#</a></h2>
+<p>Here is a list of all languages that are supported by this package:</p>
+<ul>
+<li>ActionScript</li>
+<li>C / C++ / C#</li>
+<li>Golang / Groovy</li>
+<li>Java / JavaScript / JSX</li>
+<li>Lua</li>
+<li>Objective-C</li>
+<li>PHP / Python</li>
+<li>Ruby / Rust</li>
+<li>Scala / Swift</li>
+<li>TypeScript</li>
+</ul>
+<p>You can customize the <code>docstr-writers-alist</code> variable to add your own documentation string support for your favourite language. Just add a cons cell like <code>(mode-name . docstr-writer-name)</code>.</p>
+<p>To create your own documentation string writer, you need to create a function that takes in one argument. For instance:</p>
+<div class="highlight"><pre><span></span><code>(defun my-docstr-writer (search-string)
+  ;; Insert documentation string here.
+  )
+</code></pre></div>
+<p>The argument <code>search-string</code> will then be populated by the appropriate trigger function in <code>docstr-trigger-alist</code>. See the variable <code>docstr-trigger-alist</code> for more information. For instance, a <code>C#</code> trigger could look like this:</p>
+<div class="highlight"><pre><span></span><code>(&quot;/&quot; . docstr-trigger-csharp)
+</code></pre></div>
+<p>And the trigger function could look like this:</p>
+<div class="highlight"><pre><span></span><code>(defun docstr-trigger-csharp (&amp;rest _)
+  &quot;Trigger document string inside C#.&quot;
+  (when (and (docstr--doc-valid-p) (looking-back &quot;///&quot; 3))
+    (save-excursion
+      (insert &quot; &lt;summary&gt;\n&quot;)
+      (insert &quot;/// \n&quot;)
+      (insert &quot;/// &lt;/summary&gt;&quot;))
+    (forward-line 1)
+    (end-of-line)
+    (docstr--insert-doc-string (docstr--c-style-search-string 2))))
+</code></pre></div>
+<p>In this example, docstring insertion is triggered only when certain conditions are met; the function <code>docstr--insert-doc-string</code> will be called last of all to insert the actual docstring content. <code>(docstr--c-style-search-string 2)</code> is the <code>search-string</code> passed on to the documentation string writer which writes a proper documentation string based on its information.</p>
+<p align="center">
+<img src="./etc/csharp/csharp-vs-doc-demo.gif" width="450" height="172"/>
+</p>
+
+<h2 id="beforeafter-insertion">Before/After Insertion<a class="headerlink" href="#beforeafter-insertion" title="Permanent link">#</a></h2>
+<p>You can customize documentation before or after the docstring insertion.</p>
+<p>There are two hooks you can customize:</p>
+<ul>
+<li><code>docstr-before-insert-hook</code></li>
+<li><code>docstr-after-insert-hook</code></li>
+</ul>
+<p>The use case of this is to provide some kind of set up. For instance, some programming languages would add <code>@desc</code> before an actual description. The following would implement this:</p>
+<div class="highlight"><pre><span></span><code>(add-hook &#39;docstr-before-insert-hook (lambda (search-string) (insert &quot;@desc &quot;)))
+</code></pre></div>
+<p>Of course, I would recommend you add it locally so it is language specific. Let's try to apply only to <code>TypeScript</code> and only within <code>typescript-mode</code>:</p>
+<div class="highlight"><pre><span></span><code>(defun my-typescript-mode-hook ()
+  (add-hook &#39;docstr-before-insert-hook
+            (lambda (search-string) (insert &quot;@desc &quot;))
+            nil t))
+
+(add-hook &#39;typescript-mode-hook #&#39;my-typescript-mode-hook)
+</code></pre></div>
+<p align="center">
+<img src="./etc/typescript/ts-doc-demo.gif" width="450" height="149"/>
+</p>
+
+<h2 id="advanced-implementation">Advanced Implementation<a class="headerlink" href="#advanced-implementation" title="Permanent link">#</a></h2>
+<p>You can also customize documentation strings by running <code>before</code>/<code>after</code> hooks. The following are advanced examples for documentation strings in <code>C++</code>:</p>
+<table>
+<thead>
+<tr>
+<th align="left">Preprocessor</th>
+<th align="left">Enumerator</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"><img src="./etc/c++/cpp-define.gif"/></td>
+<td align="left"><img src="./etc/c++/cpp-enum.gif"/></td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th align="left">Structure</th>
+<th align="left">Class</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"><img src="./etc/c++/cpp-struct.gif"/></td>
+<td align="left"><img src="./etc/c++/cpp-class.gif"/></td>
+</tr>
+</tbody>
+</table>
+<h2 id="documentation-strings">Documentation Strings<a class="headerlink" href="#documentation-strings" title="Permanent link">#</a></h2>
+<p>You can customize default documentation strings by tweaking these variables.</p>
+<h3 id="type-name">Type Name<a class="headerlink" href="#type-name" title="Permanent link">#</a></h3>
+<ul>
+<li><code>docstr-format-type</code> - default: <code>"{ %s }"</code></li>
+</ul>
+<p>The default is wrap around curly brackets. It only takes one <code>%s</code> for the type name.</p>
+<ul>
+<li><code>docstr-show-type-name</code> - default: <code>t</code></li>
+</ul>
+<p>If you don't want the type name to be shown; then setting <code>docstr-show-type-name</code> to <code>nil</code> will do the trick. For instance, if you don't want the type name to be shown in <code>java-mode</code> do the following.</p>
+<div class="highlight"><pre><span></span><code>(add-hook &#39;java-mode-hook (lambda () (setq-local docstr-show-type-name nil)))
+</code></pre></div>
+<ul>
+<li><code>docstr-default-typename</code> - default: <code>typename</code></li>
+</ul>
+<p>You can change this value if you don't like the default type name. This variable is generally used for programming languages that aren't statically typed like <code>Python</code>, <code>JavaScript</code>, <code>PHP</code>, etc.</p>
+<h3 id="variable-name">Variable Name<a class="headerlink" href="#variable-name" title="Permanent link">#</a></h3>
+<ul>
+<li><code>docstr-format-var</code> - default: <code>"%s :"</code></li>
+</ul>
+<p>The default is having a colon <code>:</code> at the back of the variable name. It only takes one <code>%s</code> for the variable name.</p>
+<h3 id="parameter-return">Parameter &amp; Return<a class="headerlink" href="#parameter-return" title="Permanent link">#</a></h3>
+<ul>
+<li><code>docstr-format-param</code> - default: <code>@param #T##V##D#</code></li>
+<li><code>docstr-format-return</code> - default: <code>@return #T##V##D#</code></li>
+</ul>
+<p>You can customize these variables for different documentation styles. See the following table for the desciption of the keys <code>#T#</code>, <code>#V#</code> and <code>#D#</code>:</p>
+<table>
+<thead>
+<tr>
+<th align="left">Key</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"><code>#T#</code></td>
+<td align="left">Key represent type name.</td>
+</tr>
+<tr>
+<td align="left"><code>#V#</code></td>
+<td align="left">Key represent variable name.</td>
+</tr>
+<tr>
+<td align="left"><code>#D#</code></td>
+<td align="left">Key represent description.</td>
+</tr>
+</tbody>
+</table>
+<p><em>P.S. These variables are constant.</em></p>
+<h3 id="default-descriptions">Default Descriptions<a class="headerlink" href="#default-descriptions" title="Permanent link">#</a></h3>
+<p>Here is a list of default description strings that you can customize. These strings are placeholders to remind you to replace these strings with content descriptions.</p>
+<ul>
+<li><code>docstr-desc-summary</code> - default to <code>"[summary]"</code>.</li>
+<li><code>docstr-desc-param</code> - default to <code>"[description]"</code>.</li>
+<li><code>docstr-desc-return</code> - default to <code>"[description]"</code>.</li>
+<li><code>docstr-desc-typename</code> - default to <code>"[type]"</code>.</li>
+</ul>
+<h2 id="faces-configuration">Faces Configuration<a class="headerlink" href="#faces-configuration" title="Permanent link">#</a></h2>
+<p>This package provides a way to customize the document string faces in a consistent way, though this is an optional choice. To enable this feature, you can put the following code snippet into your configuration:</p>
+<div class="highlight"><pre><span></span><code>(docstr-faces-apply)
+</code></pre></div>
+<p>There are three faces that you can customize for documentation strings:</p>
+<ul>
+<li><code>docstr-faces-tag-face</code> - Highlight the tag face; like <code>@param</code>, <code>@return</code>, etc.</li>
+<li><code>docstr-faces-type-face</code> - Highlight the type name face.</li>
+<li><code>docstr-faces-value-face</code> - Highlight the variable name face.</li>
+</ul>
+<h2 id="multiline-docstrings-keys">Multiline Docstrings &amp; Keys<a class="headerlink" href="#multiline-docstrings-keys" title="Permanent link">#</a></h2>
+<p>Make sure you have starting and ending comments before triggering documentation string insertion using this package. For instance, you will need <code>/*</code> and <code>*/</code> before hitting return. There are several packages that can help you achieve this. You can also enable variable <code>docstr-key-support</code> for the built-in support from this package.</p>
+<div class="highlight"><pre><span></span><code>;; This fixes auto pairing for documentation strings which fulfill conditions
+;; from the multiline documentation string trigger.
+(setq docstr-key-support t)
+</code></pre></div>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="langs/actionscript/" class="btn btn-neutral float-right" title="ActionScript">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+      <p>(c) 2017-2022 jcs-elpa. All rights reserved.</p>
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+          <a href="https://github.com/jcs-elpa/docstr" class="fa fa-github" style="float: left; color: #fcfcfc"> GitHub</a>
+      
+      
+      
+        <span style="margin-left: 15px"><a href="langs/actionscript/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+
+</body>
+</html>
