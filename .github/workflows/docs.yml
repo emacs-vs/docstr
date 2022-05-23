@@ -24,6 +24,7 @@ jobs:
       run: |
         cp -rf README.md CHANGELOG.md etc docs
 
+        git config --global --add safe.directory /docs
         docker login docker.pkg.github.com --username $GITHUB_ACTOR --password ${{ secrets.GITHUB_TOKEN }}
         docker run --rm -v ${PWD}:/docs ghcr.io/jcs-elpa/docs-image/docs-image -- build
 
