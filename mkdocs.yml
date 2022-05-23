@@ -9,10 +9,8 @@ repo_url: https://github.com/jcs-elpa/docstr
 copyright: (c) 2017-2022 jcs-elpa. All rights reserved. 
 
 nav:
-  - Home:
-    - Overview: README.md
+  - Overview: README.md
   - Languages:
-    - All Languages: page/all_languages.md
     - ActionScript: page/langs/actionscript.md
     - C: page/langs/c.md
     - C++: page/langs/c++.md
@@ -30,8 +28,7 @@ nav:
     - Scala: page/langs/scala.md
     - Swift: page/langs/swift.md
     - TypeScript: page/langs/typescript.md
-  - Changelog:
-    - CHANGELOG.md
+  - Changelog: CHANGELOG.md
 
 extra_css:
   - stylesheets/extra.css
