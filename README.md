@@ -12,7 +12,7 @@ This package provides a simple solution for the insertion of documentation strin
 
 ## 🔗 Links
 
-* [Documentation](https://jcs-elpa.github.io/docstr/)
+* [Documentation](https://emacs-vs.github.io/docstr/)
 
 ## Contribute
 
