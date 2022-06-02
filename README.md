@@ -5,8 +5,8 @@
 # docstr
 > A document string minor mode.
 
-[![CI](https://github.com/jcs-elpa/docstr/actions/workflows/test.yml/badge.svg)](https://github.com/jcs-elpa/docstr/actions/workflows/test.yml)
-[![Docs](https://github.com/jcs-elpa/docstr/actions/workflows/docs.yml/badge.svg)](https://github.com/jcs-elpa/docstr/actions/workflows/docs.yml)
+[![CI](https://github.com/emacs-vs/docstr/actions/workflows/test.yml/badge.svg)](https://github.com/emacs-vs/docstr/actions/workflows/test.yml)
+[![Docs](https://github.com/emacs-vs/docstr/actions/workflows/docs.yml/badge.svg)](https://github.com/emacs-vs/docstr/actions/workflows/docs.yml)
 
 This package provides a simple solution for the insertion of documentation strings into code.
 

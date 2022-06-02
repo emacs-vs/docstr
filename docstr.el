@@ -8,7 +8,7 @@
 ;; Keyword: document string
 ;; Version: 5.7.0
 ;; Package-Requires: ((emacs "27.1") (s "1.9.0"))
-;; URL: https://github.com/jcs-elpa/docstr
+;; URL: https://github.com/emacs-vs/docstr
 
 ;; This file is NOT part of GNU Emacs.
 
@@ -46,7 +46,7 @@
   "A document string minor mode."
   :prefix "docstr-"
   :group 'tool
-  :link '(url-link :tag "Repository" "https://github.com/jcs-elpa/docstr"))
+  :link '(url-link :tag "Repository" "https://github.com/emacs-vs/docstr"))
 
 ;;
 ;; (@* "Customization" )
