@@ -1,14 +1,14 @@
 site_name: docstr - A document string minor mode
 site_description: Document String tool for Emacs
-site_url: https://jcs-elpa.github.io/docstr
-site_author: 'jcs-elpa'
+site_url: https://emacs-vs.github.io/docstr
+site_author: 'emacs-vs'
 site_favicon: etc/favicon.ico
 
 repo_name: GitHub
-repo_url: https://github.com/jcs-elpa/docstr
+repo_url: https://github.com/emacs-vs/docstr
 edit_uri: edit/master/docs/
 
-copyright: (c) 2017-2022 jcs-elpa. All rights reserved. 
+copyright: (c) 2017-2022 emacs-vs. All rights reserved. 
 
 nav:
   - Overview: page/index.md
@@ -47,7 +47,7 @@ theme:
 extra:
   social:
     - icon: fontawesome/brands/github-alt
-      link: https://github.com/jcs-elpa/docstr
+      link: https://github.com/emacs-vs/docstr
     - icon: fontawesome/brands/twitter
       link: https://twitter.com/jenchieh94
 
