@@ -40,14 +40,14 @@
 
 (defun docstr-js-config-jsdoc ()
   "Configre for convention, JSDoc."
-  (docstr-util-default-format)
+  (docstr--default-format)
   (setq-local docstr-js-prefix "* "
               docstr-format-type "{%s}"
               docstr-format-var "%s -"))
 
 (defun docstr-js-config-google ()
   "Configre for convention, Google."
-  (docstr-util-default-format)
+  (docstr--default-format)
   (setq-local docstr-js-prefix "* "
               docstr-format-type "{%s}"
               docstr-format-var "%s"))
@@ -57,7 +57,7 @@
   (cl-case docstr-js-style
     (jsdoc (docstr-js-config-jsdoc))
     (google (docstr-js-config-google))
-    (t (docstr-util-default-format))))
+    (t (docstr--default-format))))
 
 ;;; Writer
 

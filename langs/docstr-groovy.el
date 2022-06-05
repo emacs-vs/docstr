@@ -39,7 +39,7 @@
 
 (defun docstr-groovy-config-groovydoc ()
   "Configre for convention, Groovydoc."
-  (docstr-util-default-format :show-tn nil)
+  (docstr--default-format :show-tn nil)
   (setq-local docstr-groovy-prefix "* "
               docstr-format-var "%s"))
 
@@ -47,7 +47,7 @@
   "Automatically configure style according to variable `docstr-groovy-style'."
   (cl-case docstr-groovy-style
     (groovydoc (docstr-groovy-config-groovydoc))
-    (t (docstr-util-default-format))))
+    (t (docstr--default-format))))
 
 ;;; Writer
 
@@ -62,7 +62,7 @@
          ;; Get the return data type.
          (return-type-str (docstr-writers--return-type search-string)))
     (unless (= param-var-len 0)
-      (docstr-util-insert docstr-groovy-prefix))
+      (docstr--insert docstr-groovy-prefix))
     (docstr-writers--insert-param param-types param-vars prefix)
     (docstr-writers--insert-return return-type-str '("void") prefix)
     (docstr-writers-after start t t t)))

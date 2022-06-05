@@ -40,13 +40,13 @@
 
 (defun docstr-typescript-config-typedoc ()
   "Configre for convention, TypeDoc."
-  (docstr-util-default-format :show-tn nil)
+  (docstr--default-format :show-tn nil)
   (setq-local docstr-typescript-prefix "* "
               docstr-format-var "%s"))
 
 (defun docstr-typescript-config-tsdoc ()
   "Configre for convention, TSDoc."
-  (docstr-util-default-format :show-tn nil)
+  (docstr--default-format :show-tn nil)
   (setq-local docstr-typescript-prefix "* "
               docstr-format-var "%s -"))
 
@@ -55,7 +55,7 @@
   (cl-case docstr-typescript-style
     (typedoc (docstr-typescript-config-typedoc))
     (tsdoc (docstr-typescript-config-tsdoc))
-    (t (docstr-util-default-format))))
+    (t (docstr--default-format))))
 
 ;;; Writer
 

@@ -39,7 +39,7 @@
 
 (defun docstr-swift-config-swift-doc ()
   "Configure for convention, SwiftDoc."
-  (docstr-util-default-format :param "" :ret "" :show-tn nil)
+  (docstr--default-format :param "" :ret "" :show-tn nil)
   (setq-local docstr-format-var "- %s:"
               docstr-format-return (format "- returns: %s" docstr-key-desc)))
 
@@ -47,7 +47,7 @@
   "Automatically configure style according to variable `docstr-swift-style'."
   (cl-case docstr-swift-style
     (swift-doc (docstr-swift-config-swift-doc))
-    (t (docstr-util-default-format))))
+    (t (docstr--default-format))))
 
 ;;; Writer
 
@@ -62,7 +62,7 @@
          ;; Get all return data types.
          (return-type-str (docstr-writers--return-type-behind search-string "->")))
     ;; Determine the docstring type.
-    (if (docstr-util-multiline-comment-p) (setq prefix "") (setq prefix "/// "))
+    (if (docstr--multiline-comment-p) (setq prefix "") (setq prefix "/// "))
 
     (unless (= 0 param-var-len) (insert "\n" prefix))
     (docstr-writers--insert-param param-types param-vars prefix)
@@ -80,7 +80,7 @@
   "Trigger document string inside Swift."
   (when (and (memq major-mode docstr-swift-modes)
              (docstr--doc-valid-p)
-             (docstr-util-looking-back "///" 3))
+             (docstr--looking-back "///" 3))
     (insert " ")
     (docstr--insert-doc-string (docstr--c-style-search-string 1))))
 

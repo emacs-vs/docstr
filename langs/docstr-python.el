@@ -51,14 +51,14 @@
 
 (defun docstr-python-config-pep-257 ()
   "Configre for convention, PEP 257."
-  (docstr-util-default-format :param "" :show-tn nil :show-ret nil)
+  (docstr--default-format :param "" :show-tn nil :show-ret nil)
   (setq-local docstr-python-prefix ""
               docstr-python-header-param "Keyword arguments:"
               docstr-format-var "%s --"))
 
 (defun docstr-python-config-google ()
   "Configre for convention, Google."
-  (docstr-util-default-format
+  (docstr--default-format
    :fmt-type "%s" :fmt-var "%s" :param "" :ret "" :con-type nil :con-var nil
    :show-tn t)
   (setq-local docstr-python-prefix "    "
@@ -72,7 +72,7 @@
 
 (defun docstr-python-config-numpy ()
   "Configre for convention, NumPy."
-  (docstr-util-default-format
+  (docstr--default-format
    :fmt-type "%s" :fmt-var "%s" :param "" :ret "" :con-type nil :con-var nil
    :show-tn t)
   (setq-local docstr-python-prefix ""
@@ -90,7 +90,7 @@
     (pep-257 (docstr-python-config-pep-257))
     (google (docstr-python-config-google))
     (numpy (docstr-python-config-numpy))
-    (t (docstr-util-default-format))))
+    (t (docstr--default-format))))
 
 ;;; Writer
 
@@ -118,11 +118,11 @@
       (indent-for-tab-command)
       (forward-line -1)
       (unless (string-empty-p docstr-python-header-param)
-        (docstr-util-insert docstr-python-header-param)))
+        (docstr--insert docstr-python-header-param)))
     (docstr-writers--insert-param param-types param-vars prefix)
     (when (and return-type-str (not (string-empty-p docstr-python-header-return)))
       (insert "\n")
-      (docstr-util-insert docstr-python-header-return))
+      (docstr--insert docstr-python-header-return))
     (docstr-writers--insert-return return-type-str '("void") prefix)
     (docstr-writers-after start t t t)))
 
@@ -137,7 +137,7 @@
   "Parse for search string."
   (let (empty-pt beg)
     (save-excursion
-      (setq empty-pt (save-excursion (docstr-util-previous-blank-line) (line-beginning-position)))
+      (setq empty-pt (save-excursion (docstr--previous-blank-line) (line-beginning-position)))
       (search-backward "(") (setq beg (point))
       (when (< empty-pt beg)
         (search-forward ")")
@@ -148,13 +148,13 @@
   "Trigger document string inside Python."
   (when (and (memq major-mode docstr-python-modes)
              docstr-mode
-             (docstr-util-looking-back "\"\"\"" 3)
+             (docstr--looking-back "\"\"\"" 3)
              ;; This should avoid pairing plugins inserting document string
              ;; twice by accident. e.g. `electric-pair-mode', `smartparens',
              ;; etc.
              ;;
              ;; See #5.
-             (not (docstr-util-looking-back "\"\"\"\"" 4)))
+             (not (docstr--looking-back "\"\"\"\"" 4)))
     ;; If no pairing, help complete it!
     (unless (looking-at-p "\"\"\"") (save-excursion (insert "\"\"\"")))
     (docstr--insert-doc-string (docstr-python--parse))))

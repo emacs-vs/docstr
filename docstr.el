@@ -216,21 +216,21 @@ You should customize this variable to add your own triggeration methods."
   "Enable/Disable trigger base on boolean ACT."
   (dolist (tri docstr-trigger-alist)
     (let ((key (car tri)) (fnc (cdr tri)))
-      (if act (docstr-util-key-advice-add key :after fnc)
-        (docstr-util-key-advice-remove key fnc)))))
+      (if act (docstr--key-advice-add key :after fnc)
+        (docstr--key-advice-remove key fnc)))))
 
 (defun docstr--enable ()
   "Enable `docstr' in current buffer."
   (docstr-load-all)
   (docstr-key-enable)  ; Be infront, in order to take effect
-  (docstr-util-key-advice-add "RET" :after #'docstr--trigger-return)
+  (docstr--key-advice-add "RET" :after #'docstr--trigger-return)
   (docstr--enable-trigger t)
   (add-hook 'docstr-after-insert-hook #'docstr-insert-summary))
 
 (defun docstr--disable ()
   "Disable `docstr' in current buffer."
   (docstr-key-disable)
-  (docstr-util-key-advice-remove "RET" #'docstr--trigger-return)
+  (docstr--key-advice-remove "RET" #'docstr--trigger-return)
   (docstr--enable-trigger nil))
 
 ;;;###autoload
@@ -291,9 +291,9 @@ Argument SR is the target symbol for us to stop looking for the end of declarati
     (save-excursion
       (cond ((functionp type) (funcall type))
             ((integerp type) (forward-line type)))
-      (unless (docstr-util-current-line-empty-p)
+      (unless (docstr--current-line-empty-p)
         (setq beg (line-beginning-position))
-        (while (and (not (docstr-util-current-line-empty-p)) (not (eobp)) (not found))
+        (while (and (not (docstr--current-line-empty-p)) (not (eobp)) (not found))
           (setq found (re-search-forward sr (line-end-position) t))
           (forward-line 1))
         (when found (goto-char found))
@@ -320,13 +320,13 @@ See function `docstr--get-search-string' description for argument TYPE."
 
 (defun docstr--doc-valid-p ()
   "Return non-nil if current able to insert document string."
-  (and docstr-mode (docstr-supports-p) (docstr-util-comment-block-p)))
+  (and docstr-mode (docstr-supports-p) (docstr--comment-block-p)))
 
 (defun docstr--trigger-return (&rest _)
   "Trigger document string by pressing key return."
   (when (docstr--doc-valid-p)
-    (let ((ln-prev (docstr-util-line-relative -1 t))
-          (ln-next (docstr-util-line-relative 1 t)))
+    (let ((ln-prev (docstr--line-relative -1 t))
+          (ln-next (docstr--line-relative 1 t)))
       (when (and (string-prefix-p "/*" ln-prev) (string-suffix-p "*/" ln-next))
         (docstr--insert-doc-string (docstr--c-style-search-string 2))))))
 

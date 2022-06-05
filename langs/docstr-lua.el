@@ -47,18 +47,18 @@
 
 (defun docstr-lua-config-doxygen ()
   "Configre for convention, doxygen/Javadoc-like style."
-  (docstr-util-default-format :show-tn nil)
+  (docstr--default-format :show-tn nil)
   (setq-local docstr-lua-prefix "-- "
               docstr-format-var "%s"))
 
 (defun docstr-lua-config-luadoc ()
   "Configre for convention, LuaDoc."
-  (docstr-util-default-format :show-tn nil)
+  (docstr--default-format :show-tn nil)
   (setq-local docstr-lua-prefix "-- "))
 
 (defun docstr-lua-config-scriptum ()
   "Configre for convention, lua-scriptum."
-  (docstr-util-default-format)
+  (docstr--default-format)
   (setq-local docstr-lua-prefix ""
               docstr-format-param (format "@param %s%s%s"  docstr-key-var
                                           docstr-key-type docstr-key-desc)
@@ -71,7 +71,7 @@
     (luadoc (docstr-lua-config-luadoc))
     (doxygen (docstr-lua-config-doxygen))
     (scriptum (docstr-lua-config-scriptum))
-    (t (docstr-util-default-format))))
+    (t (docstr--default-format))))
 
 ;;; Writer
 
@@ -116,7 +116,7 @@
 (defun docstr-trigger-lua (&rest _)
   "Trigger document string inside Lua."
   (when (and (memq major-mode '(lua-mode)) (docstr--doc-valid-p)
-             (docstr-util-looking-back "---" 3)
+             (docstr--looking-back "---" 3)
              (memq docstr-lua-style '(luadoc doxygen)))
     (add-hook 'docstr-before-insert-hook #'docstr-lua--before-insert nil t)
     (docstr--insert-doc-string (docstr--generic-search-string 1 ")"))))
@@ -125,8 +125,8 @@
   "Trigger document string inside Lua multiline comment."
   (when (and (memq major-mode docstr-lua-modes)
              (docstr--doc-valid-p))
-    (let ((ln-prev (docstr-util-line-relative -1 t))
-          (ln-next (docstr-util-line-relative 1 t)))
+    (let ((ln-prev (docstr--line-relative -1 t))
+          (ln-next (docstr--line-relative 1 t)))
       (when (and (string-prefix-p "--[[" ln-prev) (string-suffix-p "]]" ln-next)
                  (memq docstr-lua-style '(scriptum)))
         (docstr--insert-doc-string (docstr--generic-search-string 2 ")"))))))

@@ -39,7 +39,7 @@
 
 (defun docstr-scala-config-scaladoc ()
   "Configure for convention, Scaladoc."
-  (docstr-util-default-format :show-tn nil)
+  (docstr--default-format :show-tn nil)
   (setq-local docstr-scala-prefix "* "
               docstr-format-var "%s"))
 
@@ -47,7 +47,7 @@
   "Automatically configure style according to variable `docstr-scala-style'."
   (cl-case docstr-scala-style
     (scaladoc (docstr-scala-config-scaladoc))
-    (t (docstr-util-default-format))))
+    (t (docstr--default-format))))
 
 ;;; Writer
 
@@ -61,7 +61,7 @@
          (param-var-len (length param-vars))
          (return-type-str (docstr-writers--return-type-behind search-string ":")))
     (unless (= param-var-len 0)
-      (docstr-util-insert docstr-scala-prefix))
+      (docstr--insert docstr-scala-prefix))
     (docstr-writers--insert-param param-types param-vars prefix)
     (docstr-writers--insert-return return-type-str '("void") prefix)
     (docstr-writers-after start t t t)))

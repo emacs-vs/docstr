@@ -75,18 +75,18 @@
 
 (defun docstr-key-single-line-prefix-insertion ()
   "Insertion for single line comment."
-  (when (docstr-util-current-line-empty-p)  ; Ensure on newline
+  (when (docstr--current-line-empty-p)  ; Ensure on newline
     (let* ((prev-line-text (save-excursion (forward-line -1) (thing-at-point 'line)))
-           (prev-line-doc-symbol (docstr-util-comment-line-symbol -1))
-           (current-line-doc-symbol (docstr-util-comment-line-symbol))
-           (next-line-doc-symbol (docstr-util-comment-line-symbol 1))
+           (prev-line-doc-symbol (docstr--comment-line-symbol -1))
+           (current-line-doc-symbol (docstr--comment-line-symbol))
+           (next-line-doc-symbol (docstr--comment-line-symbol 1))
            (prev-line-content (string-trim (s-replace prev-line-doc-symbol "" prev-line-text))))
-      (when (or (docstr-util-string-match-mut-p prev-line-doc-symbol next-line-doc-symbol)
+      (when (or (docstr--string-match-mut-p prev-line-doc-symbol next-line-doc-symbol)
                 (and (not (string-empty-p prev-line-content))
-                     (not (docstr-util-contain-list-type-str
+                     (not (docstr--contain-list-type-str
                            docstr-key-inhibit-doc-symbol prev-line-doc-symbol 'strict))
                      (string= current-line-doc-symbol next-line-doc-symbol)))
-        (insert (concat (docstr-util-min-str prev-line-doc-symbol next-line-doc-symbol) " "))
+        (insert (concat (docstr--min-str prev-line-doc-symbol next-line-doc-symbol) " "))
         (indent-for-tab-command)))))
 
 (defun docstr-key-javadoc-asterik (fnc &rest args)
@@ -98,8 +98,8 @@ Arugments FNC and ARGS are for advice around."
   (apply fnc args)
   (when (docstr-key-javadoc-like-p)
     (save-excursion
-      (when (and (docstr-util-is-behind-last-char-at-line-p)
-                 (docstr-util-looking-back "/[*]" 2))
+      (when (and (docstr--is-behind-last-char-at-line-p)
+                 (docstr--looking-back "/[*]" 2))
         (insert "*/")))))
 
 (defun docstr-key-c-like-return (fnc &rest args)
@@ -109,16 +109,16 @@ This function will help insert the corresponding prefix on every line of the
 document string.
 
 Arugments FNC and ARGS are for advice around."
-  (if (or (not (docstr-key-javadoc-like-p)) (not (docstr-util-comment-block-p)))
+  (if (or (not (docstr-key-javadoc-like-p)) (not (docstr--comment-block-p)))
       (apply fnc args)
-    (let ((new-doc-p (docstr-util-between-pair-p "/*" "*/")))
+    (let ((new-doc-p (docstr--between-pair-p "/*" "*/")))
       (apply fnc args)
-      (if (docstr-util-multiline-comment-p)
+      (if (docstr--multiline-comment-p)
           (docstr-key-insert-prefix)
         (docstr-key-single-line-prefix-insertion))
       (when (and new-doc-p
                  ;; Make sure end symbol */ still at the back
-                 (not (docstr-util-current-line-empty-p)))
+                 (not (docstr--current-line-empty-p)))
         ;; We can't use `newline-and-indent' here, or else the space will be gone.
         (progn (insert "\n") (indent-for-tab-command))
         (forward-line -1))
@@ -148,11 +148,11 @@ This function has two features.
 P.S. Prefix will matches the same as your document style selection.
 
 Arugments FNC and ARGS are for advice around."
-  (cond ((and (eq major-mode 'lua-mode) (docstr-util-comment-block-p))
-         (let ((new-doc-p (docstr-util-between-pair-p "--[[" "]]")))
+  (cond ((and (eq major-mode 'lua-mode) (docstr--comment-block-p))
+         (let ((new-doc-p (docstr--between-pair-p "--[[" "]]")))
            (apply fnc args)
            (when new-doc-p (end-of-line)))
-         (unless (string= "--[[" (docstr-util-start-comment-symbol))
+         (unless (string= "--[[" (docstr--start-comment-symbol))
            (docstr-key-single-line-prefix-insertion)))
         (t (apply fnc args))))
 
@@ -163,8 +163,8 @@ This is the same as function `docstr-key-lua-return' feature Pt 2
 but instead of inserting two `-`, this will insert a `#` instead.
 
 Arugments FNC and ARGS are for advice around."
-  (cond ((and (memq major-mode docstr-key-sharp-doc-modes) (docstr-util-comment-block-p))
-         (let ((start-comment (docstr-util-start-comment-symbol)))
+  (cond ((and (memq major-mode docstr-key-sharp-doc-modes) (docstr--comment-block-p))
+         (let ((start-comment (docstr--start-comment-symbol)))
            (apply fnc args)
            (when (string-match-p "#" start-comment)
              (docstr-key-single-line-prefix-insertion))))
@@ -173,17 +173,17 @@ Arugments FNC and ARGS are for advice around."
 (defun docstr-key-enable ()
   "Enable key functions."
   (when docstr-key-support
-    (docstr-util-key-advice-add "*" :around #'docstr-key-javadoc-asterik)
-    (docstr-util-key-advice-add "RET" :around #'docstr-key-c-like-return)
-    (docstr-util-key-advice-add "RET" :around #'docstr-key-lua-return)
-    (docstr-util-key-advice-add "RET" :around #'docstr-key-sharp-return)))
+    (docstr--key-advice-add "*" :around #'docstr-key-javadoc-asterik)
+    (docstr--key-advice-add "RET" :around #'docstr-key-c-like-return)
+    (docstr--key-advice-add "RET" :around #'docstr-key-lua-return)
+    (docstr--key-advice-add "RET" :around #'docstr-key-sharp-return)))
 
 (defun docstr-key-disable ()
   "Disable key functions."
-  (docstr-util-key-advice-remove "*" #'docstr-key-javadoc-asterik)
-  (docstr-util-key-advice-remove "RET" #'docstr-key-c-like-return)
-  (docstr-util-key-advice-remove "RET" #'docstr-key-lua-return)
-  (docstr-util-key-advice-remove "RET" #'docstr-key-sharp-return))
+  (docstr--key-advice-remove "*" #'docstr-key-javadoc-asterik)
+  (docstr--key-advice-remove "RET" #'docstr-key-c-like-return)
+  (docstr--key-advice-remove "RET" #'docstr-key-lua-return)
+  (docstr--key-advice-remove "RET" #'docstr-key-sharp-return))
 
 (provide 'docstr-key)
 ;;; docstr-key.el ends here

@@ -39,7 +39,7 @@
 (defun docstr-csharp-config ()
   "Automatically configure style according to variable `docstr-csharp-style'."
   (cl-case docstr-csharp-style
-    (t (docstr-util-default-format))))
+    (t (docstr--default-format))))
 
 ;;; Writer
 
@@ -53,7 +53,7 @@
          ;; Get the return data type.
          (return-type-str (docstr-writers--return-type search-string)))
     ;; Determine the docstring type.
-    (if (docstr-util-multiline-comment-p)
+    (if (docstr--multiline-comment-p)
         (progn
           (setq prefix "* ")
           (docstr-writers--insert-param param-types param-vars prefix)
@@ -79,7 +79,7 @@
   "Trigger document string inside C#."
   (when (and (memq major-mode docstr-csharp-modes)
              (docstr--doc-valid-p)
-             (docstr-util-looking-back "///" 3))
+             (docstr--looking-back "///" 3))
     (save-excursion
       (insert " <summary>\n")
       (insert "/// \n")

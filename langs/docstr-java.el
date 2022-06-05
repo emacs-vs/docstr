@@ -39,7 +39,7 @@
 
 (defun docstr-java-config-javadoc ()
   "Configre for convention, Javadoc."
-  (docstr-util-default-format :show-tn nil)
+  (docstr--default-format :show-tn nil)
   (setq-local docstr-java-prefix "* "
               docstr-format-var "%s"))
 
@@ -47,7 +47,7 @@
   "Automatically configure style according to variable `docstr-java-style'."
   (cl-case docstr-java-style
     (javadoc (docstr-java-config-javadoc))
-    (t (docstr-util-default-format))))
+    (t (docstr--default-format))))
 
 ;;; Writer
 
@@ -62,7 +62,7 @@
          ;; Get the return data type.
          (return-type-str (docstr-writers--return-type search-string)))
     (unless (= param-var-len 0)
-      (docstr-util-insert docstr-java-prefix))
+      (docstr--insert docstr-java-prefix))
     (docstr-writers--insert-param param-types param-vars prefix)
     (docstr-writers--insert-return return-type-str '("void") prefix)
     (docstr-writers-after start t t t)))

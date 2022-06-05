@@ -40,14 +40,14 @@
 
 (defun docstr-objc-config-header-doc ()
   "Configure for convention, HeaderDoc."
-  (docstr-util-default-format :show-tn nil)
+  (docstr--default-format :show-tn nil)
   (setq-local docstr-format-var "%s"))
 
 (defun docstr-objc-config ()
   "Automatically configure style according to variable `docstr-objc-style'."
   (cl-case docstr-objc-style
     (header-doc (docstr-objc-config-header-doc))
-    (t (docstr-util-default-format))))
+    (t (docstr--default-format))))
 
 (defun docstr-objc--param-list (search-string)
   "Parse SEARCH-STRING for Objective-C."

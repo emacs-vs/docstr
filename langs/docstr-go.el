@@ -39,7 +39,7 @@
 
 (defun docstr-go-config-godoc ()
   "Configre for convention, GoDoc."
-  (docstr-util-default-format :show-tn nil)
+  (docstr--default-format :show-tn nil)
   (setq-local docstr-format-type "{%s}"
               docstr-format-var "%s -"))
 
@@ -47,7 +47,7 @@
   "Automatically configure style according to variable `docstr-go-style'."
   (cl-case docstr-go-style
     (godoc (docstr-go-config-godoc))
-    (t (docstr-util-default-format))))
+    (t (docstr--default-format))))
 
 ;;; Writer
 
@@ -61,7 +61,7 @@
          ;; Get the return data type.
          (return-type-str (docstr-writers--return-type-behind search-string)))
     ;; Determine the docstring type.
-    (if (docstr-util-multiline-comment-p) (setq prefix "") (setq prefix "// "))
+    (if (docstr--multiline-comment-p) (setq prefix "") (setq prefix "// "))
     (end-of-line)
     (docstr-writers--insert-param param-types param-vars prefix)
     (docstr-writers--insert-return return-type-str nil prefix)
@@ -77,7 +77,7 @@
 (defun docstr-trigger-golang (&rest _)
   "Trigger document string inside Golang."
   (when (and (memq major-mode docstr-go-modes)
-             (docstr--doc-valid-p) (docstr-util-looking-back "//" 2))
+             (docstr--doc-valid-p) (docstr--looking-back "//" 2))
     (insert " ")
     (docstr--insert-doc-string (docstr--c-style-search-string 1))))
 
