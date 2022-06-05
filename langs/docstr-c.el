@@ -41,7 +41,7 @@
 (defun docstr-c-config ()
   "Automatically configure style according to variable `docstr-c-style'."
   (cl-case docstr-c-style
-    (t (docstr-util-default-format))))
+    (t (docstr--default-format))))
 
 ;;; Writer
 

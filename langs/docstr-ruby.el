@@ -39,7 +39,7 @@
 
 (defun docstr-ruby-config-rdoc ()
   "Configure for convention, RDoc."
-  (docstr-util-default-format :param "" :ret "" :show-tn nil)
+  (docstr--default-format :param "" :ret "" :show-tn nil)
   (setq-local docstr-ruby-prefix "# "
               docstr-format-var "+%s+"))
 
@@ -47,7 +47,7 @@
   "Automatically configure style according to variable `docstr-ruby-style'."
   (cl-case docstr-ruby-style
     (rdoc (docstr-ruby-config-rdoc))
-    (t (docstr-util-default-format))))
+    (t (docstr--default-format))))
 
 (defun docstr-ruby--param-list (search-string)
   "Parse SEARCH-STRING without parenthesis."
@@ -92,7 +92,7 @@
 (defun docstr-trigger-ruby (&rest _)
   "Trigger document string inside Ruby."
   (when (and (memq major-mode docstr-ruby-modes)
-             (docstr--doc-valid-p) (docstr-util-looking-back "##" 2))
+             (docstr--doc-valid-p) (docstr--looking-back "##" 2))
     (indent-for-tab-command)
     (insert "\n# ")
     (indent-for-tab-command) (end-of-line)

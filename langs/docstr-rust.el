@@ -44,7 +44,7 @@
 
 (defun docstr-rust-config-rfc-430 ()
   "Configure for convention, RFC 430."
-  (docstr-util-default-format :param "*" :ret "" :show-tn nil)
+  (docstr--default-format :param "*" :ret "" :show-tn nil)
   (setq-local docstr-rust-prefix "/// "
               docstr-rust-header-param "# Arguments"
               docstr-format-var "`%s` -"))
@@ -53,7 +53,7 @@
   "Automatically configure style according to variable `docstr-rust-style'."
   (cl-case docstr-rust-style
     (rfc-430 (docstr-rust-config-rfc-430))
-    (t (docstr-util-default-format))))
+    (t (docstr--default-format))))
 
 ;;; Writer
 
@@ -89,7 +89,7 @@
 (defun docstr-trigger-rust (&rest _)
   "Trigger document string inside Rust."
   (when (and (memq major-mode docstr-rust-modes)
-             (docstr--doc-valid-p) (docstr-util-looking-back "///" 3))
+             (docstr--doc-valid-p) (docstr--looking-back "///" 3))
     (insert " ")
     (docstr--insert-doc-string (docstr--c-style-search-string 2))))
 

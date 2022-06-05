@@ -53,7 +53,7 @@
 
 (defun docstr-writers--function-name (search-string)
   "Analyze SEARCH-STRING to get function name."
-  (let ((pos (docstr-util-last-regex-in-string "(" search-string)) fn-str)
+  (let ((pos (docstr--last-regex-in-string "(" search-string)) fn-str)
     (when pos
       (setq fn-str (substring search-string 0 pos)
             fn-str (split-string fn-str " " t)
@@ -63,7 +63,7 @@
 (defun docstr-writers--return-type (search-string)
   "Analyze SEARCH-STRING to get return type.
 This is for c-like programming languages."
-  (let ((pos (docstr-util-last-regex-in-string "(" search-string))
+  (let ((pos (docstr--last-regex-in-string "(" search-string))
         return-type-str)
     (when pos
       (setq return-type-str (substring search-string 0 pos)
@@ -78,7 +78,7 @@ This is for colon type programming languages.  For example, `actionscript',
 `typescript', etc.
 
 An optional argument SPI-SYM is the split symbol for return type."
-  (let ((pos (docstr-util-last-regex-in-string ")" search-string))
+  (let ((pos (docstr--last-regex-in-string ")" search-string))
         return-type-str)
     (when pos
       (setq return-type-str (substring search-string (1+ pos) (length search-string)))
@@ -94,9 +94,9 @@ An optional argument SPI-SYM is the split symbol for return type."
 SEARCH-STRING : string that use to analyze."
   (let (pos param-string)
     (setq param-string (substring search-string
-                                  (1+ (docstr-util-last-regex-in-string "(" search-string))
+                                  (1+ (docstr--last-regex-in-string "(" search-string))
                                   (length search-string))
-          pos (docstr-util-last-regex-in-string ")" param-string)
+          pos (docstr--last-regex-in-string ")" param-string)
           param-string (substring param-string 0 pos))
     param-string))
 
@@ -125,14 +125,14 @@ or with default value
       (let ((param-split-str-lst '())
             (param-split-str-lst-len -1) (param-split-str-lst-len-1 -1)
             (param-var-str "") (param-type-str ""))
-        (setq param-sec-string (nth 0 (split-string param-sec-string "=")))
-        (setq param-split-str-lst (docstr-util-chop param-sec-string " "))
+        (setq param-sec-string (nth 0 (split-string param-sec-string "="))
+              param-split-str-lst (docstr--chop param-sec-string " "))
 
         (delete-dups param-split-str-lst)
         (setq param-split-str-lst (remove " " param-split-str-lst))
 
-        (setq param-split-str-lst-len (length param-split-str-lst))
-        (setq param-split-str-lst-len-1 (1- param-split-str-lst-len))
+        (setq param-split-str-lst-len (length param-split-str-lst)
+              param-split-str-lst-len-1 (1- param-split-str-lst-len))
 
         ;; Variable name should always be that last element in the list.
         (setq param-var-str (string-trim (nth param-split-str-lst-len-1 param-split-str-lst)))
@@ -140,17 +140,17 @@ or with default value
         ;; Data type name should be the rest except the last element.
         (let ((index 0) (sep ""))
           (while (< index param-split-str-lst-len-1)
-            (setq sep (if (string= param-type-str "") "" " "))
-            (setq param-type-str (concat param-type-str sep (string-trim (nth index param-split-str-lst))))
-            (setq index (1+ index))))
+            (setq sep (if (string= param-type-str "") "" " ")
+                  param-type-str (concat param-type-str sep (string-trim (nth index param-split-str-lst)))
+                  index (1+ index))))
 
         (unless (string= "" param-var-str)
           (push param-var-str param-var-str-lst))
         (unless (string= "" param-type-str)
           (push param-type-str param-type-str-lst))))
 
-    (setq param-types (reverse param-type-str-lst))
-    (setq param-vars (reverse param-var-str-lst))
+    (setq param-types (reverse param-type-str-lst)
+          param-vars (reverse param-var-str-lst))
 
     (push param-types result-datas)
     (push param-vars result-datas)
@@ -225,7 +225,7 @@ the last word only."
   (and docstr-show-return
        (stringp return-type-str)
        (not (string-empty-p return-type-str))
-       (not (docstr-util-contain-list-string ignore-lst return-type-str))))
+       (not (docstr--contain-list-string ignore-lst return-type-str))))
 
 (defun docstr-writers--insert-param (param-types param-vars prefix &optional postfix)
   "Insert parameter section.
@@ -237,8 +237,8 @@ Argument POSTFIX is string behind of each document string."
   (let ((param-var-len (length param-vars)) (param-index 0))
     (while (< param-index param-var-len)
       (let ((type (nth param-index param-types)) (var (nth param-index param-vars)))
-        (docstr-util-insert prefix)
-        (docstr-util-insert-args (docstr-form-param type var docstr-desc-param))
+        (docstr--insert prefix)
+        (docstr--insert-args (docstr-form-param type var docstr-desc-param))
         (when postfix (insert postfix)))
       (setq param-index (1+ param-index)))))
 
@@ -250,8 +250,8 @@ IGNORE-LST is a list of string contain return type that we want to skip.
 Argument PREFIX is string infront of return document string.
 Argument POSTFIX is string behind of return document string."
   (when (docstr-writers--valid-return-type-p return-type-str ignore-lst)
-    (docstr-util-insert prefix)
-    (docstr-util-insert-args (docstr-form-return return-type-str "" docstr-desc-return))
+    (docstr--insert prefix)
+    (docstr--insert-args (docstr-form-return return-type-str "" docstr-desc-return))
     (when postfix (insert postfix))))
 
 (defun docstr-writers-after (start &optional ind-r ind-l restore-pt)
@@ -264,8 +264,8 @@ argument IND-L is non-nil, indent currnet line once.  If optional argument
 RESTORE-PT is non-nil, go back to starting position."
   (when ind-r
     (indent-region start (point))  ; For single line comment
-    (indent-region (docstr-util-start-comment-point)  ; For multi-line comment
-                   (docstr-util-end-comment-point)))
+    (indent-region (docstr--start-comment-point)  ; For multi-line comment
+                   (docstr--end-comment-point)))
   (when ind-l (indent-for-tab-command))
   (when restore-pt (goto-char start)))
 

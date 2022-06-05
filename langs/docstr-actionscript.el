@@ -39,7 +39,7 @@
 
 (defun docstr-actionscript-config-asdoc ()
   "Configre for convention, ASDoc."
-  (docstr-util-default-format :show-tn nil)
+  (docstr--default-format :show-tn nil)
   (setq-local docstr-actionscript-prefix "* "
               docstr-format-var "%s"))
 
@@ -47,7 +47,7 @@
   "Automatically configure style according to variable `docstr-actionscript-style'."
   (cl-case docstr-actionscript-style
     (asdoc (docstr-actionscript-config-asdoc))
-    (t (docstr-util-default-format))))
+    (t (docstr--default-format))))
 
 ;;; Writer
 
