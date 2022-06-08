@@ -174,7 +174,7 @@ See `docstr-writers--paren-param-list' function for argument description
 SEARCH-STRING.
 
 Optional argument SPI-SYM is the split symbol for return type.  In most
-cases, this symbol often will be a 'colon'.
+cases, this symbol often will be a colon.
 
 If optional argument LAST-WORD is non-nil; then limit the variable name to
 the last word only."

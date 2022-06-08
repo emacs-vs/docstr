@@ -195,7 +195,8 @@ configuration."
 ;;
 
 (defcustom docstr-trigger-alist
-  `(("/"   . docstr-trigger-csharp)
+  `(("RET" . docstr--trigger-return)  ; for c-like
+    ("/"   . docstr-trigger-csharp)
     ("/"   . docstr-trigger-golang)
     ("-"   . docstr-trigger-lua)
     ("RET" . docstr-trigger-lua-return)
@@ -223,25 +224,23 @@ You should customize this variable to add your own triggeration methods."
   "Enable `docstr' in current buffer."
   (docstr-load-all)
   (docstr-key-enable)  ; Be infront, in order to take effect
-  (docstr--key-advice-add "RET" :after #'docstr--trigger-return)
   (docstr--enable-trigger t)
   (add-hook 'docstr-after-insert-hook #'docstr-insert-summary))
 
 (defun docstr--disable ()
   "Disable `docstr' in current buffer."
   (docstr-key-disable)
-  (docstr--key-advice-remove "RET" #'docstr--trigger-return)
   (docstr--enable-trigger nil))
 
 ;;;###autoload
 (define-minor-mode docstr-mode
-  "Minor mode 'docstr-mode'."
+  "Minor mode `docstr-mode'."
   :lighter " DocStr"
   :group docstr
   (if docstr-mode (docstr--enable) (docstr--disable)))
 
 (defun docstr--turn-on-docstr-mode ()
-  "Turn on the 'docstr-mode'."
+  "Turn on the `docstr-mode'."
   (docstr-mode 1))
 
 ;;;###autoload
@@ -261,9 +260,7 @@ You should customize this variable to add your own triggeration methods."
 ;;;###autoload
 (defun docstr-major-modes ()
   "List of `major-mode' that supports document string."
-  (let (lst)
-    (dolist (m docstr-writers-alist) (push (car m) lst))
-    (reverse lst)))
+  (mapcar #'car docstr-writers-alist))
 
 (defun docstr-get-writer ()
   "Return the writer from `docstr-writers-alist'."
@@ -286,7 +283,8 @@ Argument TYPE can either be a function or an interger.  If it's function
 execute it inside the buffer.  Otherwire, if it's an integer call function
 `forward-line' instead.
 
-Argument SR is the target symbol for us to stop looking for the end of declaration."
+Argument SR is the target symbol for us to stop looking for the end of
+declaration."
   (let (beg found)
     (save-excursion
       (cond ((functionp type) (funcall type))
