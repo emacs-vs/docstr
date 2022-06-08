@@ -190,7 +190,7 @@ and GREEDY."
 ;;
 
 (defun docstr--get-current-char-string ()
-  "Get the current character as the 'string'."
+  "Get the current character as a string."
   (if (char-before) (string (char-before)) ""))
 
 (defun docstr--current-char-equal-p (c)

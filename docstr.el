@@ -234,13 +234,13 @@ You should customize this variable to add your own triggeration methods."
 
 ;;;###autoload
 (define-minor-mode docstr-mode
-  "Minor mode 'docstr-mode'."
+  "Minor mode `docstr-mode'."
   :lighter " DocStr"
   :group docstr
   (if docstr-mode (docstr--enable) (docstr--disable)))
 
 (defun docstr--turn-on-docstr-mode ()
-  "Turn on the 'docstr-mode'."
+  "Turn on the `docstr-mode'."
   (docstr-mode 1))
 
 ;;;###autoload
@@ -283,7 +283,8 @@ Argument TYPE can either be a function or an interger.  If it's function
 execute it inside the buffer.  Otherwire, if it's an integer call function
 `forward-line' instead.
 
-Argument SR is the target symbol for us to stop looking for the end of declaration."
+Argument SR is the target symbol for us to stop looking for the end of
+declaration."
   (let (beg found)
     (save-excursion
       (cond ((functionp type) (funcall type))
