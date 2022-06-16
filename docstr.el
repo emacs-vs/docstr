@@ -4,11 +4,10 @@
 ;; Created date 2020-11-05 20:33:49
 
 ;; Author: Shen, Jen-Chieh <jcs090218@gmail.com>
-;; Description: A document string minor mode.
-;; Keyword: document string
+;; URL: https://github.com/emacs-vs/docstr
 ;; Version: 5.7.0
 ;; Package-Requires: ((emacs "27.1") (s "1.9.0"))
-;; URL: https://github.com/emacs-vs/docstr
+;; Keywords: document string
 
 ;; This file is NOT part of GNU Emacs.
 
