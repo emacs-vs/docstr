@@ -3,7 +3,7 @@
          "A document string minor mode")
 
 (website-url "https://github.com/emacs-vs/docstr")
-(keywords "document" "string")
+(keywords "convenience" "document" "string")
 
 (package-file "docstr.el")
 (files "*el" "langs/*.el")
