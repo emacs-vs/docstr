@@ -7,7 +7,7 @@
 ;; URL: https://github.com/emacs-vs/docstr
 ;; Version: 5.7.0
 ;; Package-Requires: ((emacs "27.1") (s "1.9.0"))
-;; Keywords: document string
+;; Keywords: convenience document string
 
 ;; This file is NOT part of GNU Emacs.
 
