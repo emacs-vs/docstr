@@ -1,6 +1,6 @@
 ;;; docstr.el --- A document string minor mode  -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2020-2021  Shen, Jen-Chieh
+;; Copyright (C) 2020-2022  Shen, Jen-Chieh
 ;; Created date 2020-11-05 20:33:49
 
 ;; Author: Shen, Jen-Chieh <jcs090218@gmail.com>
