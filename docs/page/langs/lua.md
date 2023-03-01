@@ -7,7 +7,7 @@ You can customize variable `docstr-lua-style` for the following value.
 * `scriptum` - Lua based document generator to Markdown
 * `nil` - Respect to user's customization
 
-### Spliter
+### Splitter
 
 If you are using style that requres spliiter; you can change the splitter by
 customize the variable `docstr-lua-splitter`.
