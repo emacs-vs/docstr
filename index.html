@@ -257,7 +257,7 @@
 <ul>
 <li><a href="https://emacs-vs.github.io/docstr/">Documentation</a></li>
 </ul>
-<h2 id="contribute">Contribute<a class="headerlink" href="#contribute" title="Permanent link">#</a></h2>
+<h2 id="contribute">🛠️ Contribute<a class="headerlink" href="#contribute" title="Permanent link">#</a></h2>
 <p><a href="http://makeapullrequest.com"><img alt="PRs Welcome" src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" /></a>
 <a href="https://github.com/bbatsov/emacs-lisp-style-guide"><img alt="Elisp styleguide" src="https://img.shields.io/badge/elisp-style%20guide-purple" /></a>
 <a href="https://www.paypal.me/jcs090218"><img alt="Donate on paypal" src="https://img.shields.io/badge/paypal-donate-1?logo=paypal&amp;color=blue" /></a>
@@ -266,6 +266,42 @@
 clone and make pull requests to this repository. Or you can
 clone the project and establish your own branch of this tool.
 Any methods are welcome!</p>
+<h3 id="development">🔬 Development<a class="headerlink" href="#development" title="Permanent link">#</a></h3>
+<p>To run the test locally, you will need the following tools:</p>
+<ul>
+<li><a href="https://emacs-eask.github.io/">Eask</a></li>
+<li><a href="https://www.gnu.org/software/make/">Make</a> (optional)</li>
+</ul>
+<p>Install all dependencies and development dependencies:</p>
+<div class="highlight"><pre><span></span><code>$ eask install-deps --dev
+</code></pre></div>
+<p>To test the package's installation:</p>
+<div class="highlight"><pre><span></span><code>$ eask package
+$ eask install
+</code></pre></div>
+<p>To test compilation:</p>
+<div class="highlight"><pre><span></span><code>$ eask compile
+</code></pre></div>
+<p><strong>🪧 The following steps are optional, but we recommend you follow these lint results!</strong></p>
+<p>The built-in <code>checkdoc</code> linter:</p>
+<div class="highlight"><pre><span></span><code>$ eask lint checkdoc
+</code></pre></div>
+<p>The standard <code>package</code> linter:</p>
+<div class="highlight"><pre><span></span><code>$ eask lint package
+</code></pre></div>
+<p><em>📝 P.S. For more information, find the Eask manual at https://emacs-eask.github.io/.</em></p>
+<h2 id="license">⚜️ License<a class="headerlink" href="#license" title="Permanent link">#</a></h2>
+<p>This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.</p>
+<p>This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.</p>
+<p>You should have received a copy of the GNU General Public License
+along with this program.  If not, see <a href="https://www.gnu.org/licenses/">https://www.gnu.org/licenses/</a>.</p>
+<p>See <a href="./LICENSE.txt"><code>LICENSE</code></a> for details.</p>
               
             </div>
           </div>
@@ -309,5 +345,5 @@ Any methods are welcome!</p>
 
 <!--
 MkDocs version : 1.3.0
-Build Date UTC : 2023-09-06 06:51:44.226158+00:00
+Build Date UTC : 2023-12-11 11:10:05.910912+00:00
 -->
