@@ -1,6 +1,6 @@
 ;;; docstr-go.el --- Document string for Golang  -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2020-2023  Shen, Jen-Chieh <jcs090218@gmail.com>
+;; Copyright (C) 2020-2024  Shen, Jen-Chieh <jcs090218@gmail.com>
 
 ;; This file is NOT part of GNU Emacs.
 

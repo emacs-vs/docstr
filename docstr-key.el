@@ -1,6 +1,6 @@
 ;;; docstr-key.el --- Support key for document string.  -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2021-2023  Shen, Jen-Chieh
+;; Copyright (C) 2021-2024  Shen, Jen-Chieh
 ;; Created date 2021-01-28 13:14:13
 
 ;; This file is NOT part of GNU Emacs.
