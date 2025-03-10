@@ -134,6 +134,40 @@ or `suffix'."
     (suffix (string-suffix-p regexp str ignore-case))
     (t (string-match-p regexp str))))
 
+
+(defun docstr--split-string-escape-brackets (string separator)
+  "This code splits a STRING into multiple parts, based on a given SEPARATOR.
+It also accounts for inner brackets, such that strings within the same brackets
+will be considered as one string.
+
+Example usage:
+
+(split-string-by-separator \"This is [a test] string\" \" \")
+
+=> (\"This\" \"is\" \"[a test]\" \"string\")"
+  (let ((str-list '())
+        (start 0)
+        (end 0)
+        (in-brackets 0)
+        )
+    (dotimes (i (length string))
+      (let ((char (aref string i)))
+        (cond
+         ((equal (char-to-string char) separator)
+          (unless (> in-brackets 0)
+            (setq end i)
+            (push (substring string start end) str-list)
+            (setq start (+ i 1))))
+         ((equal char ?\[)
+          (setq in-brackets (+ in-brackets 1))
+          )
+         ((equal char ?\])
+          (setq in-brackets (- in-brackets 1))
+          ))))
+    (push (substring string start) str-list)
+    (nreverse str-list)))
+
+
 ;;
 ;; (@* "Insertion" )
 ;;
