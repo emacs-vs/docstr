@@ -31,6 +31,7 @@
 
 (declare-function docstr-form-param "ext:docstr.el")
 (declare-function docstr-form-return "ext:docstr.el")
+(declare-function docstr--split-string-escape-brackets "docstr-util")
 
 (defvar docstr-default-typename)
 (defvar docstr-desc-param)
@@ -185,7 +186,7 @@ the last word only."
           (ignore-errors (docstr-writers--analyze-param-string search-string)))
 
     (when (stringp param-string)
-      (setq param-lst (split-string param-string ",")))
+      (setq param-lst (docstr--split-string-escape-brackets param-string ",")))
     (when (docstr-writers--param-empty-p param-lst)
       (setq param-lst '()))
 
